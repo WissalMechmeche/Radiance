@@ -12,10 +12,11 @@ import java.util.List;
  *
  * @author MSI
  */
-public interface IService<T> {
+public interface ILivreService<T> {
     public void create(T t) throws SQLException ;
     public void update(T t) throws SQLException ;
-    public void delete(T t) throws SQLException ;
+    public void delete(int id) throws SQLException ;
     public List <T> selectAll() throws SQLException ;
-    
+    public List <T> searchByLibelle(String libelle) throws SQLException ;
+    public List <T> searchByCategorie(String libelle) throws SQLException ;
 }

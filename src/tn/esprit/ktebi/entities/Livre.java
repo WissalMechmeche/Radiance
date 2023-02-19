@@ -5,28 +5,31 @@
  */
 package tn.esprit.ktebi.entities;
 
+import java.util.Date;
+
 
 
 /**
  *
  * @author MSI
  */
-public class Livre {
+public class Livre implements Comparable<Livre> {
     private int id ;
     private String libelle ;
     private String description ;
     private String editeur ;
-    private String date_edition ;
+    private Date date_edition ;
     private String categorie ;
     private float prix ;
     private String langue ;
-    private Promo promo ;
-    private User user ;
+    private String image ;
+    private int promo ;
+    private int id_user ;
     
     public Livre(){
     }
 
-    public Livre(int id, String libelle, String description, String editeur, String date_edition, String categorie, float prix, String langue, Promo promo, User user) {
+    public Livre(int id, String libelle, String description, String editeur, Date date_edition, String categorie, float prix, String langue, String image , int promo, int id_user) {
         this.id = id;
         this.libelle = libelle;
         this.description = description;
@@ -35,11 +38,12 @@ public class Livre {
         this.categorie = categorie;
         this.prix = prix;
         this.langue = langue;
+        this.image = image ;
         this.promo = promo;
-        this.user = user;
+        this.id_user = id_user;
     }
     
-    public Livre(String libelle, String description, String editeur, String date_edition, String categorie, float prix, String langue, Promo promo, User user) {
+    public Livre(String libelle, String description, String editeur, Date date_edition, String categorie, float prix, String langue, String image , int promo, int id_user) {
         this.libelle = libelle;
         this.description = description;
         this.editeur = editeur;
@@ -47,9 +51,12 @@ public class Livre {
         this.categorie = categorie;
         this.prix = prix;
         this.langue = langue;
+        this.image = image ;
         this.promo = promo;
-        this.user = user;
+        this.id_user = id_user;
     }
+    
+    
 
     public int getId() {
         return id;
@@ -83,11 +90,11 @@ public class Livre {
         this.editeur = editeur;
     }
 
-    public String getDate_edition() {
+    public Date getDate_edition() {
         return date_edition;
     }
 
-    public void setDate_edition(String date_edition) {
+    public void setDate_edition(Date date_edition) {
         this.date_edition = date_edition;
     }
 
@@ -115,30 +122,39 @@ public class Livre {
         this.langue = langue;
     }
 
-    public Promo getPromo() {
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getPromo() {
         return promo;
     }
 
-    public void setPromo(Promo promo) {
+    public void setPromo(int promo) {
         this.promo = promo;
     }
 
-    public User getUser() {
-        return user;
+    public int getId_user() {
+        return id_user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setId_user(int id_user) {
+        this.id_user = id_user;
     }
 
     @Override
     public String toString() {
         return "Livre{" + "id=" + id + ", libelle=" + libelle 
-                + ", description=" + description 
-                + ", editeur=" + editeur + ", date_edition=" + date_edition 
-                + ", categorie=" + categorie + ", prix=" + prix 
-                + ", langue=" + langue + ", promo=" + promo + ", user=" + user + '}';
+                + ", description=" + description + ", editeur=" + editeur 
+                + ", date_edition=" + date_edition + ", categorie=" + categorie 
+                + ", prix=" + prix + ", langue=" + langue + ", image=" + image 
+                + ", promo=" + promo + ", id_user=" + id_user + "}\n";
     }
+    
 
     @Override
     public boolean equals(Object obj) {
@@ -157,15 +173,9 @@ public class Livre {
         }
         return true;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+    @Override
+    public int compareTo(Livre o) {
+        return this.libelle.compareTo(o.libelle);
+    } 
 }

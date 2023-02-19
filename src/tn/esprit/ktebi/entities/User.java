@@ -28,6 +28,7 @@ public class User {
     
 
     public User() {
+    
     }
 
     public User(int id, String nom, String prenom, String email, String adresse, LocalDate dateNaissance, int tel, int motPasse, Role role) {
@@ -41,6 +42,7 @@ public class User {
         this.motPasse = motPasse;
         this.role = role;
     }
+   
 
     public User(String nom, String prenom, String email, String adresse, LocalDate dateNaissance, int tel, int motPasse, Role role) {
         this.nom = nom;

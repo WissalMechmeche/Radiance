@@ -5,7 +5,7 @@
  */
 package tn.esprit.ktebi.entities;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 /**
  *
@@ -13,17 +13,17 @@ import java.time.LocalDate;
  */
 public class Promo {
     private int codePromo  ;
-    private LocalDate date_expiration ;
+    private Date date_expiration ;
 
     public Promo() {
     }
 
-    public Promo(int codePromo, LocalDate date_expiration) {
+    public Promo(int codePromo, Date date_expiration) {
         this.codePromo = codePromo;
         this.date_expiration = date_expiration;
     }
 
-    public Promo(LocalDate date_expiration) {
+    public Promo(Date date_expiration) {
         this.date_expiration = date_expiration;
     }
     
@@ -36,11 +36,11 @@ public class Promo {
         this.codePromo = codePromo;
     }
 
-    public LocalDate getDate_expiration() {
+    public Date getDate_expiration() {
         return date_expiration;
     }
 
-    public void setDate_expiration(LocalDate date_expiration) {
+    public void setDate_expiration(Date date_expiration) {
         this.date_expiration = date_expiration;
     }
 
