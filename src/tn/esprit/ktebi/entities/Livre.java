@@ -5,28 +5,28 @@
  */
 package tn.esprit.ktebi.entities;
 
-
-
 /**
  *
  * @author MSI
  */
 public class Livre {
-    private int id ;
-    private String libelle ;
-    private String description ;
-    private String editeur ;
-    private String date_edition ;
-    private String categorie ;
-    private float prix ;
-    private String langue ;
-    private Promo promo ;
-    private User user ;
-    
-    public Livre(){
+
+    private int id;
+    private String libelle;
+    private String description;
+    private String editeur;
+    private String date_edition;
+    private String categorie;
+    private float prix;
+    private String langue;
+    private int promo;
+    private int user;
+    private String image;
+
+    public Livre() {
     }
 
-    public Livre(int id, String libelle, String description, String editeur, String date_edition, String categorie, float prix, String langue, Promo promo, User user) {
+    public Livre(int id, String libelle, String description, String editeur, String date_edition, String categorie, float prix, String langue, int promo, int user, String image) {
         this.id = id;
         this.libelle = libelle;
         this.description = description;
@@ -37,9 +37,19 @@ public class Livre {
         this.langue = langue;
         this.promo = promo;
         this.user = user;
+        this.image = image;
     }
     
-    public Livre(String libelle, String description, String editeur, String date_edition, String categorie, float prix, String langue, Promo promo, User user) {
+    public Livre(String libelle,String image, String categorie,float prix,int user){
+        this.libelle = libelle;
+        this.categorie = categorie;
+        this.prix = prix;
+        this.image = image;
+        this.user=user;
+        
+    }
+
+    public Livre(String libelle, String description, String editeur, String date_edition, String categorie, float prix, String langue, int promo, int user, String image) {
         this.libelle = libelle;
         this.description = description;
         this.editeur = editeur;
@@ -49,6 +59,18 @@ public class Livre {
         this.langue = langue;
         this.promo = promo;
         this.user = user;
+        this.image = image;
+
+    }
+
+    public Livre(String libelle, String image, String categorie, float prix) {
+        this.libelle = libelle;
+
+        this.categorie = categorie;
+        this.prix = prix;
+
+        this.image = image;
+
     }
 
     public int getId() {
@@ -61,6 +83,14 @@ public class Livre {
 
     public String getLibelle() {
         return libelle;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public void setLibelle(String libelle) {
@@ -115,28 +145,28 @@ public class Livre {
         this.langue = langue;
     }
 
-    public Promo getPromo() {
+    public int getPromo() {
         return promo;
     }
 
-    public void setPromo(Promo promo) {
+    public void setPromo(int promo) {
         this.promo = promo;
     }
 
-    public User getUser() {
+    public int getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(int user) {
         this.user = user;
     }
 
     @Override
     public String toString() {
-        return "Livre{" + "id=" + id + ", libelle=" + libelle 
-                + ", description=" + description 
-                + ", editeur=" + editeur + ", date_edition=" + date_edition 
-                + ", categorie=" + categorie + ", prix=" + prix 
+        return "Livre{" + "id=" + id + ", libelle=" + libelle
+                + ", description=" + description
+                + ", editeur=" + editeur + ", date_edition=" + date_edition
+                + ", categorie=" + categorie + ", prix=" + prix
                 + ", langue=" + langue + ", promo=" + promo + ", user=" + user + '}';
     }
 
@@ -157,15 +187,5 @@ public class Livre {
         }
         return true;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
 }

@@ -12,34 +12,52 @@ import java.util.Objects;
  * @author MSI
  */
 public class LignePanier {
-    private Livre livre ;
-    private Panier panier ;
+    private int id;
+    private int livre ;
+    private int panier ;
     private int quantite ;
     
     public LignePanier()
     {
         
     }
-
-    public LignePanier(Livre livre, Panier panier, int quantite) {
+    
+     public LignePanier(int id,int livre, int panier, int quantite) {
+         this.id=id;
         this.livre = livre;
         this.panier = panier;
         this.quantite = quantite;
     }
 
-    public Livre getLivre() {
+
+    public LignePanier(int livre, int panier, int quantite) {
+        this.livre = livre;
+        this.panier = panier;
+        this.quantite = quantite;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+
+    public int getLivre() {
         return livre;
     }
 
-    public void setLivre(Livre livre) {
+    public void setLivre(int livre) {
         this.livre = livre;
     }
 
-    public Panier getPanier() {
+    public int getPanier() {
         return panier;
     }
 
-    public void setPanier(Panier panier) {
+    public void setPanier(int panier) {
         this.panier = panier;
     }
 

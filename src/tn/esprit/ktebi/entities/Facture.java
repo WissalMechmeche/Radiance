@@ -13,15 +13,15 @@ public class Facture {
     private int id ;
     private float montant_totale ;
     private String mode_paiement ;
-    private User user ;
-    private Livre livre ;
+    private int user ;
+    private int livre ;
     
     public Facture()
     {
         
     }
 
-    public Facture(int id, float montant_totale, String mode_paiement, User user, Livre livre) {
+    public Facture(int id, float montant_totale, String mode_paiement, int user, int livre) {
         this.id = id;
         this.montant_totale = montant_totale;
         this.mode_paiement = mode_paiement;
@@ -29,7 +29,7 @@ public class Facture {
         this.livre = livre;
     }
     
-    public Facture(float montant_totale, String mode_paiement, User user, Livre livre) {
+    public Facture(float montant_totale, String mode_paiement, int user, int livre) {
         this.montant_totale = montant_totale;
         this.mode_paiement = mode_paiement;
         this.user = user;
@@ -60,19 +60,19 @@ public class Facture {
         this.mode_paiement = mode_paiement;
     }
 
-    public User getUser() {
+    public int getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(int user) {
         this.user = user;
     }
 
-    public Livre getLivre() {
+    public int getLivre() {
         return livre;
     }
 
-    public void setLivre(Livre livre) {
+    public void setLivre(int livre) {
         this.livre = livre;
     }
 
