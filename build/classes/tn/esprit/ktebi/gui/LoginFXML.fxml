@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.LoginFXMLController">
+   <children>
+      <Label layoutX="98.0" layoutY="86.0" prefHeight="32.0" prefWidth="77.0" text="Email" textFill="#210dd0">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font></Label>
+      <Label layoutX="84.0" layoutY="128.0" prefHeight="40.0" prefWidth="125.0" text="Mot de passe" textFill="#3612b9">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font></Label>
+      <TextField fx:id="txtemail" layoutX="209.0" layoutY="82.0" />
+      <TextField fx:id="txtmdp" layoutX="209.0" layoutY="136.0" />
+      <Label layoutX="189.0" layoutY="25.0" text="S'authentifier" textFill="#150cd0">
+         <font>
+            <Font name="System Bold Italic" size="30.0" />
+         </font></Label>
+      <Button fx:id="btnLogin" layoutX="224.0" layoutY="200.0" mnemonicParsing="false" onAction="#Login" prefHeight="39.0" prefWidth="93.0" text="Valider" textFill="#0b425e">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+   </children>
+</AnchorPane>
