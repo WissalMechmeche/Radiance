@@ -56,7 +56,7 @@ public class LoginFXMLController implements Initializable {
 
         try {
             Parent root = FXMLLoader
-                    .load(getClass().getResource("../gui/AcceuilFXML.fxml"));
+                    .load(getClass().getResource("../gui/Acceuil.fxml"));
             Scene scene = new Scene(root, 650, 500);
             AcountFXMLController acont = new AcountFXMLController();
             acont.getId(u);

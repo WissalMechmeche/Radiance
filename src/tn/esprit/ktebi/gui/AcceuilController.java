@@ -14,20 +14,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import tn.esprit.ktebi.service.ServiceUser;
 
 /**
  * FXML Controller class
  *
- * @author Dell 6540
+ * @author Admin
  */
-public class AcceuilFXMLController implements Initializable {
-    @FXML
-    private Button btnAccount;
-    ServiceUser se = new ServiceUser();
-    Integer id;
+public class AcceuilController implements Initializable {
+
+    private Integer id;
 
     /**
      * Initializes the controller class.
@@ -36,9 +32,7 @@ public class AcceuilFXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
-    
-
-
+  
     @FXML
     void AfficherAccount(ActionEvent event) {
         //se.SelectUser(id);
@@ -64,3 +58,5 @@ public class AcceuilFXMLController implements Initializable {
     }
     
 }
+
+
