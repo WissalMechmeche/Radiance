@@ -10,14 +10,17 @@
 
 <AnchorPane id="AnchorPane" prefHeight="447.0" prefWidth="539.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.AjouterUserFXMLController">
    <children>
-      <Button fx:id="btnajouter" layoutX="64.0" layoutY="387.0" mnemonicParsing="false" onAction="#AjouterUtilisateur" text="Ajouter" textFill="#310fbc">
+      <Button fx:id="btnajouter" layoutX="64.0" layoutY="387.0" mnemonicParsing="false" onAction="#AjouterUtilisateur" prefHeight="39.0" prefWidth="73.0" text="Ajouter" textFill="#310fbc">
          <font>
-            <Font name="System Bold Italic" size="12.0" />
+            <Font name="System Bold Italic" size="13.0" />
          </font></Button>
-      <Button fx:id="btnact" layoutX="236.0" layoutY="387.0" mnemonicParsing="false" onAction="#Actualiser" text="Actualiser" textFill="#350bdd" />
-      <Button fx:id="btnretour" layoutX="425.0" layoutY="387.0" mnemonicParsing="false" onAction="#Retour" text="Retour" textFill="#1616ae">
+      <Button fx:id="btnact" layoutX="236.0" layoutY="387.0" mnemonicParsing="false" onAction="#Actualiser" prefHeight="39.0" prefWidth="80.0" text="Actualiser" textFill="#2e2f0e">
          <font>
-            <Font name="System Bold Italic" size="12.0" />
+            <Font name="System Bold Italic" size="13.0" />
+         </font></Button>
+      <Button fx:id="btnretour" layoutX="399.0" layoutY="387.0" mnemonicParsing="false" onAction="#Retour" prefHeight="25.0" prefWidth="80.0" text="Retour" textFill="#3b8031">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
          </font></Button>
       <TextField fx:id="txtnom" layoutX="64.0" layoutY="80.0" />
       <TextField fx:id="txtprenom" layoutX="301.0" layoutY="80.0" />
@@ -59,7 +62,7 @@
             <Font name="System Bold Italic" size="14.0" />
          </font></Text>
       <DatePicker fx:id="txtdate" layoutX="62.0" layoutY="229.0" />
-      <Label layoutX="161.0" prefHeight="27.0" prefWidth="206.0" text="S'inscrire" textAlignment="CENTER" textFill="#7c4747">
+      <Label layoutX="161.0" prefHeight="27.0" prefWidth="206.0" text="S'inscrire" textAlignment="CENTER" textFill="#48477a">
          <font>
             <Font name="System Bold Italic" size="36.0" />
          </font>
