@@ -32,7 +32,8 @@ public class LivreService implements ILivreService<Livre> {
 
     @Override
     public void create(Livre t) throws SQLException {
-        String req= " INSERT INTO `livre`(`libelle`, `description`, `id_user`, `editeur`, `categorie`, `date_edition`, `code_promo`, `prix`, `image`, `langue`)"
+        String req= " INSERT INTO `livre`(`libelle`, `description`,`id_user`,`editeur` ,`categorie`"
+                + " `date_edition`,`code_promo`,`prix`, `langue`,`auteur`)"
                 + "VALUES(?,?,?,?,?,?,?,?,?,?)";
         
         PreparedStatement ps = cnx.prepareStatement(req);
@@ -46,8 +47,8 @@ public class LivreService implements ILivreService<Livre> {
         ps.setString(6,date);
         ps.setInt(7, t.getPromo());
         ps.setFloat(8, t.getPrix());
-        ps.setString(9, t.getImage());
-        ps.setString(10, t.getLangue());
+        ps.setString(9, t.getLangue());
+        ps.setString(10, t.getAuteur());
         ps.executeUpdate();  
         System.out.println("Livre ajouté !");
     }
@@ -55,7 +56,7 @@ public class LivreService implements ILivreService<Livre> {
     @Override
     public void update(Livre t) throws SQLException {
         String req= " UPDATE `livre` SET `libelle`=?,`description`=?,`id_user`=?,`editeur`=?,`categorie`=?,`date_edition`=?,`code_promo`=?,`prix`=?,"
-                + "`image`=?,`langue`=? WHERE id_livre=?";
+                + "`image`=?,`langue`=? , `auteur`=? WHERE id_livre=?";
         
         PreparedStatement ps = cnx.prepareStatement(req);
         
@@ -65,12 +66,13 @@ public class LivreService implements ILivreService<Livre> {
         ps.setInt(3, t.getId_user());
         ps.setString(4, t.getEditeur());
         ps.setString(5, t.getCategorie());
-        ps.setString(6,date);
+        ps.setDate(6, (java.sql.Date) t.getDate_edition());
         ps.setInt(7, t.getPromo());
         ps.setFloat(8, t.getPrix());
         ps.setString(9, t.getImage());
         ps.setString(10, t.getLangue());
-        ps.setInt(11, t.getId());
+        ps.setString(11, t.getAuteur());
+        ps.setInt(12, t.getId());
         ps.executeUpdate();  
         System.out.println("Livre modifié !");
     }
@@ -113,6 +115,7 @@ public class LivreService implements ILivreService<Livre> {
             l.setPrix(rs.getFloat(9));
             l.setImage(rs.getString(10));
             l.setLangue(rs.getString(11));
+            l.setAuteur(rs.getString(12));
             temp.add(l);
         }
         return temp ;
@@ -141,6 +144,7 @@ public class LivreService implements ILivreService<Livre> {
             l.setPrix(rs.getFloat(9));
             l.setImage(rs.getString(10));
             l.setLangue(rs.getString(11));
+            l.setAuteur(rs.getString(12));
             temp.add(l);
         }
         return temp ;
@@ -171,6 +175,7 @@ public class LivreService implements ILivreService<Livre> {
             l.setPrix(rs.getFloat(9));
             l.setImage(rs.getString(10));
             l.setLangue(rs.getString(11));
+            l.setAuteur(rs.getString(12));
             temp.add(l);
         }
         return temp ;

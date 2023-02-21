@@ -26,12 +26,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import tn.esprit.ktebi.entities.Livre;
 import tn.esprit.ktebi.services.LivreService;
 
@@ -70,6 +72,14 @@ public class Liste_LivresController implements Initializable {
     private Button btnRechercher;
     @FXML
     private Button btnDetail;
+    @FXML
+    private ComboBox<String> combo;
+    
+    Livre livre = null ;
+    
+    
+   
+
     
 
     /**
@@ -79,6 +89,10 @@ public class Liste_LivresController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) { 
         try {
             displayLivres();
+            
+            ObservableList<String> list = FXCollections.observableArrayList("Libelle", "Catégorie");
+        
+             combo.setItems(list);
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -110,7 +124,7 @@ public class Liste_LivresController implements Initializable {
         date.setCellValueFactory(new PropertyValueFactory("date_edition"));
         categorie.setCellValueFactory(new PropertyValueFactory("categorie"));
         prix.setCellValueFactory(new PropertyValueFactory("prix"));
-        
+       
         List l = ls.selectAll();
         
         listL =FXCollections.observableArrayList(l);
@@ -130,7 +144,7 @@ public class Liste_LivresController implements Initializable {
                 try {
                     root = FXMLLoader
                             .load(getClass().getResource("/tn/esprit/ktebi/gui/AjouterLivre.fxml"));
-                    Scene scene = new Scene(root, 300, 250);
+                    Scene scene = new Scene(root, 1000, 700);
             
                     Stage stage = new Stage();
                     stage.setTitle("Ajouter Livre ");
@@ -146,7 +160,7 @@ public class Liste_LivresController implements Initializable {
     }
 
     @FXML
-    private void SupprimerLivre(ActionEvent event) {
+    private void SupprimerLivre(ActionEvent event) throws SQLException {
         Livre l = (Livre) tvLivres.getSelectionModel().getSelectedItem();
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         a.setContentText("Voulez-vous vraiment supprimer le livre :"+l.getLibelle());
@@ -155,11 +169,34 @@ public class Liste_LivresController implements Initializable {
         if(res.get() == ButtonType.OK)
         {
             listL.remove(l);
+            
+            LivreService ls = new LivreService();
+            ls.delete(l.getId());
+            
         }
     }
 
     @FXML
-    private void modifierLivre(ActionEvent event) {
+    private void modifierLivre(ActionEvent event) throws SQLException {
+        
+        livre = tvLivres.getSelectionModel().getSelectedItem();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/tn/esprit/ktebi/gui/ModifierLivre.fxml"));
+        try {
+            loader.load();
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        }
+
+        ModifierLivreController m = loader.getController();
+        // mrc.setUpdate(true);
+        m.setTextFields(livre);
+        Parent parent = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(parent));
+        stage.initStyle(StageStyle.UTILITY);
+        stage.show();
+        displayLivres();
         
     }
 
@@ -169,6 +206,57 @@ public class Liste_LivresController implements Initializable {
 
     @FXML
     private void chercherLivre(ActionEvent event) {
+        
+        btnRechercher.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                ImageView delete = new ImageView(getClass().getResource("/tn/esprit/ktebi/ressources/images/supp.png").toExternalForm());
+        btnSupprimer.setGraphic(delete);
+        
+        ImageView add = new ImageView(getClass().getResource("/tn/esprit/ktebi/ressources/images/ajouter.png").toExternalForm());
+        btnRedirectionAjout.setGraphic(add);
+        
+        ImageView edit = new ImageView(getClass().getResource("/tn/esprit/ktebi/ressources/images/modifier.png").toExternalForm());
+        btnModifier.setGraphic(edit);
+        
+        ImageView detail = new ImageView(getClass().getResource("/tn/esprit/ktebi/ressources/images/detail.jpg").toExternalForm());
+        btnDetail.setGraphic(detail);
+        
+        ImageView search = new ImageView(getClass().getResource("/tn/esprit/ktebi/ressources/images/recherche.png").toExternalForm());
+        btnRechercher.setGraphic(search);
+        
+        
+        
+        	
+        libelle.setCellValueFactory(new PropertyValueFactory("libelle"));
+        date.setCellValueFactory(new PropertyValueFactory("date_edition"));
+        categorie.setCellValueFactory(new PropertyValueFactory("categorie"));
+        prix.setCellValueFactory(new PropertyValueFactory("prix"));
+        
+                try {
+                    String filtre = combo.getSelectionModel().getSelectedItem();
+                    if(filtre == "Libelle")
+                    {
+                        List l = ls.searchByLibelle(tfRecherche.getText());
+                        listL =FXCollections.observableArrayList(l);
+                    } 
+                    else {
+                        List l = ls.searchByCategorie(tfRecherche.getText());
+                        listL =FXCollections.observableArrayList(l);
+                        
+                    }
+       
+                    
+                    tvLivres.setItems(listL);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Liste_LivresController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            
+            
+            }
+        });
+        
     }
 
     

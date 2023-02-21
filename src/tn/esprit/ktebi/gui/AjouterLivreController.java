@@ -7,6 +7,8 @@ package tn.esprit.ktebi.gui;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -43,13 +45,13 @@ public class AjouterLivreController implements Initializable {
     @FXML
     private DatePicker date;
     @FXML
-    private Button btnAjout;
-    @FXML
     private TextField tfPromo;
     @FXML
     private TextField tfAuteur;
     @FXML
     private TextField tfImage;
+    @FXML
+    private Button btnAjout;
 
     /**
      * Initializes the controller class.
@@ -59,8 +61,7 @@ public class AjouterLivreController implements Initializable {
         // TODO
     }    
 
-    @FXML
-    private void AjouterLivre(ActionEvent event) {
+    private void AjouterLivre(ActionEvent event) throws SQLException {
         if(tfLibelle.getText().isEmpty() 
                 || taDescription.getText().isEmpty() 
                 || tfCategorie.getText().isEmpty()
@@ -80,12 +81,27 @@ public class AjouterLivreController implements Initializable {
         }
         else
         {
-            //Livre l = new Livre(tfLibelle.getText(),taDescription.getText(),tfEditeur.getText(),tfCategorie.getText(),Float.parseFloat(tfPrix.getText()),tfLangue.getText(),tfImage.getText() );
-            
             LivreService ls = new LivreService();
+             
+        
+            String libelle = tfLibelle.getText();
+            String description = taDescription.getText();
+            String langue = tfLangue.getText();
+            String auteur = tfAuteur.getText();
+            int prix = Integer.parseInt(tfPrix.getText());
+
+            Livre l = new Livre(libelle,description,prix,langue,auteur);
+
+            ls.create(l);
             
             
-    }
+            
+        } 
     
 }
+
+    @FXML
+    private void AjoutLivre(ActionEvent event) {
+    }
+
 }

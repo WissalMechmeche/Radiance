@@ -25,11 +25,13 @@ public class Livre implements Comparable<Livre> {
     private String image ;
     private int promo ;
     private int id_user ;
+    private String auteur ;
+    
     
     public Livre(){
     }
 
-    public Livre(int id, String libelle, String description, String editeur, Date date_edition, String categorie, float prix, String langue, String image , int promo, int id_user) {
+    public Livre(int id, String libelle, String description, String editeur, Date date_edition, String categorie, float prix, String langue, String image , int promo, int id_user, String auteur) {
         this.id = id;
         this.libelle = libelle;
         this.description = description;
@@ -41,9 +43,10 @@ public class Livre implements Comparable<Livre> {
         this.image = image ;
         this.promo = promo;
         this.id_user = id_user;
+        this.auteur = auteur ;
     }
     
-    public Livre(String libelle, String description, String editeur, Date date_edition, String categorie, float prix, String langue, String image , int promo, int id_user) {
+    public Livre(String libelle, String description, String editeur, Date date_edition, String categorie, float prix, String langue, String image , int promo, int id_user , String auteur) {
         this.libelle = libelle;
         this.description = description;
         this.editeur = editeur;
@@ -54,9 +57,23 @@ public class Livre implements Comparable<Livre> {
         this.image = image ;
         this.promo = promo;
         this.id_user = id_user;
+        this.auteur = auteur ;
     }
     
+
+    public Livre(String libelle, String description, float prix, String langue, String auteur) {
+        this.libelle = libelle;
+        this.description = description;
+        this.prix = prix;
+        this.langue = langue;
+        this.auteur = auteur;
+    }
+
+   
     
+    
+
+       
 
     public int getId() {
         return id;
@@ -146,13 +163,23 @@ public class Livre implements Comparable<Livre> {
         this.id_user = id_user;
     }
 
+    public String getAuteur() {
+        return auteur;
+    }
+
+    public void setAuteur(String auteur) {
+        this.auteur = auteur;
+    }
+    
+   
+
     @Override
     public String toString() {
-        return "Livre{" + "id=" + id + ", libelle=" + libelle 
+        return "\nLivre{" + "id=" + id + ", libelle=" + libelle 
                 + ", description=" + description + ", editeur=" + editeur 
                 + ", date_edition=" + date_edition + ", categorie=" + categorie 
                 + ", prix=" + prix + ", langue=" + langue + ", image=" + image 
-                + ", promo=" + promo + ", id_user=" + id_user + "}\n";
+                + ", promo=" + promo + ", id_user=" + id_user + "}";
     }
     
 
