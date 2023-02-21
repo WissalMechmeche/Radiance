@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="465.0" prefWidth="708.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="tn.esprit.ktebi.gui.ReponseReclamationController">
+  <children>
+      <TableView fx:id="Table" layoutX="243.0" layoutY="67.0" prefHeight="326.0" prefWidth="433.0">
+        <columns>
+          <TableColumn fx:id="colDate" prefWidth="109.0" text="DateReclamation" />
+          <TableColumn fx:id="colContenu" prefWidth="276.0" text="Contenu" />
+            <TableColumn fx:id="ColId" minWidth="0.0" prefWidth="46.0" text="ID" />
+        </columns>
+      </TableView>
+      <TextField fx:id="txtRep" layoutX="14.0" layoutY="260.0" prefHeight="135.0" prefWidth="223.0" />
+      <Label layoutX="14.0" layoutY="239.0" text="Reponse :">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+            <Button fx:id="btnmod" layoutX="61.0" layoutY="411.0" mnemonicParsing="false" onAction="#ReponseReclamtion" prefHeight="29.0" prefWidth="95.0" style="-fx-background-color: green; -fx-border-radius: 50; -fx-background-radius: 50;" text="Envoyer" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+      <Label layoutX="207.0" layoutY="14.0" text="Liste des Reclamations" textFill="#162d9e">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtRec" layoutX="14.0" layoutY="98.0" prefHeight="135.0" prefWidth="223.0" />
+      <Label layoutX="14.0" layoutY="77.0" text="Contenu reclamation :">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="id_rec" editable="false" layoutX="14.0" layoutY="44.0" prefHeight="25.0" prefWidth="28.0" promptText="Id " /> 
+  </children>   
+</AnchorPane>
