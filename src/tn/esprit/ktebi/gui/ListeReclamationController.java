@@ -6,9 +6,12 @@
 package tn.esprit.ktebi.gui;
 
 import java.net.URL;
+import static java.nio.file.Files.list;
+import static java.rmi.Naming.list;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import static java.util.Collections.list;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -58,7 +61,8 @@ public class ListeReclamationController implements Initializable {
     private TextField txtRec;
     
     ServiceReclamation sr = new ServiceReclamation();
-
+    ObservableList<Reclamation> list;
+    ReponseReclamationController rr = new ReponseReclamationController();
 
     /**
      * Initializes the controller class.
@@ -78,6 +82,8 @@ public class ListeReclamationController implements Initializable {
        
     }
     
+    
+    
         public void AfficheRecById() {
         List<Reclamation> rec = new ArrayList<>();
         User user = new User(5);
@@ -87,7 +93,7 @@ public class ListeReclamationController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(ListeReclamationController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ObservableList<Reclamation> list= FXCollections.observableList(rec);            
+        list= FXCollections.observableList(rec);            
         colDate.setCellValueFactory(new PropertyValueFactory<>("date_reclamation"));
         colContenu.setCellValueFactory(new PropertyValueFactory<>("contenu"));
         ColEtat.setCellValueFactory(new PropertyValueFactory<>("etat"));
@@ -129,4 +135,6 @@ public class ListeReclamationController implements Initializable {
             Logger.getLogger(ListeReclamationController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
 }

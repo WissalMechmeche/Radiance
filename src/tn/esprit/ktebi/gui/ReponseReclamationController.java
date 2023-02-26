@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package tn.esprit.ktebi.gui;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -16,22 +15,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import tn.esprit.ktebi.entities.Reclamation;
 import tn.esprit.ktebi.entities.ReponseReclamation;
-import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.services.ServiceReclamation;
 
 /**
@@ -65,36 +61,86 @@ public class ReponseReclamationController implements Initializable {
     @FXML
     private TextField id_rec;
     
-        ServiceReclamation sr = new ServiceReclamation();
-
+    @FXML
+    private TextField txtRech;
+    
+    @FXML
+    private TextField txtNom;
+    
+    ServiceReclamation sr = new ServiceReclamation();
+    ObservableList<Reclamation> list;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        AfficheRec();
+        chercherReclamation();
                 Table.setOnMouseClicked(t->{
             if(t.getClickCount() ==1){
                 Integer index = Table.getSelectionModel().getSelectedIndex();
                 txtRec.setText(Table.getItems().get(index).getContenu());
-                id_rec.setText(String.valueOf(Table.getItems().get(index).getId()));
-
+                id_rec.setText(String.valueOf(Table.getItems().get(index).getEtat()));
             }
         });
-    } 
+    }
+    
+        void chercherReclamation(){
+        colDate.setCellValueFactory(new PropertyValueFactory<>("date_reclamation"));
+        colContenu.setCellValueFactory(new PropertyValueFactory<>("contenu"));
+        ColId.setCellValueFactory(new PropertyValueFactory<>("etat"));
+        List<Reclamation> rec = new ArrayList<>();          
+             //// Code Recherche
+             try {
+            rec=sr.selectAll();     
+            list = FXCollections.observableArrayList(rec);     
+            Table.setItems(list);
+            FilteredList<Reclamation> listeFilter = new FilteredList<>(list, l-> true);
+               txtRech.textProperty().addListener((ObservableValue, oldValue, newValue) -> {
+                    listeFilter.setPredicate(reclamation-> {
+                        if (newValue == null || newValue.isEmpty()) {
+                            return true;
+                        }
+                        String lowerCase = newValue.toLowerCase();
+                        if (reclamation.getEtat().toLowerCase().contains(lowerCase)) {
+                            return true;
+                        }else
+
+                        return false;
+                    });
+                });
+                txtNom.textProperty().addListener((ObservableValue, oldValue, newValue) -> {
+                    listeFilter.setPredicate(reclamation-> {
+                        if (newValue == null || newValue.isEmpty()) {
+                            return true;
+                        }
+                        String lowerCase = newValue.toLowerCase();
+                        if (reclamation.getContenu().toLowerCase().contains(lowerCase)) {
+                            return true;
+                        }else
+
+                        return false;
+                    });
+                });               
+                SortedList<Reclamation> sortedData = new SortedList<>(listeFilter);
+                sortedData.comparatorProperty().bind(Table.comparatorProperty());
+                Table.setItems(sortedData);
+            } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
     public void AfficheRec() {
         List<Reclamation> rec = new ArrayList<>();
         try {
             rec =sr.selectAll();
-
         } catch (SQLException ex) {
             Logger.getLogger(ListeReclamationController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ObservableList<Reclamation> list= FXCollections.observableList(rec);            
-        colDate.setCellValueFactory(new PropertyValueFactory<Reclamation, LocalDate>("date_reclamation"));
-        colContenu.setCellValueFactory(new PropertyValueFactory<Reclamation, String>("contenu"));
-        ColId.setCellValueFactory(new PropertyValueFactory<Reclamation, String>("id"));
+        list= FXCollections.observableList(rec);            
+        colDate.setCellValueFactory(new PropertyValueFactory<>("date_reclamation"));
+        colContenu.setCellValueFactory(new PropertyValueFactory<>("contenu"));
+        ColId.setCellValueFactory(new PropertyValueFactory<>("etat"));
         Table.setItems(list);       
 }    
      @FXML
@@ -118,7 +164,7 @@ public class ReponseReclamationController implements Initializable {
                 al.show();
                 AfficheRec();
                 txtRep.setText("");
-                id_rec.setText("id");
+                id_rec.setText("");
                 txtRec.setText("");
             } catch (SQLException ex) {
                 Alert al = new Alert(Alert.AlertType.ERROR);

@@ -10,11 +10,11 @@
 
 <AnchorPane id="AnchorPane" prefHeight="465.0" prefWidth="708.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="tn.esprit.ktebi.gui.ReponseReclamationController">
   <children>
-      <TableView fx:id="Table" layoutX="243.0" layoutY="67.0" prefHeight="326.0" prefWidth="433.0">
+      <TableView fx:id="Table" layoutX="248.0" layoutY="97.0" prefHeight="326.0" prefWidth="460.0">
         <columns>
           <TableColumn fx:id="colDate" prefWidth="109.0" text="DateReclamation" />
           <TableColumn fx:id="colContenu" prefWidth="276.0" text="Contenu" />
-            <TableColumn fx:id="ColId" minWidth="0.0" prefWidth="46.0" text="ID" />
+            <TableColumn fx:id="ColId" minWidth="0.0" prefWidth="73.0" text="Etat" />
         </columns>
       </TableView>
       <TextField fx:id="txtRep" layoutX="14.0" layoutY="260.0" prefHeight="135.0" prefWidth="223.0" />
@@ -39,6 +39,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="id_rec" editable="false" layoutX="14.0" layoutY="44.0" prefHeight="25.0" prefWidth="28.0" promptText="Id " /> 
+      <TextField fx:id="id_rec" editable="false" layoutX="14.0" layoutY="44.0" prefHeight="25.0" prefWidth="81.0" />
+      <TextField fx:id="txtRech" layoutX="551.0" layoutY="65.0" promptText="Chercher" /> 
   </children>   
 </AnchorPane>

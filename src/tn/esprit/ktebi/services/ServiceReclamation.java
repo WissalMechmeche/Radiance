@@ -65,7 +65,7 @@ public class ServiceReclamation implements IService<Reclamation> {
     public List<Reclamation> selectAll() throws SQLException {
         List<Reclamation> liste = new ArrayList<>();
 
-        String req = "SELECT * FROM reclamation where etat='en cours'";
+        String req = "SELECT * FROM reclamation";
         PreparedStatement ps = cnx.prepareStatement(req);
 
         ResultSet rs = ps.executeQuery();
