@@ -14,26 +14,26 @@ public class Facture {
     private float montant_totale ;
     private String mode_paiement ;
     private int user ;
-    private int livre ;
+    private int panier ;
     
     public Facture()
     {
         
     }
 
-    public Facture(int id, float montant_totale, String mode_paiement, int user, int livre) {
+    public Facture(int id, float montant_totale, String mode_paiement, int user, int panier) {
         this.id = id;
         this.montant_totale = montant_totale;
         this.mode_paiement = mode_paiement;
         this.user = user;
-        this.livre = livre;
+        this.panier = panier;
     }
     
-    public Facture(float montant_totale, String mode_paiement, int user, int livre) {
+    public Facture(float montant_totale, String mode_paiement, int user, int panier) {
         this.montant_totale = montant_totale;
         this.mode_paiement = mode_paiement;
         this.user = user;
-        this.livre = livre;
+        this.panier = panier;
     }
 
     public int getId() {
@@ -68,12 +68,12 @@ public class Facture {
         this.user = user;
     }
 
-    public int getLivre() {
-        return livre;
+    public int getPanier() {
+        return panier;
     }
 
-    public void setLivre(int livre) {
-        this.livre = livre;
+    public void setPanier(int panier) {
+        this.panier = panier;
     }
 
     @Override
@@ -81,7 +81,7 @@ public class Facture {
         return "Facture{" + "id=" + id + ", montant_totale=" 
                 + montant_totale + ", mode_paiement=" 
                 + mode_paiement + ", user=" 
-                + user + ", livre=" + livre + '}';
+                + user + ", panier=" + panier + '}';
     }
 
     @Override

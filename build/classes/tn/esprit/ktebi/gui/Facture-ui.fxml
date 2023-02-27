@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="765.0" prefWidth="1254.0" stylesheets="@design.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.FactureController">
+<!--    <ImageView fitHeight="948.0" fitWidth="1330.0" layoutX="-51.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@images/1.jpg" />
+        </image>
+    </ImageView>-->
+    <BorderPane layoutX="114.0" layoutY="54.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <top>
+            <AnchorPane prefHeight="65.0" prefWidth="200.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
+                <children>
+                    <Pane layoutX="102.0" layoutY="20.0" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: #032d4d;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    <HBox layoutX="239.0" layoutY="1.0" prefHeight="43.0" prefWidth="525.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                        <children>
+                            <Button onAction="#showHome" prefHeight="38.0" prefWidth="136.0" styleClass="menuItem" text="Accueil">
+                                <graphic>
+                                    <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@Images/dash1.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                            <Button onAction="#showPanierPage" prefHeight="38.0" prefWidth="136.0" styleClass="menuItem" text="Panier">
+                                <graphic>
+                                    <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@Images/add1.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                            <Button onAction="#showFacture" prefHeight="38.0" prefWidth="136.0" styleClass="menuItem" text="Facture">
+                                <graphic>
+                                    <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@images/factures.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                            <Button prefHeight="38.0" prefWidth="136.0" styleClass="menuItem" text="Mes factures">
+                                <graphic>
+                                    <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@images/mes_fac.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                        </children>
+                    </HBox>
+                    <Label fx:id="Menu" layoutX="14.0" layoutY="36.0" prefHeight="22.0" prefWidth="92.0" text="MENU" textFill="#b7b7b7" AnchorPane.bottomAnchor="7.007998687500045" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="618.063980710938" AnchorPane.topAnchor="36.0">
+                        <graphic>
+                            <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@Images/menu1.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+                        <font>
+                            <Font name="System Bold" size="14.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="MenuClose" layoutX="14.0" layoutY="36.0" prefHeight="22.0" prefWidth="92.0" text="MENU" textFill="#b7b7b7" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="594.0" AnchorPane.topAnchor="36.0">
+                        <graphic>
+                            <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@Images/menu1.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+                        <font>
+                            <Font name="System Bold" size="14.0" />
+                        </font>
+                    </Label>
+                </children>
+            </AnchorPane>
+        </top>
+        <left>
+            <AnchorPane fx:id="slider" prefHeight="362.0" prefWidth="176.0" style="-fx-background-color: #0A4969;" BorderPane.alignment="CENTER">
+                <children>
+                    <VBox layoutX="14.0" layoutY="35.0" prefHeight="518.0" prefWidth="176.0" AnchorPane.bottomAnchor="129.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="53.0">
+                        <children>
+                            <Button alignment="BASELINE_LEFT" onAction="#showHome" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Accueil" textFill="WHITE">
+                                <font>
+                                    <Font name="System Bold" size="15.0" />
+                                </font>
+                                <graphic>
+                                    <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@images/dash1.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                            <Button fx:id="panierBtn" alignment="BASELINE_LEFT" onAction="#showPanierPage" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Panier" textFill="WHITE">
+
+                                <font>
+                                    <Font name="System Bold" size="15.0" />
+                                </font>
+                                <graphic>
+                                    <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@images/add1.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                            <Button alignment="BASELINE_LEFT" onAction="#showFacture" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Facture" textFill="WHITE">
+                                <font>
+                                    <Font name="System Bold" size="15.0" />
+                                </font>
+                                <graphic>
+                                    <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@images/factures.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                            <Button alignment="BASELINE_LEFT" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Mes factures" textFill="WHITE">
+                                <font>
+                                    <Font name="System Bold" size="15.0" />
+                                </font>
+                                <graphic>
+                                    <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@images/mes_fac.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                        </children>
+                    </VBox>
+                </children>
+            </AnchorPane>
+        </left>
+        
+    </BorderPane>
+        
+    
+    <TableView fx:id="table_facture" layoutX="215.0" layoutY="130.0" prefHeight="511.0" prefWidth="975.0">
+        <columns>
+            <TableColumn fx:id="quantite" prefWidth="113.066650390625" text="Quantite" />
+            <TableColumn fx:id="libelle" prefWidth="327.2001037597656" text="Nom du livre" />
+            <TableColumn fx:id="image" prefWidth="202.40008544921875" text="Image" />
+            <TableColumn fx:id="prix" prefWidth="184.5333251953125" text="prix" />                    
+
+      
+                        
+        </columns>
+
+    </TableView>
+    
+    <TableView fx:id="soustable_facture" layoutX="467.0" layoutY="653.0" prefHeight="75.0" prefWidth="483.0">
+        <columns>
+            <TableColumn fx:id="mnt_tot" prefWidth="230.1334228515625" text="Montant total" />
+            <TableColumn fx:id="tot_qte" prefWidth="231.19998779296873" text="Quantité total" />
+            
+      
+                      
+        </columns>
+
+    </TableView>
+
+    <Label layoutX="213.0" layoutY="69.0" prefHeight="42.0" prefWidth="316.0" text="Facture" textFill="#4275dc" underline="true">
+        <font>
+            <Font name="Bauhaus 93" size="36.0" />
+        </font>
+    </Label>
+    <Button fx:id="save_fac" layoutX="975.0" layoutY="724.0" mnemonicParsing="false" onAction="#onBtnAjouterFactureClick" prefHeight="26.0" prefWidth="171.0" text="Enregistrer" textFill="WHITE">
+      <font>
+         <Font name="System Bold" size="13.0" />
+      </font></Button>
+    
+</AnchorPane>

@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -24,16 +15,21 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="765.0" prefWidth="1254.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.ContenuPanierController">
+<AnchorPane id="AnchorPane" prefHeight="765.0" prefWidth="1254.0" stylesheets="@design.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.ContenuPanierController">
     <children>
-        <BorderPane layoutX="114.0" layoutY="54.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<!--        <ImageView fitHeight="948.0" fitWidth="1330.0" layoutX="-51.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/1.jpg" />
+         </image>
+      </ImageView>-->
+      <BorderPane layoutX="114.0" layoutY="54.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <top>
                 <AnchorPane prefHeight="65.0" prefWidth="200.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
                     <children>
                         <Pane layoutX="102.0" layoutY="20.0" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: #032d4d;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                         <HBox layoutX="239.0" layoutY="1.0" prefHeight="43.0" prefWidth="525.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
                             <children>
-                                <Button prefHeight="38.0" onAction="#showHome" prefWidth="136.0" styleClass="menuItem" text="Accueil">
+                                <Button onAction="#showHome" prefHeight="38.0" prefWidth="136.0" styleClass="menuItem" text="Accueil">
                                     <graphic>
                                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
@@ -42,7 +38,7 @@
                                         </ImageView>
                                     </graphic>
                                 </Button>
-                                <Button  prefHeight="38.0" onAction="#showPanierPage" prefWidth="136.0" styleClass="menuItem" text="Panier">
+                                <Button onAction="#showPanierPage" prefHeight="38.0" prefWidth="136.0" styleClass="menuItem" text="Panier">
                                     <graphic>
                                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
@@ -51,20 +47,20 @@
                                         </ImageView>
                                     </graphic>
                                 </Button>
-                                <Button prefHeight="38.0" prefWidth="136.0" styleClass="menuItem" text="Promotions">
+                                <Button onAction="#showFacture" prefHeight="38.0" prefWidth="136.0" styleClass="menuItem" text="Facture">
                                     <graphic>
                                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@Images/report1.png" />
+                                                <Image url="@images/factures.png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
                                 </Button>
-                                <Button prefHeight="38.0" prefWidth="136.0" styleClass="menuItem" text="Mes achats">
+                                <Button prefHeight="38.0" prefWidth="136.0" styleClass="menuItem" text="Mes factures">
                                     <graphic>
                                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@Images/prix.png" />
+                                                <Image url="@images/mes_fac.png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
@@ -101,7 +97,7 @@
             <left>
                 <AnchorPane fx:id="slider" prefHeight="362.0" prefWidth="176.0" style="-fx-background-color: #0A4969;" BorderPane.alignment="CENTER">
                     <children>
-                        <VBox layoutX="14.0" layoutY="35.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="53.0">
+                        <VBox layoutX="14.0" layoutY="35.0" prefHeight="518.0" prefWidth="176.0" AnchorPane.bottomAnchor="129.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="53.0">
                             <children>
                                 <Button alignment="BASELINE_LEFT" onAction="#showHome" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Accueil" textFill="WHITE">
                                     <font>
@@ -110,12 +106,12 @@
                                     <graphic>
                                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@Images/dash.png" />
+                                                <Image url="@images/dash1.png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
                                 </Button>
-                                <Button fx:id="panierBtn" alignment="BASELINE_LEFT"   onAction="#showPanierPage" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Panier" textFill="WHITE" >
+                                <Button fx:id="panierBtn" alignment="BASELINE_LEFT" onAction="#showPanierPage" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Panier" textFill="WHITE">
 
                                     <font>
                                         <Font name="System Bold" size="15.0" />
@@ -123,31 +119,31 @@
                                     <graphic>
                                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@Images/add.png" />
+                                                <Image url="@images/add1.png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
                                 </Button>
-                                <Button alignment="BASELINE_LEFT" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Promotions" textFill="WHITE">
+                                <Button alignment="BASELINE_LEFT" onAction="#showFacture" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Facture" textFill="WHITE">
                                     <font>
                                         <Font name="System Bold" size="15.0" />
                                     </font>
                                     <graphic>
                                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@Images/report.png" />
+                                                <Image url="@images/factures.png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
                                 </Button>
-                                <Button alignment="BASELINE_LEFT" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Mes achats" textFill="WHITE">
+                                <Button alignment="BASELINE_LEFT" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Mes factures" textFill="WHITE">
                                     <font>
                                         <Font name="System Bold" size="15.0" />
                                     </font>
                                     <graphic>
                                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@Images/prix.png" />
+                                                <Image url="@images/mes_fac.png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
@@ -157,29 +153,57 @@
                     </children>
                 </AnchorPane>
             </left>
+        
         </BorderPane>
         
-        <TableView fx:id="table_panier" layoutX="223.0" layoutY="170.0" prefHeight="522.0" prefWidth="856.0">
+              <TableView fx:id="table_panier" layoutX="223.0" layoutY="170.0" onMouseClicked="#SelectItems" prefHeight="490.0" prefWidth="954.0">
             <columns>
-                <TableColumn fx:id="libelle" prefWidth="250.0" text="Nom du livre" />
-                <TableColumn fx:id="image" prefWidth="220.0" text="Image" />
-                <TableColumn fx:id="categorie" prefWidth="100.0" text="Categorie" />
-                <TableColumn fx:id="prix" prefWidth="100.0" text="prix" />
-                                <TableColumn fx:id="quantite" prefWidth="100.0" text="quantite" />
+                <TableColumn fx:id="libelle" prefWidth="281.59999084472656" text="Nom du livre" />
+                <TableColumn fx:id="image" prefWidth="206.39999389648438" text="Image" />
+                <TableColumn fx:id="categorie" prefWidth="126.4000244140625" text="Categorie" />
+                <TableColumn fx:id="prix" prefWidth="132.79998779296875" text="prix" />                    
+                <TableColumn fx:id="quantite" prefWidth="190.39996337890625" text="quantite" />
 
+            
+                              
+            </columns>
 
-                  
-                  </columns>
-        </TableView>
-        <Label layoutX="203.0" layoutY="79.0" prefHeight="42.0" prefWidth="316.0" text="Contenu Panier" textFill="#7ca4f5" underline="true">
+              </TableView>
+
+        <Label layoutX="203.0" layoutY="89.0" prefHeight="42.0" prefWidth="354.0" text="Contenu Panier" textFill="#4275dc" underline="true">
             <font>
-                <Font name="Bauhaus 93" size="36.0" />
+                <Font name="Bauhaus 93" size="42.0" />
             </font>
         </Label>
+      <Label fx:id="mnt_tot" layoutX="517.0" layoutY="779.0" prefHeight="41.0" prefWidth="448.0" text="" textFill="#4275dc">
+         <font>
+            <Font name="Bauhaus 93" size="32.0" />
+         </font>
+      </Label>
+      <Button fx:id="passer_cmd" layoutX="788.0" layoutY="732.0" mnemonicParsing="false" onAction="#GotoFacturePage" prefHeight="30.0" prefWidth="184.0" text="Passer à la facture" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <TextField fx:id="nom_livre" layoutX="289.0" layoutY="680.0" />
+      <TextField fx:id="cat" layoutX="489.0" layoutY="680.0" />
+      <TextField fx:id="prixx" layoutX="689.0" layoutY="680.0" />
+      <TextField fx:id="quantitee" layoutX="889.0" layoutY="680.0" />
+      <Button fx:id="supp" layoutX="398.0" layoutY="732.0" mnemonicParsing="false" onAction="#deletehandler" prefHeight="30.0" prefWidth="192.0" text="Supprimer" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Button>
+      <Button fx:id="modif_qte" layoutX="606.0" layoutY="732.0" mnemonicParsing="false" onAction="#onModifierButtonClick" prefHeight="30.0" prefWidth="166.0" text="Modifier quantité" textFill="#fffdfd">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Button>
+      
         
         
         
     </children>
+    
+    
     <effect>
         <DropShadow blurType="GAUSSIAN" />
     </effect>

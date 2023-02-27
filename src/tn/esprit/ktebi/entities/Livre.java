@@ -5,6 +5,8 @@
  */
 package tn.esprit.ktebi.entities;
 
+import javafx.scene.control.TableColumn;
+
 /**
  *
  * @author MSI
@@ -40,6 +42,11 @@ public class Livre {
         this.image = image;
     }
     
+    public Livre(int user,float prix){
+        this.user=user;
+        this.prix=prix;
+        
+    }
     public Livre(String libelle,String image, String categorie,float prix,int user){
         this.libelle = libelle;
         this.categorie = categorie;
@@ -71,6 +78,18 @@ public class Livre {
 
         this.image = image;
 
+    }
+
+    public Livre(int user, String libelle, String image, float prix) {
+        this.user=user;
+        this.libelle=libelle;
+        this.image=image;
+        this.prix=prix;
+        
+    }
+
+    public Livre(int qte, String string, String image, float aFloat, float sousTot) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public int getId() {

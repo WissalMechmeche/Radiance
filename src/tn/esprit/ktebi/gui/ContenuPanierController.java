@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,14 +23,24 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import tn.esprit.ktebi.entities.LignePanier;
+import tn.esprit.ktebi.entities.Panier;
 import tn.esprit.ktebi.entities.Livre;
+import tn.esprit.ktebi.services.ServiceLignePanier;
+import tn.esprit.ktebi.services.ServicePanier;
 import tn.esprit.ktebi.utils.MaConnexion;
 
 /**
@@ -39,6 +50,28 @@ import tn.esprit.ktebi.utils.MaConnexion;
 public class ContenuPanierController implements Initializable {
 
     private Connection cnx;
+    @FXML
+    private Label Menu;
+    @FXML
+    private Label MenuClose;
+    @FXML
+    private AnchorPane slider;
+    @FXML
+    private Button panierBtn;
+    @FXML
+    private Button passer_cmd;
+    @FXML
+    private TextField nom_livre;
+    @FXML
+    private TextField cat;
+    @FXML
+    private TextField prixx;
+    @FXML
+    private TextField quantitee;
+    @FXML
+    private Button modif_qte;
+
+    ServiceLignePanier lp = new ServiceLignePanier();
 
     public ContenuPanierController() {
         cnx = MaConnexion.getInstance().getCnx();
@@ -58,43 +91,55 @@ public class ContenuPanierController implements Initializable {
     private TableColumn<Livre, String> libelle;
 
     @FXML
-    private TableColumn<Livre, String> quantite;
-    public ObservableList<Livre> data = FXCollections.observableArrayList();
+    private Label mnt_tot;
+
+    @FXML
+    private TableColumn<Livre, Integer> quantite;
+    public ObservableList<Livre> data;
 
     public void showPanier() {
         try {
             // Récupérer le panier de l'utilisateur
             String panierQuery = "SELECT * FROM Panier WHERE id_user=?";
             PreparedStatement panierStmt = cnx.prepareStatement(panierQuery);
-            int userId = 2; // utilisateur statique
+            int userId = 3;
             panierStmt.setInt(1, userId);
 
             ResultSet panierRs = panierStmt.executeQuery();
 
-            // Si l'utilisateur n'a pas de panier, afficher un message et sortir de la fonction
+            // Si l'utilisateur n'a pas de panier
             if (!panierRs.next()) {
                 System.out.println("Le panier de l'utilisateur est vide.");
                 return;
             }
 
             // Récupérer les lignes de panier pour le panier de l'utilisateur
+            float prixTotal = 0.0f;
             int panierId = panierRs.getInt("id_panier");
             String lignePanierQuery = "SELECT * FROM ligne_panier WHERE id_panier=?";
+            prixTotal = lp.calculerPrixTotal(panierId);
+            mnt_tot.setText("Montant total: " + String.valueOf(prixTotal) + "DT");
+
             PreparedStatement lignePanierStmt = cnx.prepareStatement(lignePanierQuery);
             lignePanierStmt.setInt(1, panierId);
             ResultSet lignePanierRs = lignePanierStmt.executeQuery();
 
             // Parcourir les lignes de panier et ajouter les livres correspondants à la liste
+            data.clear();
+
             while (lignePanierRs.next()) {
                 int livreId = lignePanierRs.getInt("id_livre");
-                int quantite = lignePanierRs.getInt("qte");
+                int qte = lignePanierRs.getInt("qte");
                 String livreQuery = "SELECT libelle, image, categorie, prix FROM Livre WHERE id_livre=?";
                 PreparedStatement livreStmt = cnx.prepareStatement(livreQuery);
                 livreStmt.setInt(1, livreId);
                 ResultSet livreRs = livreStmt.executeQuery();
                 if (livreRs.next()) {
-                    String image = livreRs.getString("image"); // Récupère l'URL de l'image depuis la base de données
-                    data.add(new Livre(livreRs.getString("libelle"), image, livreRs.getString("categorie"), livreRs.getFloat("prix"), quantite));
+                    String image = livreRs.getString("image");
+                    float prix = livreRs.getFloat("prix");
+
+                    data.add(new Livre(livreRs.getString("libelle"), image, livreRs.getString("categorie"), livreRs.getFloat("prix"), qte));
+
                 }
             }
         } catch (SQLException ex) {
@@ -129,25 +174,39 @@ public class ContenuPanierController implements Initializable {
         });
         categorie.setCellValueFactory(new PropertyValueFactory<Livre, String>("categorie"));
         prix.setCellValueFactory(new PropertyValueFactory<Livre, Float>("prix"));
-        quantite.setCellValueFactory(new PropertyValueFactory<Livre, String>("quantite"));
+        quantite.setCellValueFactory(new PropertyValueFactory<Livre, Integer>("user"));
 
         table_panier.setItems(data);
-    }
-    
-     @FXML
-    private void showPanierPage(ActionEvent event) throws IOException {
-        URL url = new File("C:\\Users\\Pc Anis\\Documents\\NetBeansProjects\\Radiance-master\\src\\tn\\esprit\\ktebi\\gui\\cart-ui.fxml").toURI().toURL();
-        Parent panierPage = FXMLLoader.load(url);
 
-        Scene panierPageScene = new Scene(panierPage);
-        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        appStage.setScene(panierPageScene);
-        appStage.show();
     }
-    
-      @FXML
-    private void showHome(ActionEvent event) throws IOException {
-        URL url = new File("C:\\Users\\Pc Anis\\Documents\\NetBeansProjects\\Radiance-master\\src\\tn\\esprit\\ktebi\\gui\\homeCart.fxml").toURI().toURL();
+
+    @FXML
+    public void showPanierPage(ActionEvent event) throws IOException {
+        Parent tableViewParent = FXMLLoader.load(getClass().getResource("cart-ui.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
+
+        //This line gets the Stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(tableViewScene);
+        window.show();
+    }
+
+    @FXML
+    public void showHome(ActionEvent event) throws IOException {
+        Parent tableViewParent = FXMLLoader.load(getClass().getResource("homeCart.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
+
+        //This line gets the Stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(tableViewScene);
+        window.show();
+    }
+
+    @FXML
+    private void GotoFacturePage(ActionEvent event) throws IOException {
+        URL url = new File("C:\\Users\\Pc Anis\\Documents\\GitHub\\Radiance\\src\\tn\\esprit\\ktebi\\gui\\Facture-ui.fxml").toURI().toURL();
         Parent panierPage = FXMLLoader.load(url);
 
         Scene panierPageScene = new Scene(panierPage);
@@ -157,8 +216,121 @@ public class ContenuPanierController implements Initializable {
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources
+    ) {
+        data = FXCollections.observableArrayList();
+
         showPanier();
+
+    }
+
+    @FXML
+    private void SelectItems(MouseEvent event) {
+        nom_livre.clear();
+
+        cat.clear();
+        prixx.clear();
+        quantitee.clear();
+        nom_livre.setDisable(true);
+        cat.setDisable(true);
+        prixx.setDisable(true);
+        quantitee.setDisable(false);
+        nom_livre.appendText(table_panier.getSelectionModel().getSelectedItem().getLibelle());
+        cat.appendText(table_panier.getSelectionModel().getSelectedItem().getCategorie());
+        prixx.appendText(Float.toString(table_panier.getSelectionModel().getSelectedItem().getPrix()));
+        quantitee.appendText(Integer.toString(table_panier.getSelectionModel().getSelectedItem().getUser()));
+
+    }
+
+    @FXML
+    private void onModifierButtonClick(ActionEvent event) throws SQLException, NullPointerException {
+        try {
+            int id_user = 3;
+            Livre ligneSelectionnee = table_panier.getSelectionModel().getSelectedItem();
+            ServicePanier sp = new ServicePanier();
+            Livre livre = sp.getLivreByLibelle(ligneSelectionnee.getLibelle());
+            System.out.println(livre);
+
+            int nouvelleQuantite = Integer.parseInt(quantitee.getText());
+
+            Panier panier = sp.getPanierByUser(id_user);
+
+            List<LignePanier> lignesPanier = lp.getLignePanierByLivre(livre, panier.getId());
+            System.out.println(lignesPanier);
+
+            for (LignePanier ligne : lignesPanier) {
+                ligne.setQuantite(nouvelleQuantite);
+                lp.modifierLignePanier(ligne);
+            }
+
+            // Mettre à jour le tableau
+            showPanier();
+
+            // Afficher un message de succès
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Quantité modifiée");
+            alert.setHeaderText(null);
+            alert.setContentText("La quantité a été modifiée avec succès!");
+            alert.showAndWait();
+        } catch (NullPointerException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Aucun livre sélectionné");
+            alert.setContentText("Veuillez sélectionner un livre dans la table pour le modifié!");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void deletehandler(ActionEvent event) throws SQLException, NullPointerException {
+        try {
+
+            Livre selectedLivre = table_panier.getSelectionModel().getSelectedItem();
+            ServicePanier sp = new ServicePanier();
+            selectedLivre = sp.getLivreByLibelle(selectedLivre.getLibelle());
+
+            if (selectedLivre == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText("Aucun livre sélectionné");
+                alert.setContentText("Veuillez sélectionner un livre dans la table !");
+                alert.showAndWait();
+                return;
+            }
+
+            lp.supprimerLignePanier(selectedLivre);
+            showPanier();
+            nom_livre.clear();
+            cat.clear();
+            prixx.clear();
+            quantitee.clear();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Ligne supprimée!");
+            alert.setHeaderText(null);
+            alert.setContentText("Le livre a été supprimer du ligne du panier!");
+            alert.showAndWait();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } catch (NullPointerException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Aucun livre sélectionné");
+            alert.setContentText("Veuillez sélectionner un livre dans la table !");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void showFacture(ActionEvent event) throws IOException {
+        Parent tableViewParent = FXMLLoader.load(getClass().getResource("facture-ui.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
+
+        //This line gets the Stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(tableViewScene);
+        window.show();
     }
 
 }

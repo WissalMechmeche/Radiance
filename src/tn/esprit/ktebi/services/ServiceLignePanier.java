@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -43,62 +44,96 @@ public class ServiceLignePanier implements ILignePanier {
             System.out.println(ex.getMessage());
         }
     }
-    
-    
+
     @Override
     public void modifierLignePanier(LignePanier p) {
-    try {
-        String requete = "update ligne_panier set qte = ? where id_livre = ? and id_panier = ?";
-        PreparedStatement st = cnx.prepareStatement(requete);
-        st.setInt(1, p.getQuantite());
-        st.setInt(2, p.getLivre());
-        st.setInt(3, p.getPanier());
-        st.executeUpdate();
-        System.out.println("La ligne du panier a été mise à jour avec succès !");
-    } catch (SQLException ex) {
-        System.out.println(ex.getMessage());
-    }
-}
-    
-    @Override
-    public LignePanier getLignePanierByLivreAndPanier(int idLivre, int idPanier) throws SQLException {
-    LignePanier lignePanier = null;
-    String requete = "SELECT * FROM ligne_panier WHERE id_livre = ? AND id_panier = ?";
-
-    try (PreparedStatement st = cnx.prepareStatement(requete)) {
-        st.setInt(1, idLivre);
-        st.setInt(2, idPanier);
-
-        try (ResultSet rs = st.executeQuery()) {
-            if (rs.next()) {
-                int id = rs.getInt("id_ligne");
-                int qte = rs.getInt("qte");
-
-                // créer une nouvelle instance de LignePanier
-                lignePanier = new LignePanier(id, idLivre, idPanier, qte);
-            }
-        }
-    } catch (SQLException ex) {
-        System.out.println(ex.getMessage());
-    }
-    return lignePanier;
-}
-
-
-
-    @Override
-    public void supprimerLignePanier(LignePanier p) {
-        String requete = "delete from ligne_panier where id_ligne=" + p.getId() + "";
         try {
+            String requete = "update ligne_panier set qte = ? where id_livre = ? and id_panier = ?";
             PreparedStatement st = cnx.prepareStatement(requete);
+            st.setInt(1, p.getQuantite());
+            st.setInt(2, p.getLivre());
+            st.setInt(3, p.getPanier());
             st.executeUpdate();
-            System.out.println("La ligne du panier est supprimée!");
-
+            System.out.println("La ligne du panier a été mise à jour avec succès !");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
 
+    @Override
+    public LignePanier getLignePanierByLivreAndPanier(int idLivre, int idPanier) throws SQLException {
+        LignePanier lignePanier = null;
+        String requete = "SELECT * FROM ligne_panier WHERE id_livre = ? AND id_panier = ?";
+
+        try (PreparedStatement st = cnx.prepareStatement(requete)) {
+            st.setInt(1, idLivre);
+            st.setInt(2, idPanier);
+
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    int id = rs.getInt("id_ligne");
+                    int qte = rs.getInt("qte");
+
+                    // créer une nouvelle instance de LignePanier
+                    lignePanier = new LignePanier(id, idLivre, idPanier, qte);
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return lignePanier;
+    }
+
+ 
+
+    @Override
+    public void supprimerLignePanier(Livre livre) {
+        try {
+            String lignePanierQuery = "SELECT id_ligne FROM ligne_panier WHERE id_livre=?";
+            PreparedStatement lignePanierStmt = cnx.prepareStatement(lignePanierQuery);
+            lignePanierStmt.setInt(1, livre.getId());
+            ResultSet lignePanierRs = lignePanierStmt.executeQuery();
+
+            if (lignePanierRs.next()) {
+                int lignePanierId = lignePanierRs.getInt("id_ligne");
+                String deleteQuery = "DELETE FROM ligne_panier WHERE id_ligne=?";
+                PreparedStatement deleteStmt = cnx.prepareStatement(deleteQuery);
+                deleteStmt.setInt(1, lignePanierId);
+                deleteStmt.executeUpdate();
+                System.out.println("La ligne du panier est supprimée!");
+            } else {
+                System.out.println("La ligne de panier correspondant à l'ID du livre n'existe pas.");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    @Override
+    public List<LignePanier> getLignePanierByLivre(Livre livre, int idPanier) throws SQLException {
+        List<LignePanier> lignes = new ArrayList<>();
+
+        String query = "SELECT * FROM ligne_panier WHERE id_livre=? AND id_panier=?";
+        PreparedStatement stmt = cnx.prepareStatement(query);
+        stmt.setInt(1, livre.getId());
+        stmt.setInt(2, idPanier); // idPanier doit être défini dans la classe ou passé en paramètre
+
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            LignePanier ligne = new LignePanier();
+            ligne.setId(rs.getInt("id_ligne"));
+            ligne.setPanier(rs.getInt("id_panier"));
+            ligne.setLivre(rs.getInt("id_livre"));
+            ligne.setQuantite(rs.getInt("qte"));
+
+            lignes.add(ligne);
+        }
+
+        return lignes;
+    }
+    
+    
     @Override
     public List<LignePanier> afficherLignePanier() throws SQLException {
         List<LignePanier> listLigne = new ArrayList<>();
@@ -152,36 +187,33 @@ public class ServiceLignePanier implements ILignePanier {
         return prixTotal;
     }
 
-    
     @Override
-   public List<LignePanier> getLigneByUser(int id_user) throws SQLException {
-    List<LignePanier> lignesCommande = new ArrayList<>();
-    String requete = "SELECT lp.*, l.libelle, l.prix FROM ligne_panier lp JOIN livre l "
-                    + "ON lp.id_livre = l.id_livre WHERE lp.id_panier IN (SELECT p.id_panier FROM panier p WHERE p.id_user = ?)";
+    public List<LignePanier> getLigneByUser(int id_user) throws SQLException {
+        List<LignePanier> lignesCommande = new ArrayList<>();
+        String requete = "SELECT lp.*, l.libelle, l.prix FROM ligne_panier lp JOIN livre l "
+                + "ON lp.id_livre = l.id_livre WHERE lp.id_panier IN (SELECT p.id_panier FROM panier p WHERE p.id_user = ?)";
 
-    try {
-        PreparedStatement ps = cnx.prepareStatement(requete);
-        ps.setInt(1, id_user);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            LignePanier lignePanier = new LignePanier(
-                    rs.getInt("id_ligne"),
-                    rs.getInt("id_livre"),
-                    rs.getInt("id_panier"),
-                    rs.getInt("qte")
-                  
-            );
-            lignesCommande.add(lignePanier);
+        try {
+            PreparedStatement ps = cnx.prepareStatement(requete);
+            ps.setInt(1, id_user);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                LignePanier lignePanier = new LignePanier(
+                        rs.getInt("id_ligne"),
+                        rs.getInt("id_livre"),
+                        rs.getInt("id_panier"),
+                        rs.getInt("qte")
+                );
+                lignesCommande.add(lignePanier);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
         }
-    } catch (SQLException ex) {
-        System.out.println(ex.getMessage());
+        return lignesCommande;
     }
-    return lignesCommande;
-}
-   
-   
-   @Override
-    public ObservableList<Livre> listelivres() throws SQLException  {
+ 
+    @Override
+    public ObservableList<Livre> listelivres() throws SQLException {
         ObservableList<Livre> myList = FXCollections.observableArrayList();
         try {
 
@@ -198,23 +230,18 @@ public class ServiceLignePanier implements ILignePanier {
                 rec.setImage(rs.getString("image"));
                 rec.setPrix(rs.getFloat("prix"));
                 rec.setLangue(rs.getString("langue"));
-                rec.setPromo(rs.getInt("code_promo")); 
+                rec.setPromo(rs.getInt("code_promo"));
                 rec.setLibelle(rs.getString("libelle"));
                 rec.setUser(rs.getInt("id_user"));
-                        
-                
+
                 myList.add(rec);
 
             }
-        }
-         catch (SQLException ex) {
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
 
         }
         return myList;
     }
 
-
 }
-    
-

@@ -52,6 +52,10 @@ public class User {
         this.motPasse = motPasse;
         this.role = role;
     }
+    
+    public User (int id){
+        return ;
+    }
 
     public int getId() {
         return id;

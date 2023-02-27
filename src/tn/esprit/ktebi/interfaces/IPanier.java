@@ -17,8 +17,8 @@ import tn.esprit.ktebi.entities.Panier;
 public interface IPanier {
     public void ajouterPanier(Panier p) throws SQLException;
     public Panier getPanierByUser(int userId) throws SQLException;
-    public void ViderPanier(int id_user)throws SQLException;
     public Livre getLivreByLibelle(String libelle) throws SQLException;
     public List<Panier> afficherPanier()throws SQLException;
+    public String getLibelleLivreById(int id_livre) throws SQLException;
     
 }

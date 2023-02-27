@@ -5,16 +5,19 @@
  */
 package tn.esprit.ktebi.gui;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.PauseTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,6 +33,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,6 +41,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import tn.esprit.ktebi.entities.LignePanier;
 import tn.esprit.ktebi.entities.Livre;
 import tn.esprit.ktebi.entities.Panier;
@@ -50,19 +55,15 @@ import tn.esprit.ktebi.utils.MaConnexion;
  */
 public class HomePanierController implements Initializable {
 
-    private Connection cnx;
-
-    public HomePanierController() {
-        cnx = MaConnexion.getInstance().getCnx();
-
-    }
-
     @FXML
-    private BorderPane contentPane;
+    private TextField filterInput;
 
     @FXML
 
     private Button panierBtn;
+    private PauseTransition pause = null;
+
+    ServiceLignePanier lp = new ServiceLignePanier();
 
     ObservableList<Livre> livre;
     @FXML
@@ -78,9 +79,6 @@ public class HomePanierController implements Initializable {
     public ObservableList<Livre> data = FXCollections.observableArrayList();
 
     @FXML
-    private ImageView Exit;
-
-    @FXML
     private Label Menu;
 
     @FXML
@@ -89,58 +87,79 @@ public class HomePanierController implements Initializable {
     @FXML
     private AnchorPane slider;
 
-    ServiceLignePanier rcd = new ServiceLignePanier();
-
     public void closeApp() {
         App.getWindow().close();
     }
 
+    public void filterLivreList(String oldValue, String newValue) {
+        ObservableList<Livre> filteredList = FXCollections.observableArrayList();
+        if (this.filterInput != null && newValue.length() >= oldValue.length() && newValue != null) {
+            newValue = newValue.toUpperCase();
+            Iterator var4 = this.table_res.getItems().iterator();
+
+            while (true) {
+                Livre livres;
+                String filterLibelle;
+                String filterCategorie;
+                String filterPrix;
+
+                do {
+                    if (!var4.hasNext()) {
+                        this.table_res.setItems(filteredList);
+                        return;
+                    }
+
+                    livres = (Livre) var4.next();
+                    filterLibelle = livres.getLibelle();
+                    filterCategorie = livres.getCategorie();
+                    filterPrix = String.valueOf(livres.getPrix());
+                } while (!filterLibelle.toUpperCase().contains(newValue) && !filterCategorie.toUpperCase().contains(newValue) && !filterPrix.toUpperCase().contains(newValue));
+
+                filteredList.add(livres);
+            }
+        } else {
+            this.table_res.setItems(data);
+        }
+    }
+
     public void showLivres() {
         try {
-            String requete = "SELECT * FROM Livre";
-            PreparedStatement st = cnx.prepareStatement(requete);
-            ResultSet rs = st.executeQuery(requete);
-            while (rs.next()) {
-                String image = rs.getString(10); 
-                Image img = new Image(image);
+            ObservableList<Livre> data = lp.listelivres();
 
-                data.add(new Livre(rs.getString(2), image, rs.getString(6), rs.getFloat(9)));
-            }
+            libelle.setCellValueFactory(new PropertyValueFactory<Livre, String>("libelle"));
+            image.setCellValueFactory(new PropertyValueFactory<Livre, String>("image"));
+
+            image.setCellFactory(column -> {
+                return new TableCell<Livre, String>() {
+                    private final ImageView imageView = new ImageView();
+
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setGraphic(null);
+                        } else {
+                            try {
+                                Image img = new Image(item);
+                                imageView.setImage(img);
+                                imageView.setFitHeight(80);
+                                imageView.setPreserveRatio(true);
+                                setGraphic(imageView);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                };
+            });
+            categorie.setCellValueFactory(new PropertyValueFactory<Livre, String>("categorie"));
+            prix.setCellValueFactory(new PropertyValueFactory<Livre, Float>("prix"));
+
+            table_res.setItems(data);
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-
-        libelle.setCellValueFactory(new PropertyValueFactory<Livre, String>("libelle"));
-        image.setCellValueFactory(new PropertyValueFactory<Livre, String>("image"));
-
-        image.setCellFactory(column -> {
-            return new TableCell<Livre, String>() {
-                private final ImageView imageView = new ImageView();
-
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setGraphic(null);
-                    } else {
-                        try {
-                            Image img = new Image(item);
-                            imageView.setImage(img);
-                            imageView.setFitHeight(80);
-                            imageView.setPreserveRatio(true);
-                            setGraphic(imageView);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            };
-        });
-        categorie.setCellValueFactory(new PropertyValueFactory<Livre, String>("categorie"));
-        prix.setCellValueFactory(new PropertyValueFactory<Livre, Float>("prix"));
-
-        table_res.setItems(data);
-
     }
 
     public void ajoutAuPanier() {
@@ -153,6 +172,8 @@ public class HomePanierController implements Initializable {
                     private final Button btn = new Button("Ajouter au panier");
 
                     {
+                        btn.setStyle("-fx-background-color: #4275dc; -fx-text-fill: white; -fx-font-weight: bold;-fx-font-size: 14px;");
+
                         btn.setOnAction((ActionEvent event) -> {
 
                             ServicePanier sp = new ServicePanier();
@@ -164,30 +185,36 @@ public class HomePanierController implements Initializable {
                                 if (livre != null) {
 
                                     try {
-                                        int userId = 2;
+                                        int userId = 3;
                                         ServicePanier servicePanier = new ServicePanier();
                                         Panier panier = servicePanier.getPanierByUser(userId);
                                         if (panier == null) {
-                                            panier = new Panier(0, 0, userId, 0);
+                                            panier = new Panier(0, 0, userId);
                                             servicePanier.ajouterPanier(panier);
+                                            panier = servicePanier.getPanierByUser(userId);
+
+                                        } else {
+                                            // Sinon, mettre à jour l'utilisateur du panier (au cas où il a été créé pour un autre utilisateur)
+                                            panier.setUser(userId);
+                                            servicePanier.modifierPanier(panier);
                                         }
 
                                         // Vérifier si le livre sélectionné existe déjà dans le panier
-                                        ServiceLignePanier serviceLigne = new ServiceLignePanier();
-                                        LignePanier lignePanierExistante = serviceLigne.getLignePanierByLivreAndPanier(livre.getId(), panier.getId());
+                                        LignePanier lignePanierExistante = lp.getLignePanierByLivreAndPanier(livre.getId(), panier.getId());
 
                                         if (lignePanierExistante != null) {
                                             // Si la lignePanier existe déjà, augmenter la quantité
                                             lignePanierExistante.setQuantite(lignePanierExistante.getQuantite() + 1);
-                                            serviceLigne.modifierLignePanier(lignePanierExistante);
+                                            lp.modifierLignePanier(lignePanierExistante);
                                             System.out.println("Quantité du livre dans le panier augmentée avec succès !");
                                         } else {
                                             // Sinon, créer une nouvelle lignePanier pour le livre sélectionné
                                             LignePanier lignePanier = new LignePanier();
                                             lignePanier.setLivre(livre.getId());
+                                            lignePanier.setPanier(panier.getId()); // panier est toujours null ici si aucun panier n'a été trouvé pour l'utilisateur
                                             lignePanier.setPanier(panier.getId());
                                             lignePanier.setQuantite(1);
-                                            serviceLigne.ajouterLignePanier(lignePanier);
+                                            lp.ajouterLignePanier(lignePanier);
                                             System.out.println("Livre ajouté au panier avec succès !");
                                         }
 
@@ -241,33 +268,52 @@ public class HomePanierController implements Initializable {
     private Parent fxml;
 
     @FXML
-    private void showPanierPage(ActionEvent event) throws IOException {
-        URL url = new File("C:\\Users\\Pc Anis\\Documents\\NetBeansProjects\\Radiance-master\\src\\tn\\esprit\\ktebi\\gui\\cart-ui.fxml").toURI().toURL();
-        Parent panierPage = FXMLLoader.load(url);
+    public void showPanierPage(ActionEvent event) throws IOException {
+        Parent tableViewParent = FXMLLoader.load(getClass().getResource("cart-ui.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
 
-        Scene panierPageScene = new Scene(panierPage);
-        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        appStage.setScene(panierPageScene);
-        appStage.show();
-    }
-    
-      @FXML
-    private void showHome(ActionEvent event) throws IOException {
-        URL url = new File("C:\\Users\\Pc Anis\\Documents\\NetBeansProjects\\Radiance-master\\src\\tn\\esprit\\ktebi\\gui\\homeCart.fxml").toURI().toURL();
-        Parent panierPage = FXMLLoader.load(url);
+        //This line gets the Stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        Scene panierPageScene = new Scene(panierPage);
-        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        appStage.setScene(panierPageScene);
-        appStage.show();
+        window.setScene(tableViewScene);
+        window.show();
     }
 
+    @FXML
+    public void showHome(ActionEvent event) throws IOException {
+        Parent tableViewParent = FXMLLoader.load(getClass().getResource("homeCart.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
+
+        //This line gets the Stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(tableViewScene);
+        window.show();
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         showLivres();
         ajoutAuPanier();
 
+        this.filterInput.textProperty().addListener(new ChangeListener() {
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                HomePanierController.this.filterLivreList((String) oldValue, (String) newValue);
+            }
+        });
+
+    }
+
+    @FXML
+    private void showFacture(ActionEvent event) throws IOException {
+        Parent tableViewParent = FXMLLoader.load(getClass().getResource("Facture-ui.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
+
+        //This line gets the Stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(tableViewScene);
+        window.show();
     }
 
 }

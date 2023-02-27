@@ -10,31 +10,27 @@ package tn.esprit.ktebi.entities;
  * @author MSI
  */
 public class Panier {
-    private int id ;
-    private float montant_totale ;
-    private int qte ;
-    private int user ;
-    private int facture ;
-    
-    public Panier()
-    {
-        
+
+    private int id;
+    private float montant_totale;
+    private int qte;
+    private int user;
+
+    public Panier() {
+
     }
 
-    public Panier(int id, float montant_totale, int qte, int user, int facture) {
+    public Panier(int id, float montant_totale, int qte, int user) {
         this.id = id;
         this.montant_totale = montant_totale;
         this.qte = qte;
         this.user = user;
-        this.facture = facture;
     }
-    
-    
-    public Panier(float montant_totale, int qte, int user, int facture) {
+
+    public Panier(float montant_totale, int qte, int user) {
         this.montant_totale = montant_totale;
         this.qte = qte;
         this.user = user;
-        this.facture = facture;
     }
 
     public int getId() {
@@ -61,8 +57,6 @@ public class Panier {
         this.qte = qte;
     }
 
-    
-
     public int getUser() {
         return user;
     }
@@ -71,23 +65,14 @@ public class Panier {
         this.user = user;
     }
 
-    public int getFacture() {
-        return facture;
-    }
-
-    public void setFacture(int facture) {
-        this.facture = facture;
-    }
-
     @Override
     public String toString() {
-        return "Panier{" + "id=" + id + ", montant_totale=" 
-                + montant_totale + ", qte=" 
-                + qte + ", user=" + user 
-                + ", facture=" + facture + '}';
+        return "Panier{" + "id=" + id + ", montant_totale=" + montant_totale + ", qte=" + qte + ", user=" + user + '}';
     }
 
-
+    
+    
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -105,11 +90,5 @@ public class Panier {
         }
         return true;
     }
-    
-    
-    
-    
-    
-    
-    
+
 }

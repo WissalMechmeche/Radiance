@@ -8,15 +8,19 @@ package tn.esprit.ktebi.interfaces;
 import java.sql.SQLException;
 import java.util.List;
 import tn.esprit.ktebi.entities.Facture;
+import tn.esprit.ktebi.entities.LigneFacture;
+import tn.esprit.ktebi.entities.User;
 
 /**
  *
  * @author Pc Anis
  */
 public interface IFacture {
-        public void ajouterFacture(Facture f) throws SQLException;
+        public void ajouterFacture(int id_user) throws SQLException;
         public List<Facture> afficherFactures() throws SQLException;
         public void supprimerFacture(Facture f) throws SQLException;
+        public User getUserById(int id) throws SQLException;
+        public void ajouterLigneFacture(LigneFacture ligneFac) throws SQLException;
 
 
 
