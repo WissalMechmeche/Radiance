@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * @author MSI
  */
 public class MaConnexion {
-    private final String url="jdbc:mysql://localhost/ktebi";
+    private final String url="jdbc:mysql:3306//localhost/ktebi";
     private final String login="root";
     private final String password="";
     
