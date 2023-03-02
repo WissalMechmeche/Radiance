@@ -17,6 +17,11 @@ public class LigneFacture {
     private float mnt;
     private int qte;
 
+    public LigneFacture() {
+    }
+
+    
+    
     public LigneFacture(int id_ligne_fac, int id_facture, int id_livre, int id_user, float mnt, int qte) {
         this.id_ligne_fac = id_ligne_fac;
         this.id_facture = id_facture;

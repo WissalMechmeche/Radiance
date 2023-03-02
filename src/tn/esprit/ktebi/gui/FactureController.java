@@ -21,11 +21,14 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.BorderCollapsePropertyValue;
 import com.itextpdf.layout.properties.TextAlignment;
+import javax.mail.*;
+import javax.mail.internet.*;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.security.Security;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.collections.FXCollections;
@@ -242,8 +246,12 @@ public class FactureController implements Initializable {
 
         } else {
 
-            ImprimerFacture();
             try {
+                ImprimerFacture();
+
+                Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+                sendMail();
+
                 sf.ajouterFacture(id_user);
                 table_facture.getItems().clear();
                 soustable_facture.getItems().clear();
@@ -254,6 +262,7 @@ public class FactureController implements Initializable {
                 alert.setHeaderText(null);
                 alert.setContentText("La facture a été ajoutée avec succès!");
                 alert.showAndWait();
+
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erreur");
@@ -262,6 +271,53 @@ public class FactureController implements Initializable {
                 alert.showAndWait();
             }
         }
+    }
+
+    
+  
+
+    
+    
+    public void sendMail() throws SQLException {
+        int userid = 3;
+
+        User user = sf.getUserById(userid);
+        System.out.println(user.getEmail());
+
+        if (user == null) {
+            System.out.println("User with ID " + userid + " not found!");
+            return;
+        } else {
+        }
+
+        final String username = "anis.farah@esprit.tn";
+        final String password = "223AMT6798";
+        String recipientEmail = user.getEmail();
+        String subject = "Payment notification";
+        String message = "The payment process has completed successfully.";
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        Session session = Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+        try {
+            Message msg = new MimeMessage(session);
+            msg.setFrom(new InternetAddress(username));
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
+            msg.setSubject(subject);
+            msg.setText(message);
+            Transport.send(msg);
+            System.out.println("Email notification sent successfully.");
+        } catch (MessagingException ex) {
+            System.out.println(ex.getMessage());
+        }
+
     }
 
     @Override
@@ -396,12 +452,11 @@ public class FactureController implements Initializable {
         if (pdfFile.exists()) {
             Desktop.getDesktop().open(pdfFile);
         }
-    
 
-}
+    }
 
-@FXML
-        private void showFacture(ActionEvent event) throws IOException {
+    @FXML
+    private void showFacture(ActionEvent event) throws IOException {
         Parent tableViewParent = FXMLLoader.load(getClass().getResource("facture-ui.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);
 

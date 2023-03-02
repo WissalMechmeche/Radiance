@@ -11,9 +11,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import tn.esprit.ktebi.entities.Facture;
 import tn.esprit.ktebi.entities.LigneFacture;
+import tn.esprit.ktebi.entities.Livre;
 import tn.esprit.ktebi.entities.Panier;
 import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.interfaces.IFacture;
@@ -127,6 +130,49 @@ public class ServiceFacture implements IFacture {
         }
     }
 
+    public List<Livre> listeLivresPlusAchetes() throws SQLException {
+        String query = "SELECT l.id_livre, l.libelle, l.description, l.editeur, l.date_edition, l.categorie, l.prix, l.langue, l.code_promo, l.id_user, l.image "
+                + "FROM livre l "
+                + "JOIN ligne_facture lf ON l.id_livre = lf.id_livre "
+                + "JOIN facture f ON lf.id_facture = f.id_facture "
+                + "GROUP BY l.id_livre "
+                + "ORDER BY COUNT(*) DESC "
+                + "LIMIT 10";
+        PreparedStatement pstmt = cnx.prepareStatement(query);
+        ResultSet rs = pstmt.executeQuery();
+
+        List<Livre> livres = new ArrayList<>();
+        while (rs.next()) {
+            int id = rs.getInt("id_livre");
+            String libelle = rs.getString("libelle");
+            String description = rs.getString("description");
+            String editeur = rs.getString("editeur");
+            String date_edition = rs.getString("date_edition");
+            String categorie = rs.getString("categorie");
+            float prix = rs.getFloat("prix");
+            String langue = rs.getString("langue");
+            int promo = rs.getInt("code_promo");
+            int user = rs.getInt("id_user");
+            String image = rs.getString("image");
+
+            Livre livre = new Livre(id, libelle, description, editeur, date_edition, categorie, prix, langue, promo, user, image);
+            livres.add(livre);
+        }
+        return livres;
+    }
+
+    public int nombreAchats(Livre livre) throws SQLException {
+        String query = "SELECT COUNT(*) AS nb_achats FROM ligne_facture WHERE id_livre = ?";
+        PreparedStatement pstmt = cnx.prepareStatement(query);
+        pstmt.setInt(1, livre.getId());
+        ResultSet rs = pstmt.executeQuery();
+        int nbAchats = 0;
+        if (rs.next()) {
+            nbAchats = rs.getInt("nb_achats");
+        }
+        return nbAchats;
+    }
+
     @Override
     public List<Facture> afficherFactures() throws SQLException {
         List<Facture> listFact = new ArrayList<>();
@@ -142,7 +188,30 @@ public class ServiceFacture implements IFacture {
             facture.setMode_paiement(rs.getString("mode_paiement"));
             facture.setMontant_totale(rs.getFloat("mnt_totale"));
             facture.setUser(rs.getInt("id_user"));
-            facture.setPanier(rs.getInt("id_panier"));
+
+            listFact.add(facture);
+
+        }
+
+        return listFact;
+    }
+
+    public List<LigneFacture> afficherLignesFactures() throws SQLException {
+        List<LigneFacture> listFact = new ArrayList<>();
+
+        String requete = "SELECT * FROM `ligne_facture`";
+        PreparedStatement ps = cnx.prepareStatement(requete);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+
+            LigneFacture facture = new LigneFacture();
+            facture.setId_ligne_fac(rs.getInt(1));
+            facture.setId_facture(rs.getInt("id_facture"));
+            facture.setId_livre(rs.getInt("id_livre"));
+            facture.setId_user(rs.getInt("id_user"));
+            facture.setMnt(rs.getFloat("mnt"));
+            facture.setQte(rs.getInt("qte"));
 
             listFact.add(facture);
 
@@ -177,6 +246,7 @@ public class ServiceFacture implements IFacture {
             user.setId(resultSet.getInt("id_user"));
             user.setNom(resultSet.getString("nom"));
             user.setPrenom(resultSet.getString("prenom"));
+            user.setEmail(resultSet.getString("email"));
             return user;
         } else {
             return null;
