@@ -5,6 +5,8 @@
  */
 package tn.esprit.ktebi.entities;
 
+import java.io.InputStream;
+import java.sql.Blob;
 import java.time.LocalDate;
 
 /**
@@ -18,7 +20,8 @@ public class Reclamation {
     private String etat ;
     private User user ;
     private ReponseReclamation reponse ;
-
+    private String img;
+    private Blob img1;
 
     public Reclamation()
     {
@@ -28,6 +31,16 @@ public class Reclamation {
     {
         this.id=id;
     }   
+       public Reclamation(int id, String contenu, LocalDate date_reclamation, String etat, User user, ReponseReclamation reponse,Blob img1) {
+        this.id = id;
+        this.contenu = contenu;
+        this.date_reclamation = date_reclamation;
+        this.etat = etat;
+        this.user = user;
+        this.reponse = reponse;
+        this.img1 = img1;
+       
+    }
     public Reclamation(int id, String contenu, LocalDate date_reclamation, String etat, User user, ReponseReclamation reponse) {
         this.id = id;
         this.contenu = contenu;
@@ -35,9 +48,19 @@ public class Reclamation {
         this.etat = etat;
         this.user = user;
         this.reponse = reponse;
+        
     }
 
-    public Reclamation(String contenu, LocalDate date_reclamation, String etat, User user, ReponseReclamation reponse) {
+    public Reclamation(String contenu, LocalDate date_reclamation, String etat, User user, ReponseReclamation reponse,String img) {
+        this.contenu = contenu;
+        this.date_reclamation = date_reclamation;
+        this.etat = etat;
+        this.user = user;
+        this.reponse = reponse;
+        this.img= img;
+    }
+    
+        public Reclamation(String contenu, LocalDate date_reclamation, String etat, User user, ReponseReclamation reponse) {
         this.contenu = contenu;
         this.date_reclamation = date_reclamation;
         this.etat = etat;
@@ -92,6 +115,24 @@ public class Reclamation {
     public void setReponse(ReponseReclamation reponse) {
         this.reponse = reponse;
     }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public Blob getImg1() {
+        return img1;
+    }
+
+    public void setImg1(Blob img1) {
+        this.img1 = img1;
+    }
+    
+    
 
     @Override
     public String toString() {

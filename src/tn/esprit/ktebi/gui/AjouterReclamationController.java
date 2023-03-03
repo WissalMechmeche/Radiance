@@ -5,11 +5,19 @@
  */
 package tn.esprit.ktebi.gui;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,9 +26,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javax.imageio.ImageIO;
 import tn.esprit.ktebi.entities.Reclamation;
 import tn.esprit.ktebi.entities.ReponseReclamation;
 import tn.esprit.ktebi.entities.User;
@@ -37,6 +51,16 @@ public class AjouterReclamationController implements Initializable {
 
     @FXML
     private TextArea txtRec;
+
+    @FXML
+    private Button btnimg;
+    
+    @FXML
+    private ImageView imgview;
+    
+    @FXML
+    private Label imgpath;
+    private FileInputStream fis;
 
     /**
      * Initializes the controller class.
@@ -59,7 +83,9 @@ public class AjouterReclamationController implements Initializable {
         String etat ="en cours";
         ReponseReclamation rp = new ReponseReclamation(1);
         User u=new User(5);
-            Reclamation ev = new Reclamation(txtRec.getText(),LocalDate.now(),etat,u,rp);
+                  
+
+            Reclamation ev = new Reclamation(txtRec.getText(),LocalDate.now(),etat,u,rp,imgpath.getText());
             
             ServiceReclamation sr = new ServiceReclamation();
             try {
@@ -86,6 +112,42 @@ public class AjouterReclamationController implements Initializable {
             }
             
         }
+    }
+    @FXML
+    void AjouterImage(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilterJPG
+                = new FileChooser.ExtensionFilter("JPG files (*.JPG)", "*.JPG");
+        FileChooser.ExtensionFilter extFilterjpg
+                = new FileChooser.ExtensionFilter("jpg files (*.jpg)", "*.jpg");
+        FileChooser.ExtensionFilter extFilterPNG
+                = new FileChooser.ExtensionFilter("PNG files (*.PNG)", "*.PNG");
+        FileChooser.ExtensionFilter extFilterpng
+                = new FileChooser.ExtensionFilter("png files (*.png)", "*.png");
+        fileChooser.getExtensionFilters()
+                .addAll(extFilterJPG, extFilterjpg, extFilterPNG, extFilterpng);
+        File file = fileChooser.showOpenDialog(null);
+        try {
+            BufferedImage bufferedImage = ImageIO.read(file);
+            WritableImage image = SwingFXUtils.toFXImage(bufferedImage, null);
+            imgview.setImage(image);
+            imgview.setFitWidth(200);
+            imgview.setFitHeight(200);
+            imgview.scaleXProperty();
+            imgview.scaleYProperty();
+            imgview.setSmooth(true);
+            imgview.setCache(true);
+            FileInputStream fin = new FileInputStream(file);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] buf = new byte[1024];
+            for (int readNum; (readNum = fin.read(buf)) != -1; ) {
+                bos.write(buf, 0, readNum);
+            }
+            byte[] person_image = bos.toByteArray();
+        } catch (IOException ex) {
+            Logger.getLogger("ss");
+        }
+        imgpath.setText(file.getAbsolutePath());
     }    
     
 }

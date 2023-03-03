@@ -5,6 +5,9 @@
  */
 package tn.esprit.ktebi.services;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -12,6 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import tn.esprit.ktebi.entities.Reclamation;
 import tn.esprit.ktebi.entities.ReponseReclamation;
 import tn.esprit.ktebi.entities.User;
@@ -23,20 +28,27 @@ import tn.esprit.ktebi.utils.Connexion;
  */
 public class ServiceReclamation implements IService<Reclamation> {
     private Connection cnx;
+    private FileInputStream fis;
     public ServiceReclamation(){
         cnx = Connexion.getInstance().getCnx();
     }
     @Override
     public void createOne(Reclamation r) throws SQLException {
-        PreparedStatement st = cnx.prepareStatement("INSERT INTO reclamation (id_user, contenu,"
-                + " date_rec, etat, id_reponse) VALUES (?, ?, ?, ?, ?)");
-        st.setInt(1,r.getUser().getId());
-        st.setString(2,r.getContenu());
-        st.setDate(3, Date.valueOf(r.getDate_reclamation()));
-        st.setString(4,r.getEtat());
-        st.setInt(5,r.getReponse().getId());
-        st.executeUpdate();      
-        System.out.println("Reclamtion ajouté !");
+        try {
+            PreparedStatement st = cnx.prepareStatement("INSERT INTO reclamation (id_user, contenu,"
+                    + " date_rec, etat, id_reponse, img) VALUES (?, ?, ?, ?, ?, ?)");
+            st.setInt(1,r.getUser().getId());
+            st.setString(2,r.getContenu());
+            st.setDate(3, Date.valueOf(r.getDate_reclamation()));
+            st.setString(4,r.getEtat());
+            st.setInt(5,r.getReponse().getId());
+            fis = new FileInputStream(r.getImg());
+            st.setBinaryStream(6,(InputStream)fis,r.getImg().length());
+            st.executeUpdate();
+            System.out.println("Reclamtion ajouté !");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ServiceReclamation.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -104,12 +116,38 @@ public class ServiceReclamation implements IService<Reclamation> {
             rec.setEtat(rs.getString("etat"));
             rec.setUser(u);
             rec.setReponse(r);
+            rec.setImg1(rs.getBlob("img"));
 
             liste.add(rec);
         }
 
         return liste;
     }
+      
+    public List<Reclamation> selectAllOrderByDate() throws SQLException {
+        List<Reclamation> liste = new ArrayList<>();
+
+        String req = "SELECT * FROM reclamation order by date_rec";
+        PreparedStatement ps = cnx.prepareStatement(req);
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()){
+            User u = new User();
+            ReponseReclamation r= new ReponseReclamation();
+            Reclamation rec = new Reclamation();
+            rec.setId(rs.getInt("id_rec"));            
+            rec.setContenu(rs.getString("contenu"));
+            rec.setDate_reclamation(rs.getDate("date_rec").toLocalDate());
+            rec.setEtat(rs.getString("etat"));
+            rec.setUser(u);
+            rec.setReponse(r);
+
+            liste.add(rec);
+        }
+
+        return liste;
+    }  
       
     public void createOneReponse(ReponseReclamation r) throws SQLException {
         PreparedStatement st = cnx.prepareStatement("INSERT INTO reponserec (contenu,id_reclamation)VALUES (?, ?)");

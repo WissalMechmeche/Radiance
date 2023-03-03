@@ -40,6 +40,8 @@
          </font>
       </Label>
       <TextField fx:id="id_rec" editable="false" layoutX="14.0" layoutY="44.0" prefHeight="25.0" prefWidth="81.0" />
-      <TextField fx:id="txtRech" layoutX="551.0" layoutY="65.0" promptText="Chercher" /> 
+      <TextField fx:id="txtRech" layoutX="551.0" layoutY="65.0" promptText="Chercher" />
+      <TextField fx:id="txtNom" layoutX="383.0" layoutY="65.0" promptText="Chercher par nom" />
+      <Button fx:id="btnDate" layoutX="267.0" layoutY="65.0" mnemonicParsing="false" onAction="#TrierParDate" text="Date" /> 
   </children>   
 </AnchorPane>

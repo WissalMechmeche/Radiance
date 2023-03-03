@@ -5,16 +5,18 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="376.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.ListeReclamationController">
+<AnchorPane id="AnchorPane" prefHeight="488.0" prefWidth="763.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.ListeReclamationController">
    <children>
-      <TableView fx:id="Table" layoutX="243.0" layoutY="67.0" prefHeight="238.0" prefWidth="402.0">
+      <TableView fx:id="Table" layoutX="243.0" layoutY="67.0" prefHeight="238.0" prefWidth="517.0">
         <columns>
           <TableColumn fx:id="colDate" prefWidth="109.0" text="DateReclamation" />
           <TableColumn fx:id="colContenu" prefWidth="221.0" text="Contenu" />
             <TableColumn fx:id="ColEtat" minWidth="0.0" prefWidth="83.0" text="Etat" />
+            <TableColumn fx:id="colimg" prefWidth="102.0" text="Image" />
         </columns>
       </TableView>
       <TextField fx:id="txtRec" layoutX="14.0" layoutY="91.0" prefHeight="213.0" prefWidth="223.0" />
@@ -38,5 +40,6 @@
             <Font size="20.0" />
          </font>
       </Label>
+      <ImageView fx:id="imgview" fitHeight="150.0" fitWidth="200.0" layoutX="306.0" layoutY="314.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

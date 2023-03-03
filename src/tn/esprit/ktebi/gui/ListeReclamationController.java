@@ -5,6 +5,8 @@
  */
 package tn.esprit.ktebi.gui;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import static java.nio.file.Files.list;
 import static java.rmi.Naming.list;
@@ -20,12 +22,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import tn.esprit.ktebi.entities.Reclamation;
 import tn.esprit.ktebi.entities.ReponseReclamation;
 import tn.esprit.ktebi.entities.User;
@@ -50,7 +59,9 @@ public class ListeReclamationController implements Initializable {
     
     @FXML
     private TableColumn<Reclamation, String> ColEtat;
-
+    
+    @FXML
+    private TableColumn<Reclamation, Image> colimg;
     @FXML
     private Button btnmod;
 
@@ -59,7 +70,9 @@ public class ListeReclamationController implements Initializable {
 
     @FXML
     private TextField txtRec;
-    
+    @FXML
+    private ImageView imgview;
+InputStream in;    
     ServiceReclamation sr = new ServiceReclamation();
     ObservableList<Reclamation> list;
     ReponseReclamationController rr = new ReponseReclamationController();
@@ -69,8 +82,12 @@ public class ListeReclamationController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        AfficheRecById();
+        try {
+            // TODO
+            AfficheRecById();
+        } catch (SQLException ex) {
+            Logger.getLogger(ListeReclamationController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Table.setOnMouseClicked(t->{
             if(t.getClickCount() ==1){
                 Integer index = Table.getSelectionModel().getSelectedIndex();
@@ -84,7 +101,7 @@ public class ListeReclamationController implements Initializable {
     
     
     
-        public void AfficheRecById() {
+        public void AfficheRecById() throws SQLException {
         List<Reclamation> rec = new ArrayList<>();
         User user = new User(5);
         try {
@@ -97,11 +114,22 @@ public class ListeReclamationController implements Initializable {
         colDate.setCellValueFactory(new PropertyValueFactory<>("date_reclamation"));
         colContenu.setCellValueFactory(new PropertyValueFactory<>("contenu"));
         ColEtat.setCellValueFactory(new PropertyValueFactory<>("etat"));
-        Table.setItems(list);
-        
-}
 
-    
+        System.out.println(list.get(0).getImg1());
+        colimg.setPrefWidth(80);
+        colimg.setCellValueFactory(new PropertyValueFactory<>("img1"));
+        Table.setItems(list);
+            in =list.get(0).getImg1().getBinaryStream();
+            Image image = new Image(in);
+            imgview.setFitWidth(200);
+            imgview.setFitHeight(200);
+            imgview.scaleXProperty();
+            imgview.scaleYProperty();
+            imgview.setSmooth(true);
+            imgview.setCache(true);
+            imgview.setImage(image);
+
+}
     @FXML
     void ModifierReclamtion(ActionEvent event) {
         String etat ="en cours";
@@ -136,5 +164,15 @@ public class ListeReclamationController implements Initializable {
         }
     }
     
-    
+    @FXML
+    private void Retour(ActionEvent event) throws IOException {
+        Parent page1 = FXMLLoader.load(getClass().getResource("ListeReclamation.fxml"));
+        Scene scene = new Scene(page1);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("Ajouter une Reclamations");
+        stage.setScene(scene);
+        stage.show();
+        
+        
+    }    
 }

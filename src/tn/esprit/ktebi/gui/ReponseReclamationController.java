@@ -66,6 +66,10 @@ public class ReponseReclamationController implements Initializable {
     
     @FXML
     private TextField txtNom;
+
+    @FXML
+    private Button btnDate;
+        List<Reclamation> rec = new ArrayList<>();          
     
     ServiceReclamation sr = new ServiceReclamation();
     ObservableList<Reclamation> list;
@@ -75,21 +79,21 @@ public class ReponseReclamationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        chercherReclamation();
-                Table.setOnMouseClicked(t->{
+
+        Table.setOnMouseClicked(t->{
             if(t.getClickCount() ==1){
                 Integer index = Table.getSelectionModel().getSelectedIndex();
                 txtRec.setText(Table.getItems().get(index).getContenu());
                 id_rec.setText(String.valueOf(Table.getItems().get(index).getEtat()));
             }
         });
+        AfficheRec();
+        chercherReclamation();
+        TrierDate();
     }
     
         void chercherReclamation(){
-        colDate.setCellValueFactory(new PropertyValueFactory<>("date_reclamation"));
-        colContenu.setCellValueFactory(new PropertyValueFactory<>("contenu"));
-        ColId.setCellValueFactory(new PropertyValueFactory<>("etat"));
-        List<Reclamation> rec = new ArrayList<>();          
+
              //// Code Recherche
              try {
             rec=sr.selectAll();     
@@ -131,7 +135,7 @@ public class ReponseReclamationController implements Initializable {
     }
     
     public void AfficheRec() {
-        List<Reclamation> rec = new ArrayList<>();
+                 List<Reclamation> rec = new ArrayList<>();
         try {
             rec =sr.selectAll();
         } catch (SQLException ex) {
@@ -141,7 +145,7 @@ public class ReponseReclamationController implements Initializable {
         colDate.setCellValueFactory(new PropertyValueFactory<>("date_reclamation"));
         colContenu.setCellValueFactory(new PropertyValueFactory<>("contenu"));
         ColId.setCellValueFactory(new PropertyValueFactory<>("etat"));
-        Table.setItems(list);       
+        Table.setItems(list);      
 }    
      @FXML
     void ReponseReclamtion(ActionEvent event) throws IOException {
@@ -175,5 +179,20 @@ public class ReponseReclamationController implements Initializable {
             }
             
         }
-    }   
+    } 
+    void TrierDate(){
+                List<Reclamation> listrec = new ArrayList<>();
+        try {
+            listrec = sr.selectAllOrderByDate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ReponseReclamationController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ObservableList<Reclamation> data = FXCollections.observableArrayList(listrec);
+        Table.setItems(data);
+    }
+    @FXML
+    void TrierParDate(ActionEvent event) {
+                TrierDate();
+
+    }    
 }
