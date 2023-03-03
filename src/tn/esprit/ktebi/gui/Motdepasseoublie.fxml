@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.TextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="422.0" prefWidth="668.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.MotdepasseoublieController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3b369a" height="77.0" layoutX="100.0" stroke="BLACK" strokeType="INSIDE" width="569.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3f558d" height="422.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
+      <Label layoutX="226.0" layoutY="25.0" text="Mot de passe oubliée" textFill="#cfcfda">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="234.0" layoutY="128.0" prefHeight="33.0" prefWidth="58.0" text="Email" textFill="#3612b9">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField layoutX="317.0" layoutY="131.0" prefHeight="33.0" prefWidth="181.0" />
+      <Label layoutX="317.0" layoutY="170.0" prefHeight="33.0" prefWidth="239.0" text="un code  sera envoyer dans 30 secondes" textFill="#242b8a" />
+      <Button layoutX="443.0" layoutY="228.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="117.0" text="Valider" textFill="#0b425e">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

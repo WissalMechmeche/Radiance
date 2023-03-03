@@ -60,7 +60,7 @@ public class LoginFXMLController implements Initializable {
             Scene scene = new Scene(root, 650, 500);
             AcountFXMLController acont = new AcountFXMLController();
             acont.getId(u);
-            primaryStage.setTitle("Hello World!");
+            primaryStage.setTitle("Ktebi");
             primaryStage.setScene(scene);
             primaryStage.show();
             

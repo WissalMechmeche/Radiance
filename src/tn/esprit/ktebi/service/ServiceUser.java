@@ -13,6 +13,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.utils.MaConnexion;
 /**
@@ -28,14 +32,12 @@ public class ServiceUser implements IService<User>{
     }
     @Override
     public void createOne(User t) throws SQLException {
-                System.out.println("Person ajouté !");
                 Date date = java.sql.Date.valueOf(t.getDateNaissance());
        
                 String req = "INSERT INTO `utilisateur`( `prenom`, `nom`, `email`,"
                         + " `password`, `tel`, `dateDeNaissance`, `adresse`, `id_role`)"
                 +" VALUES ('"+t.getPrenom()+"', '"+t.getNom()+"','"+t.getEmail()+"','"+t.getMotPasse()+"',"
-                        + "'"+t.getTel()+"','"+date+"','"+t.getAdresse()+"',"
-                        + "'"+1+"')";
+                        + "'"+t.getTel()+"','"+date+"','"+t.getAdresse()+"','"+1+"')";
         Statement st = cnx.createStatement();
         st.executeUpdate(req);
         System.out.println("Person ajouté !");
@@ -76,7 +78,7 @@ public class ServiceUser implements IService<User>{
             p.setPrenom(rs.getString("prenom"));
             p.setNom(rs.getString("nom"));
             p.setEmail(rs.getString("email"));
-            p.setMotPasse(rs.getString("password"));
+            p.setMotPasse(rs.getString("password")); 
             p.setTel(rs.getInt("tel"));
             p.setAdresse(rs.getString("adresse"));
             p.setDateNaissance(rs.getDate("dateDeNaissance").toLocalDate());
@@ -104,6 +106,57 @@ public class ServiceUser implements IService<User>{
             return user;
         
     }
+      public static ObservableList<String> RecupCombo(){
+             
+             
+    ObservableList<String> list = FXCollections.observableArrayList();
+    
+       java.sql.Connection cnx;
+     cnx = MaConnexion.getInstance().getCnx();
+          String sql = "SELECT role FROM `role`";
+    try {
+       
+        PreparedStatement st = (PreparedStatement) cnx.prepareStatement(sql);
+
+    ResultSet R = st.executeQuery();
+    while (R.next()){
+      
+     
+   String r = R.getString(1);
+        System.out.println(r);
+    
+     
+      list.add(r);
+    }
+    }catch (SQLException ex){
+    ex.getMessage(); 
+    } 
+    return list;
+    }
+         public User SelectUser(int id){
+          
+        User r = new User();
+        
+        String req = "SELECT * FROM `utilisateur` where id_user ="+id;
+        
+        try {
+            PreparedStatement ps = cnx.prepareStatement(req);
+
+        ResultSet rs = ps.executeQuery(req);
+            
+            while(rs.next()){           
+                 
+               r = new User(rs.getInt("id_user") ,rs.getString("nom"),rs.getString("prenom"),rs.getString("email"),rs.getString("adresse"),rs.getInt("tel"),rs.getString("password"));
+
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiceUser .class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return r;
+    }
+      
     public Integer Login(String email,String pwd)throws SQLException{
         Integer id = null ;
         String req = "SELECT * FROM utilisateur where email=? and password=?";
@@ -113,6 +166,8 @@ public class ServiceUser implements IService<User>{
         ResultSet rs = ps.executeQuery();
          if(rs.next()){
         id= rs.getInt("id_user");
+             System.out.println(id);
+             User.connecte = id  ;
          }
             return id;        
     }

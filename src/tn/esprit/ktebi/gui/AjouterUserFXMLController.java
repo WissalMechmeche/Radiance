@@ -7,6 +7,9 @@ package tn.esprit.ktebi.gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,6 +17,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,6 +32,7 @@ import javafx.stage.Stage;
 import tn.esprit.ktebi.entities.Role;
 import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.service.ServiceUser;
+import tn.esprit.ktebi.utils.MaConnexion;
 
 /**
  * FXML Controller class
@@ -68,6 +73,11 @@ public class AjouterUserFXMLController implements Initializable {
     private TextField txtconmdp;
     Integer id;
     ServiceUser se = new ServiceUser();
+        private Connection cnx;
+     public AjouterUserFXMLController(){
+        cnx = MaConnexion.getInstance().getCnx();
+    }
+    
     /**
      * Initializes the controller class.
      */
@@ -108,16 +118,33 @@ public class AjouterUserFXMLController implements Initializable {
             al.setHeaderText("Erreur de saisie !");
             al.setContentText("Les données sont vides !");
             al.show();
-        }else{
+            
+        }
+        else if (!VerifEmail(txtemail.getText())){
+         Alert al = new Alert(Alert.AlertType.INFORMATION);
+            al.setTitle("Format email");
+            al.setHeaderText("Erreur de saisie !");
+            al.setContentText("Les données sont vides !");
+            al.show();
+        
+        
+        }
+        
+        else{
             Role r = new Role() ;
+            r.setId(1);
             User p = new User(txtnom.getText()
                     , txtprenom.getText(),txtemail.getText(),txtadress.getText(),txtdate.getValue()
                     ,Integer.parseInt(txttlfn.getText()),txtmdp.getText(),r);
             
             ServiceUser sp = new ServiceUser();
-            System.out.println(p);
             try {
                 sp.createOne(p);
+                  Alert al = new Alert(Alert.AlertType.INFORMATION);
+            al.setTitle("suscces");
+            al.setHeaderText("perssone ajoutée");
+            al.setContentText("Les données sont vides !");
+            al.show();
                 Stage primaryStage = new Stage();
                 System.out.println(getClass().getResource("/tn/esprit/ktebi/gui/"));
                  Parent root = FXMLLoader
@@ -125,7 +152,7 @@ public class AjouterUserFXMLController implements Initializable {
             Scene scene = new Scene(root, 650, 500);
             //AcountFXMLController acont = new AcountFXMLController();
             //acont.getId(id);
-            primaryStage.setTitle("Hello World!");
+            primaryStage.setTitle("ktebi");
             primaryStage.setScene(scene);
             primaryStage.show();
             } catch (SQLException ex) {
@@ -140,6 +167,18 @@ public class AjouterUserFXMLController implements Initializable {
             
         }
     }
+           public  boolean VerifEmail(String email) 
+    { 
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ 
+                            "[a-zA-Z0-9_+&*-]+)*@" + 
+                            "(?:[a-zA-Z0-9-]+\\.)+[a-z" + 
+                            "A-Z]{2,7}$"; 
+                              
+        Pattern pat = Pattern.compile(emailRegex); 
+        if (email == null) 
+            return false; 
+        return pat.matcher(email).matches(); 
+    } 
 
     @FXML
     void Retour(ActionEvent event) {

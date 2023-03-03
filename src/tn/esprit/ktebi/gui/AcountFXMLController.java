@@ -55,27 +55,40 @@ public class AcountFXMLController implements Initializable {
     @FXML
     private TextField txttlfn;
     ServiceUser se = new ServiceUser();
-    Integer id;
+     int id = 1;
+      User user =new User();
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+     // TODO
+     user =se.SelectUser(User.connecte);
+     txtemail.setText(user.getEmail());
+          txtnom.setText(user.getNom());
+     txtprenom.setText(user.getPrenom());  
+     
+     txtadress.setText(user.getAdresse());
+//     txtmdp.setText(user.getMotPasse());
+     txttlfn.setText(String.valueOf(user.getTel()));
+     
+     
 
-       // txttlfn.setText(String.valueOf(l.getId()));
-        /*
-        txtnom.setText(user.getNom());
-        txtprenom.setText(user.getPrenom());
-        txtadress.setText(user.getAdresse());
-        txtemail.setText(user.getEmail());
-        txtdate.setValue(user.getDateNaissance());
-        txttlfn.setText(String.valueOf(user.getTel()));
-        txtmdp.setText(user.getMotPasse());*/
+     
+     // txttlfn.setText(String.valueOf(l.getId()));
+     /*
+     txtnom.setText(user.getNom());
+     txtprenom.setText(user.getPrenom());
+     txtadress.setText(user.getAdresse());
+     txtemail.setText(user.getEmail());
+     txtdate.setValue(user.getDateNaissance());
+     txttlfn.setText(String.valueOf(user.getTel()));
+     txtmdp.setText(user.getMotPasse());*/
     }    
         @FXML
     void ModifierUser(ActionEvent event) {
-
+     
     }
 
     @FXML
@@ -87,6 +100,7 @@ public class AcountFXMLController implements Initializable {
 
         try{
         user =se.SelectUser(id);
+        
 
         System.out.println(user);
     } catch (SQLException ex) {

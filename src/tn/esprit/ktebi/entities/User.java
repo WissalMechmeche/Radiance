@@ -23,6 +23,30 @@ public class User {
     private int tel ;
     private String motPasse ;
     Role role ;
+   public static int connecte;
+//
+//    public User(int id, String nom, String prenom, String email, String adresse, int tel, String password) {
+//        this.id = id;
+//        this.nom = nom;
+//        this.prenom = prenom;
+//        this.email = email;
+//        this.adresse = adresse;
+//        this.tel = tel;
+//        this.motPasse=password;
+//    }
+
+    public User(int id, String nom, String prenom, String email, String adresse, int tel, String motPasse) {
+        this.id = id;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.adresse = adresse;
+        this.tel = tel;
+        this.motPasse = motPasse;
+    }
+
+
+
     
 
     public User() {
