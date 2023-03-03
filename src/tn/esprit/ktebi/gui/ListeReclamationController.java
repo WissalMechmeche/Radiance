@@ -28,6 +28,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -67,12 +68,16 @@ public class ListeReclamationController implements Initializable {
 
     @FXML
     private Button btnmod1;
+    
+    @FXML
+    private Button btnretour;
 
     @FXML
     private TextField txtRec;
     @FXML
     private ImageView imgview;
-InputStream in;    
+
+    InputStream in;    
     ServiceReclamation sr = new ServiceReclamation();
     ObservableList<Reclamation> list;
     ReponseReclamationController rr = new ReponseReclamationController();
@@ -114,12 +119,8 @@ InputStream in;
         colDate.setCellValueFactory(new PropertyValueFactory<>("date_reclamation"));
         colContenu.setCellValueFactory(new PropertyValueFactory<>("contenu"));
         ColEtat.setCellValueFactory(new PropertyValueFactory<>("etat"));
-
-        System.out.println(list.get(0).getImg1());
-        colimg.setPrefWidth(80);
-        colimg.setCellValueFactory(new PropertyValueFactory<>("img1"));
         Table.setItems(list);
-            in =list.get(0).getImg1().getBinaryStream();
+            /*in =list.get(0).getImg1().getBinaryStream();
             Image image = new Image(in);
             imgview.setFitWidth(200);
             imgview.setFitHeight(200);
@@ -127,7 +128,7 @@ InputStream in;
             imgview.scaleYProperty();
             imgview.setSmooth(true);
             imgview.setCache(true);
-            imgview.setImage(image);
+            imgview.setImage(image);*/
 
 }
     @FXML
@@ -166,13 +167,11 @@ InputStream in;
     
     @FXML
     private void Retour(ActionEvent event) throws IOException {
-        Parent page1 = FXMLLoader.load(getClass().getResource("ListeReclamation.fxml"));
-        Scene scene = new Scene(page1);
+        Parent retour = FXMLLoader.load(getClass().getResource("AjouterReclamation.fxml"));
+        Scene scene = new Scene(retour);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("Ajouter une Reclamations");
         stage.setScene(scene);
-        stage.show();
-        
-        
+        stage.show();        
     }    
 }

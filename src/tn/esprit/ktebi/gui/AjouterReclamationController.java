@@ -15,6 +15,7 @@ import java.net.URL;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javafx.embed.swing.SwingFXUtils;
@@ -22,6 +23,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -34,11 +36,22 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javax.imageio.ImageIO;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import tn.esprit.ktebi.entities.Reclamation;
 import tn.esprit.ktebi.entities.ReponseReclamation;
 import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.services.ServiceReclamation;
+import tray.animations.AnimationType;
+import tray.notification.NotificationType;
+import tray.notification.TrayNotification;
 
 /**
  * FXML Controller class
@@ -50,7 +63,7 @@ public class AjouterReclamationController implements Initializable {
     private Button btnInserer;
 
     @FXML
-    private TextArea txtRec;
+     TextArea txtRec;
 
     @FXML
     private Button btnimg;
@@ -72,7 +85,7 @@ public class AjouterReclamationController implements Initializable {
 
 
     @FXML
-    void InsererReclamtion(ActionEvent event) throws IOException {
+    void InsererReclamtion(ActionEvent event) throws IOException, MessagingException {
        if (txtRec.getText().equals("")) {
             Alert al = new Alert(Alert.AlertType.INFORMATION);
             al.setTitle("Controle de saisie");
@@ -90,19 +103,24 @@ public class AjouterReclamationController implements Initializable {
             ServiceReclamation sr = new ServiceReclamation();
             try {
                 sr.createOne(ev);
-                Alert al = new Alert(Alert.AlertType.CONFIRMATION);
-                al.setTitle("Succés");
-                al.setHeaderText("Reclamation envoyé");
-                al.show();
-                Stage primaryStage = new Stage();
-            System.out.println(getClass().getResource("/tn/esprit/ktebi/gui/"));
+                TrayNotification tray = new TrayNotification();
+            AnimationType type = AnimationType.SLIDE;
+            tray.setAnimationType(type);
+            tray.setTitle("Vous avez ajouter une nouvelle reclamation");
+            tray.setMessage("Vous avez ajouter une nouvelle reclamation");
+            tray.setNotificationType(NotificationType.INFORMATION);
+            tray.showAndDismiss(Duration.millis(3000));
             
-            Parent root = FXMLLoader
-                    .load(getClass().getResource("../gui/ListeReclamation.fxml"));
-            Scene scene = new Scene(root, 650, 500);
-            primaryStage.setTitle("Hello World!");
-            primaryStage.setScene(scene);
-            primaryStage.show();
+            Parent root = FXMLLoader.load(getClass().getResource("ListeReclamation.fxml"));
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setTitle("Ajouter une Reclamations");
+            stage.setScene(scene);
+            stage.show();
+            sendMail("akrimi.amine@esprit.tn","Reclamation envoyé avec succée",txtRec.getText());
+            sendMail("ktebiktebi117@gmail.com","Nouvelle reclamation ",txtRec.getText());
+
+            
             } catch (SQLException ex) {
                 Alert al = new Alert(Alert.AlertType.ERROR);
                 al.setTitle("Erreur");
@@ -148,6 +166,43 @@ public class AjouterReclamationController implements Initializable {
             Logger.getLogger("ss");
         }
         imgpath.setText(file.getAbsolutePath());
-    }    
+    } 
+    
+    public static void sendMail(String recipient, String sujet,String contenu) throws MessagingException {
+        System.out.println("Preparing to send email");
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+        String myAccountEmail = "ktebiktebi117@gmail.com";
+        String password = "suehilzqfolzmnzx";
+        Session session = Session.getInstance(properties, new Authenticator() {
+             @Override
+                        protected PasswordAuthentication getPasswordAuthentication() {
+            return new PasswordAuthentication(myAccountEmail, password);
+            }
+        });
+            
+        Message message = prepareMessage(session, myAccountEmail, recipient,sujet, contenu);
+
+        javax.mail.Transport.send(message);
+        System.out.println("Message sent successfully");
+    }  
+   
+    
+    private static Message prepareMessage(Session session, String myAccountEmail, String recipient,String sujet, String contenu) {
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(myAccountEmail));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+            message.setSubject(sujet);
+            message.setText("Contenu:\n"+ contenu);
+            return message;
+        } catch (MessagingException ex) {
+          
+        }
+        return null;} 
+         
     
 }

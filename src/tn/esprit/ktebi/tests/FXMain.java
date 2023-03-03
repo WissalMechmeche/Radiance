@@ -32,7 +32,6 @@ public class FXMain extends Application {
                     .load(getClass().getResource("../gui/ListeReclamation.fxml"));
             
             Scene scene = new Scene(root, 800, 550);
-            
             primaryStage.setTitle("Hello World!");
             primaryStage.setScene(scene);
             primaryStage.show();

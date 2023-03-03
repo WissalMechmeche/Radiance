@@ -5,13 +5,12 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="488.0" prefWidth="763.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.ListeReclamationController">
+<AnchorPane id="AnchorPane" prefHeight="488.0" prefWidth="763.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.ListeReclamationController">
    <children>
-      <TableView fx:id="Table" layoutX="243.0" layoutY="67.0" prefHeight="238.0" prefWidth="517.0">
+      <TableView fx:id="Table" layoutX="243.0" layoutY="67.0" prefHeight="358.0" prefWidth="517.0">
         <columns>
           <TableColumn fx:id="colDate" prefWidth="109.0" text="DateReclamation" />
           <TableColumn fx:id="colContenu" prefWidth="221.0" text="Contenu" />
@@ -19,27 +18,27 @@
             <TableColumn fx:id="colimg" prefWidth="102.0" text="Image" />
         </columns>
       </TableView>
-      <TextField fx:id="txtRec" layoutX="14.0" layoutY="91.0" prefHeight="213.0" prefWidth="223.0" />
-      <Label layoutX="14.0" layoutY="67.0" text="Votre contenu :">
+      <TextField fx:id="txtRec" layoutX="14.0" layoutY="104.0" prefHeight="320.0" prefWidth="223.0" />
+      <Label layoutX="15.0" layoutY="77.0" text="Votre contenu :">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-            <Button fx:id="btnmod" layoutX="14.0" layoutY="327.0" mnemonicParsing="false" onAction="#ModifierReclamtion" prefHeight="29.0" prefWidth="95.0" style="-fx-background-color: green; -fx-border-radius: 50; -fx-background-radius: 50;" text="Envoyer" textFill="WHITE">
+            <Button fx:id="btnmod" layoutX="18.0" layoutY="443.0" mnemonicParsing="false" onAction="#ModifierReclamtion" prefHeight="29.0" prefWidth="95.0" style="-fx-background-color: green; -fx-border-radius: 50; -fx-background-radius: 50;" text="Envoyer" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Button>
-      <Button fx:id="btnmod1" layoutX="126.0" layoutY="327.0" mnemonicParsing="false" onAction="#SupprimerReclamtion" prefHeight="29.0" prefWidth="95.0" style="-fx-background-color: red; -fx-border-radius: 50; -fx-background-radius: 50;" text="Supprimer" textFill="WHITE">
+      <Button fx:id="btnmod1" layoutX="126.0" layoutY="443.0" mnemonicParsing="false" onAction="#SupprimerReclamtion" prefHeight="29.0" prefWidth="95.0" style="-fx-background-color: red; -fx-border-radius: 50; -fx-background-radius: 50;" text="Supprimer" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Label layoutX="207.0" layoutY="14.0" text="Liste des Reclamations" textFill="#162d9e">
+      <Button fx:id="btnretour" layoutX="6.0" mnemonicParsing="false" onAction="#Retour" text="Retour" />
+      <Label id="titre" fx:id="titre" layoutX="-1.0" layoutY="31.0" prefHeight="17.0" prefWidth="763.0" text="Liste des Reclamations">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <ImageView fx:id="imgview" fitHeight="150.0" fitWidth="200.0" layoutX="306.0" layoutY="314.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

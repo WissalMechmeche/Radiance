@@ -116,7 +116,7 @@ public class ServiceReclamation implements IService<Reclamation> {
             rec.setEtat(rs.getString("etat"));
             rec.setUser(u);
             rec.setReponse(r);
-            rec.setImg1(rs.getBlob("img"));
+            /*rec.setImg1(rs.getBlob("img"));*/
 
             liste.add(rec);
         }
