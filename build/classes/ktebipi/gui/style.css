@@ -1,0 +1,111 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2 mars 2023, 15:10:26
+    Author     : ASUS
+*/
+
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 7 avr. 2020, 17:41:25
+    Author     : EliteBook
+*/
+.root{
+  -fx-background: white;
+  -fx-text-fill: -text-light;
+  -fx-prompt-text-fill: rgba(0,0,0,.3);
+
+  -text-disabled: -text-disabled-light;
+  -background-disabled:rgba(0,0,0,.12);
+  -background-fill: -text-light;
+
+  
+}
+/*
+  //-flat-button-hover-background: rgba(#999999,.2);
+  -flat-button-pressed-background: rgba(#999999,.4);
+  -flat-button-disabled-fill: rgba(#000000,.26);
+*/
+.table-view{
+    -fx-background-color:  linear-gradient(to right, #F0FFFF, #F0FFFF, #F0FFFF);
+    -fx-background-radius:12;
+    -fx-fill: white;
+
+}
+.table-row-cell{
+    -fx-background-color:transparent;
+
+
+}
+.table-view .table-cell{
+    -fx-alignment: CENTER;
+    -fx-text-fill:black;
+    -fx-border-color:transparent;
+
+}
+.table-row-cell:selected .table-cell {
+    -fx-background-color: linear-gradient(to top, #C2185B, #C2185B, #C2185B);
+    -fx-border-color:transparent;
+
+
+}
+.table-view .column-header-background{
+    -fx-background-color: linear-gradient(to top, #0000FF ,#0000FF ,#0000FF);
+    -fx-background-radius: 12;
+
+   
+
+
+}
+.table-view .column-header, .table-view .filler{
+    -fx-background-radius: 12;
+    -fx-size: 40;
+
+   
+    -fx-background-color: transparent;
+}
+.table-view .column-header .label{
+    -fx-text-fill: white;
+    -fx-background-radius: 12;
+
+}
+#btnAjouter {    -fx-background-color:#00008B;
+ }
+ 
+ 
+ #btnParticiper {-fx-background-color:#00008B;}
+ #AnchorPane {-fx-background-color:#F0F8FF;}
+/*#supprimerBTN,#annuler_r,#supprimer_r,#desinscrire,#asso {
+    -fx-background-color: #f44336;
+}
+
+#modifierBTN,#modidier_r,#retour{
+    -fx-background-color: #03A9F4;
+}
+#ajouterBTN,#validerAj{
+    -fx-background-color: #00e676;
+}
+#espaceBTN,#acceuil,#inserer,#espace_ev,#actualiser,#volontaire{
+    -fx-background-color: #03A9F4;
+}
+#validerBTN,#ajouter_r,#valider_r,#inscrire,#stat,#top{
+    -fx-background-color: #00e676;
+}
+#annulerBTN{
+    -fx-background-color: #03A9F4;
+}
+#zone_modifier,#zone_aj,#zone_ajj{
+    -fx-border-style: dotted;
+    -fx-background-color: transparent;
+}
+ 
+  #like,#dislike{
+    -fx-background-color: #303F9F;
+}  */
