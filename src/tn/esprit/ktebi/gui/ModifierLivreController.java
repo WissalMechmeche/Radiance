@@ -41,6 +41,8 @@ import tn.esprit.ktebi.services.LivreServicee;
 import tn.esprit.ktebi.services.PromoService;
 import tn.esprit.ktebi.services.UserService;
 
+
+
 /**
  * FXML Controller class
  *
@@ -121,7 +123,17 @@ public class ModifierLivreController implements Initializable {
     }    
 
     @FXML
-    private void ModifierLivre(ActionEvent event) throws SQLException {
+    private void ModifierLivre(ActionEvent event) throws SQLException, IOException {
+        
+        // Récupérer les nouvelles valeurs des champs de texte
+        String libelle = tfLibelle.getText();
+        String description = taDescription.getText();
+        String editeur = tfEditeur.getText();
+        String langue = tfLangue.getText();
+        String categorie = tfCategorie.getText();
+        float  prix = Float.parseFloat(tfPrix.getText());
+        String auteurSelectionnee = auteurs.getValue();
+        String codeSelectionnee = promos.getValue();
         
        
         if (tfLibelle.getText().isEmpty()
@@ -139,69 +151,77 @@ public class ModifierLivreController implements Initializable {
             al.setContentText("Les données sont vides !");
             al.show();
         }
-        String libelle = tfLibelle.getText();
         
-        String description = taDescription.getText();
         
-        LocalDate dateEdition = date.getValue();
-       
-        String auteur = auteurs.getValue();
-        
-        String promo = promos.getValue();
-        
-        float prix = Float.parseFloat(tfPrix.getText());
-        
-        String editeur = tfEditeur.getText();
 
-        Livre livre = new Livre();
+        // Créer un nouveau livre avec les nouvelles valeurs
+        Livre nouveauLivre = new Livre();
         
-        livre.setId(id);
+        nouveauLivre.setId(livre.getId());
+        nouveauLivre.setLibelle(libelle);
+        nouveauLivre.setDescription(description);
+        nouveauLivre.setEditeur(editeur);
+        nouveauLivre.setLangue(langue);
+        nouveauLivre.setCategorie(categorie);
+        nouveauLivre.setPrix(prix);
         
-        livre.setLibelle(libelle);
-        livre.setDescription(description);
-        livre.setEditeur(editeur);
-        livre.setPrix(prix);
-        livre.setDate_edition(Date.valueOf(dateEdition));
-        
-        String auteurSelectionnee = auteurs.getValue();
+       
         
         User a = null ;
         for (User aut : listU) {
             String temp = aut.getPrenom() ;
             if(temp == auteurSelectionnee)
             {
-                a = new User(aut.getId(),aut.getNom(),aut.getPrenom());
+                a = new User(aut.getId(),aut.getNom(),aut.getPrenom(),aut.getEmail());
                 System.out.println(aut);
             }
                 
         }
-         Promo pr = null ;
+         Promo p = null ;
         
-        String codeSelectionnee = promos.getValue();
+       
         
-         for (Promo pro : listP) {
-            String temp = pro.getCode() ;
+         for (Promo pr : listP) {
+            String temp = pr.getCode() ;
             if(temp == codeSelectionnee)
             {
-                pr = pro ;
-                System.out.println(pr);
+                p = pr ;
+                System.out.println(p);
             }
-                
-        }
-        livre.setAuteur(a);
-        livre.setPromo(pr);
+        nouveauLivre.setAuteur(a);
+        nouveauLivre.setPromo(p);
+        
 
-        LivreServicee ls = new LivreServicee();
-        ls.update(livre);
-        
-        System.out.println(livre);
-        
+        // Mettre à jour le livre dans la base de données
+             ls.update(nouveauLivre);
+             
+             Alert al = new Alert(Alert.AlertType.INFORMATION);
+
+            al.setTitle("Livre modifié");
+            al.setHeaderText("");
+            al.setContentText("Le livre " + nouveauLivre.getLibelle() + " a été modifié avec succès !");
+            al.show();
+            
+
+             // Retourner à la vue de la liste des livres
+             FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/ktebi/gui/Liste_livres.fxml"));
+             Parent root = loader.load();
+             Liste_LivresController controller = loader.getController();
+             controller.updateListeLivres();
+             Scene scene = new Scene(root);
+             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+             stage.setScene(scene);
+             stage.show();
+
+    }
+         
     }
 
-        int id =0;
+        
       
+   
     public void setLivre(Livre livre) {
-        id = livre.getId();
+        this.livre = livre ;
         tfLibelle.setText(livre.getLibelle());
         taDescription.setText(livre.getDescription());
         tfEditeur.setText(livre.getEditeur());
@@ -219,132 +239,10 @@ public class ModifierLivreController implements Initializable {
         
     }
     
-    @FXML
-    public void isSoumettre(ActionEvent event) throws SQLException {
-        // Vérification des champs obligatoires
-        if (tfLibelle.getText().isEmpty() || auteurs.getValue() == null) {
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Champs manquants");
-            alert.setContentText("Veuillez remplir tous les champs obligatoires (*)");
-            alert.showAndWait();
-            return;
-        }
-
-        // Récupération des valeurs des champs
-        String libelle = tfLibelle.getText();
-        String description = taDescription.getText();
-        String editeur = tfEditeur.getText();
-        String categorie = tfCategorie.getText();
-        float prix = Float.parseFloat(tfPrix.getText());
-        String langue = tfLangue.getText();
-        LocalDate dateEdition = date.getValue();
+    /*@FXML
+    public void soumettre() throws SQLException {
         
-        String auteurSelectionnee = auteurs.getValue();
-        
-        User aut = null ;
-        for (User auteur : listU) {
-            String temp = auteur.getPrenom() ;
-            if(temp == auteurSelectionnee)
-            {
-                aut = new User(auteur.getId(),auteur.getNom(),auteur.getPrenom());
-                System.out.println(aut);
-            }
-                
-        }
-         Promo pr = null ;
-        
-        String codeSelectionnee = promos.getValue();
-        
-         for (Promo promo : listP) {
-            String temp = promo.getCode() ;
-            if(temp == codeSelectionnee)
-            {
-                pr = promo ;
-                System.out.println(pr);
-            }
-                
-        }
-         
-          
-        try {
-            prix = Float.parseFloat(tfPrix.getText());
-            if (prix < 0) {
-                throw new NumberFormatException();
-            }
-        } catch (NumberFormatException e) {
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Valeur invalide");
-            alert.setContentText("Le prix doit être un nombre positif.");
-            alert.showAndWait();
-            return;
-        }
-
-        // Création du livre
-        Livre livre = new Livre(libelle, description,editeur,new java.sql.Date(Date.valueOf(dateEdition).getTime()),categorie,prix,langue,null,pr, aut);
-
-        // Ajout du livre dans la base de données
-        ls.create(livre);
-
-        // Redirection vers la vue de la liste des livres
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/ktebi/gui/Liste_livres.fxml"));
-        Parent root;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-        Liste_LivresController controller = loader.getController();
-
-        // Mettre à jour la liste des livres
-        controller.updateListeLivres();
-
-        // Retourner à la vue de la liste des livres
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public Livre getLivre() {
-        String libelle = tfLibelle.getText();
-        String description = taDescription.getText();
-        String editeur = tfEditeur.getText();
-        String categorie = tfCategorie.getText();
-        float prix = Float.parseFloat(tfPrix.getText());
-        String langue = tfLangue.getText();
-        LocalDate dateEdition = date.getValue();
-        
-        String auteurSelectionnee = auteurs.getValue();
-        
-        User aut = null ;
-        for (User auteur : listU) {
-            String temp = auteur.getPrenom() ;
-            if(temp == auteurSelectionnee)
-            {
-                aut = new User(auteur.getId(),auteur.getNom(),auteur.getPrenom());
-                System.out.println(aut);
-            }
-                
-        }
-         Promo pr = null ;
-        
-        String codeSelectionnee = promos.getValue();
-        
-         for (Promo promo : listP) {
-            String temp = promo.getCode() ;
-            if(temp == codeSelectionnee)
-            {
-                pr = promo ;
-                System.out.println(pr);
-            }
-                
-        }
-
-        Livre livre = new Livre(libelle, description,editeur,new java.sql.Date(Date.valueOf(dateEdition).getTime()),categorie,prix,langue,null,pr, aut);
-        livre.setId(this.livre.getId()); // conserver l'ID du livre original
-        return livre;
-    }
+}*/
 
 
     

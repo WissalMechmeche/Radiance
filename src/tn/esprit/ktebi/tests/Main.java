@@ -77,7 +77,8 @@ public class Main {
         livreU.setAuteur(auteur);
 
         // Récupération du code promo à partir de la base de données
-        Promo promo = new PromoService().selectById(1);
+        PromoService ps = new PromoService();
+        Promo promo = ps.selectById(1);
         livreU.setPromo(promo);
         
         /*// Chargement de la nouvelle image à partir d'un fichier
@@ -102,11 +103,29 @@ public class Main {
         
         UserService us = new UserService();
         
+        //Liste des auteurs
         List<User> users =  us.getAll();
         for (User user: users) {
             System.out.println(user);
             
         }
+        
+        Promo pr = new Promo();
+        pr.setId(3);
+        pr.setCode("Wissal15");
+        pr.setReduction(15.0);
+        pr.setDate_debut(sqlDate);
+        pr.setDate_fin(sqlDate);
+        
+        //ps.create(pr);
+        
+        //ps.update(pr);
+        
+        //dps.delete(3);
+        
+        
+        System.out.println(ps.selectAll());
+        
         
         
         

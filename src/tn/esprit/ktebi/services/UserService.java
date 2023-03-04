@@ -41,7 +41,6 @@ public class UserService {
         
         PreparedStatement ps = cnx.prepareStatement(req);
         
-       // ps.setString(1, "Auteur");
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
@@ -50,6 +49,35 @@ public class UserService {
             user.setId(rs.getInt("id_user"));
             user.setNom(rs.getString("nom"));
             user.setPrenom(rs.getString("prenom"));
+            
+            users.add(user);
+            
+            
+    }
+        return users;
+    
+}
+    
+    public List<User> getAllClients() throws SQLException {
+        List<User> users = new ArrayList<>();
+       
+        
+        String req = "SELECT utilisateur.* FROM utilisateur "
+                + "JOIN role ON utilisateur.id_role = role.id_role "
+                + "WHERE role.role = 'client';";
+                
+        
+        PreparedStatement ps = cnx.prepareStatement(req);
+        
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            User user = new User();
+            
+            user.setId(rs.getInt("id_user"));
+            user.setNom(rs.getString("nom"));
+            user.setPrenom(rs.getString("prenom"));
+            user.setEmail(rs.getString("email"));
             
             users.add(user);
             
@@ -70,8 +98,9 @@ public class UserService {
             int userId = rs.getInt("id_user");
             String nom = rs.getString("nom");
             String prenom = rs.getString("prenom");
+            String email = rs.getString("email");
             
-            User user = new User(userId, nom, prenom);
+            User user = new User(userId, nom, prenom,email);
             
             return user;
         }

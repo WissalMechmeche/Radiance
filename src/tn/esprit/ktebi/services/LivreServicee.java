@@ -107,13 +107,14 @@ public class LivreServicee implements ILivreService<Livre> {
                 + "description=?, auteur=?, editeur=?, "
                 + "categorie=?, date_edition=?, code_promo=?, prix=?, "
                 + "langue=? , image=?  WHERE id_livre=?";
+        
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setString(1, t.getLibelle());
         ps.setString(2, t.getDescription());
         ps.setInt(3, t.getAuteur().getId());
         ps.setString(4, t.getEditeur());
         ps.setString(5, t.getCategorie());
-        ps.setDate(6, new java.sql.Date(t.getDate_edition().getTime()));
+        //ps.setDate(6, new java.sql.Date(t.getDate_edition().getTime()));
         ps.setInt(7, t.getPromo().getId());
         ps.setDouble(8, t.getPrix());
         ps.setString(9, t.getLangue());

@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import tn.esprit.ktebi.entities.Livre;
 import tn.esprit.ktebi.entities.Promo;
@@ -32,32 +32,47 @@ public class PromoService implements IPromoService<Promo> {
 
     @Override
     public void create(Promo t) throws SQLException {
-        String req= " INSERT INTO`promo`(`date_expiration`)"
-                + "VALUES(?)";
+        String req= " INSERT INTO`promo`(date_fin,code,reduction,date_debut)"
+                + "VALUES(?,?,?,?)";
         
-         PreparedStatement ps = cnx.prepareStatement(req);
-         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-         ps.setString(1, date);
-         ps.executeUpdate();  
-        
-       
+        PreparedStatement ps = cnx.prepareStatement(req);
+        ps.setDate(1, new java.sql.Date(t.getDate_fin().getTime()));
+        ps.setString(2, t.getCode());
+        ps.setDouble(3, t.getReduction());
+        ps.setDate(4, new java.sql.Date(t.getDate_debut().getTime()));
+
+         
+         int rowsAffected = ps.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new SQLException("Creating promo failed, no rows affected.");
+            }
+            else
+            {
+                System.out.println("Promo ajouté");
+            } 
         
     }
 
     @Override
     public void update(Promo t) throws SQLException {
-        String req= "UPDATE `promo` SET`date_expiration`=?"  ;
-        
-         PreparedStatement ps = cnx.prepareStatement(req);
-         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-         ps.setString(1, date);
-         ps.executeUpdate();  
-         System.out.println("Code Promo modifié !");
-    }
+        String req = "UPDATE `promo` SET date_fin=? , code =? , reduction=? , date_debut=?"
+                + "WHERE id=?";
 
-    @Override
+        PreparedStatement ps = cnx.prepareStatement(req);
+        ps.setDate(1, new java.sql.Date(t.getDate_fin().getTime()));
+        ps.setString(2, t.getCode());
+        ps.setDouble(3, t.getReduction());
+        ps.setDate(4, new java.sql.Date(t.getDate_debut().getTime()));
+        ps.setInt(5, t.getId());
+        int rowsAffected = ps.executeUpdate();
+        if (rowsAffected > 0) {
+            System.out.println("Code Promo modifié !");
+        }
+
+    }
+    
     public void delete(int id) throws SQLException {
-        String req="DELETE FROM `promo` WHERE  code_promo = ?";
+        String req="DELETE FROM `promo` WHERE  id = ?";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setInt(1,id);
         int row = ps.executeUpdate(); 

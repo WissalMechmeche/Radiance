@@ -195,72 +195,49 @@ public class Liste_LivresController implements Initializable {
     }
 
     @FXML
-    private void modifierLivre(ActionEvent event) throws SQLException, IOException {
+    private void modifierLivre(ActionEvent event)  {
         
-       ActionEvent eve = null ;
-{
-    // Vérifier si un livre a été sélectionné dans la liste des livres
-    Livre livreSelectionne = tvLivres.getSelectionModel().getSelectedItem();
-            if (livreSelectionne == null) {
-                // Afficher un message d'erreur si aucun livre n'a été sélectionné
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur");
-                alert.setHeaderText("Aucun livre sélectionné");
-                alert.setContentText("Veuillez sélectionner un livre à modifier.");
-                alert.showAndWait();
-                return;
-            }
+    // Vérifier si un livre est sélectionné
+        Livre livre = tvLivres.getSelectionModel().getSelectedItem();
+        if (livre == null) {
+            // Afficher un message d'erreur si aucun livre n'est sélectionné
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Aucun livre sélectionné");
+            alert.setContentText("Veuillez sélectionner un livre dans la liste.");
+            alert.showAndWait();
+            return;
+        }
 
-            // Charger le formulaire de modification de livre
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ModifierLivre.fxml"));
-            Parent root;
-            try {
-                root = loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return;
-            }
+        try {
+            // Charger la vue ModifierLivre.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/ktebi/gui/ModifierLivre.fxml"));
+            Parent root = loader.load();
             ModifierLivreController controller = loader.getController();
 
-            // Afficher les informations du livre sélectionné dans le formulaire de modification
-            controller.setLivre(livreSelectionne);
+            // Passer le livre à modifier au contrôleur de la vue ModifierLivre.fxml
+            controller.setLivre(livre);
 
-            // Afficher le formulaire de modification de livre dans une fenêtre modale
+            // Afficher la vue ModifierLivre.fxml
             Scene scene = new Scene(root);
             Stage stage = new Stage();
-            stage.setTitle("Modifier le livre");
-            stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(scene);
-            stage.showAndWait();
-
-            // Mettre à jour le livre dans la base de données si l'utilisateur a soumis le formulaire
-            if (controller.isSoumettre(eve)) {
-                // Récupérer les nouvelles informations du livre à partir du formulaire de modification
-                Livre livreModifie = controller.getLivre();
-
-                // Mettre à jour le livre dans la base de données
-                try {
-                    ls.update(livreModifie);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    // Afficher un message d'erreur si la mise à jour a échoué
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Erreur");
-                    alert.setHeaderText("La mise à jour du livre a échoué");
-                    alert.setContentText("Une erreur est survenue lors de la mise à jour du livre dans la base de données.");
-                    alert.showAndWait();
-                    return;
-                }
-
-                // Mettre à jour la liste des livres dans la table view
-                updateListeLivres();
-            }
-}
-
-        
-        
-        
+            stage.show();
+        } catch (IOException e) {
+            // Afficher un message d'erreur en cas d'erreur de chargement de la vue ModifierLivre.fxml
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Erreur de chargement de la vue");
+            alert.setContentText("Une erreur est survenue lors du chargement de la vue ModifierLivre.fxml : " + e.getMessage());
+            alert.showAndWait();
+        }
     }
+
+
+       
+        
+        
+
 
     @FXML
     private void detailLivre(ActionEvent event) throws SQLException {

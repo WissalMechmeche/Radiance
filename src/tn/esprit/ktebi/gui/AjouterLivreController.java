@@ -5,9 +5,12 @@
  */
 package tn.esprit.ktebi.gui;
 
-import java.awt.Image;
+
+
 import java.io.IOException;
+
 import java.net.URL;
+import java.security.Security;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -38,6 +41,10 @@ import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.services.LivreServicee;
 import tn.esprit.ktebi.services.PromoService;
 import tn.esprit.ktebi.services.UserService;
+
+import javax.mail.*;
+import javax.mail.internet.*;
+import java.util.Properties;
 
 /**
  * FXML Controller class
@@ -160,7 +167,7 @@ public class AjouterLivreController implements Initializable {
             String temp = auteur.getPrenom() ;
             if(temp == auteurSelectionnee)
             {
-                aut = new User(auteur.getId(),auteur.getNom(),auteur.getPrenom());
+                aut = new User(auteur.getId(),auteur.getNom(),auteur.getPrenom(),auteur.getEmail());
                 System.out.println(aut);
             }
                 
@@ -186,6 +193,13 @@ public class AjouterLivreController implements Initializable {
           
         ls.create(livre);
         
+        // Envoi de l'e-mail de notification
+        String recipient = "recipient@example.com";
+        String subject = "Nouveau livre ajouté";
+        String body = "Un nouveau livre intitulé \"" + livre.getLibelle()+ "\" a été ajouté à la bibliothèque.";
+        
+        Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+        sendMail(); // Gérer l'erreur d'envoi de l'e-mail
         
     
 
@@ -197,6 +211,59 @@ public class AjouterLivreController implements Initializable {
         stage.show();
         
     }
+    
+ 
+
+    public void sendMail() throws SQLException {
+        int userid = 1;
+
+        User user = us.getUserById(userid);
+                
+        System.out.println(user.getEmail());
+
+        if (user == null) {
+            System.out.println("User with ID " + userid + " not found!");
+            return;
+        } else {
+        }
+
+        final String username = "wissal.mechmeche@esprit.tn";
+        final String password = "223JFT5669";
+        
+        String recipientEmail = user.getEmail();
+        
+        String subject = "Ajout Livre notification";
+        String message = "Un  process has completed successfully.";
+        
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        
+       Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+       
+       
+       
+        try {
+            Message msg = new MimeMessage(session);
+            msg.setFrom(new InternetAddress(username));
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
+            msg.setSubject(subject);
+            msg.setText(message);
+            Transport.send(msg);
+            System.out.println("Email notification sent successfully.");
+        } catch (MessagingException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+    }
+
 
 
         
