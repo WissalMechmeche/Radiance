@@ -94,11 +94,10 @@ public class AjouterReclamationController implements Initializable {
             al.show();
         }else{
         String etat ="en cours";
-        ReponseReclamation rp = new ReponseReclamation(1);
         User u=new User(5);
                   
 
-            Reclamation ev = new Reclamation(txtRec.getText(),LocalDate.now(),etat,u,rp,imgpath.getText());
+            Reclamation ev = new Reclamation(txtRec.getText(),LocalDate.now(),etat,u,imgpath.getText());
             
             ServiceReclamation sr = new ServiceReclamation();
             try {
@@ -175,8 +174,8 @@ public class AjouterReclamationController implements Initializable {
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.port", "587");
-        String myAccountEmail = "ktebiktebi117@gmail.com";
-        String password = "suehilzqfolzmnzx";
+        String myAccountEmail = "ktebiktebi117@gmail.com";/*hedha mail eli bch yetb3ath meno l email*/
+        String password = "suehilzqfolzmnzx"; /* hedha l mot de passe*/
         Session session = Session.getInstance(properties, new Authenticator() {
              @Override
                         protected PasswordAuthentication getPasswordAuthentication() {
@@ -196,8 +195,8 @@ public class AjouterReclamationController implements Initializable {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(myAccountEmail));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-            message.setSubject(sujet);
-            message.setText("Contenu:\n"+ contenu);
+            message.setSubject(sujet);/*sujet mte3 mail met3adi filparametre lfou9*/
+            message.setText("Contenu:\n"+ contenu);/*contenu mte3 lmail met3adi filparametre lfou9*/
             return message;
         } catch (MessagingException ex) {
           

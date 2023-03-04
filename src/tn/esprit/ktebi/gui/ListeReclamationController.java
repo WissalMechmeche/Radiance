@@ -20,6 +20,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,6 +33,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -67,20 +70,29 @@ public class ListeReclamationController implements Initializable {
     private Button btnmod;
 
     @FXML
-    private Button btnmod1;
+    private Button btnsupp;
     
     @FXML
     private Button btnretour;
+    
+    @FXML
+    private Button btnrep;
 
     @FXML
-    private TextField txtRec;
+    private TextArea txtRec;
+    
     @FXML
     private ImageView imgview;
+     @FXML
+    private TextField txtRech;
+    static  Integer index;
+    static  Integer id_rep;       
 
     InputStream in;    
     ServiceReclamation sr = new ServiceReclamation();
     ObservableList<Reclamation> list;
     ReponseReclamationController rr = new ReponseReclamationController();
+    List<Reclamation> rec = new ArrayList<>();          
 
     /**
      * Initializes the controller class.
@@ -100,8 +112,9 @@ public class ListeReclamationController implements Initializable {
 
 
             }
-        }); 
-       
+        });
+        txtRec.setWrapText(true);
+       chercherReclamation();
     }
     
     
@@ -134,11 +147,11 @@ public class ListeReclamationController implements Initializable {
     @FXML
     void ModifierReclamtion(ActionEvent event) {
         String etat ="en cours";
-        ReponseReclamation rp = new ReponseReclamation(1);
         User u=new User(5);
-        Integer index = Table.getSelectionModel().getSelectedIndex();
-        Reclamation rec = new Reclamation(Table.getItems().get(index).getId(),
-                txtRec.getText(),LocalDate.now(),etat,u,rp);
+         index = Table.getSelectionModel().getSelectedIndex();
+         id_rep =Table.getItems().get(index).getId(); 
+        Reclamation rec = new Reclamation(id_rep,
+                txtRec.getText(),LocalDate.now(),etat,u);
         try{
             sr.updateOne(rec);
             AfficheRecById();
@@ -173,5 +186,50 @@ public class ListeReclamationController implements Initializable {
         stage.setTitle("Ajouter une Reclamations");
         stage.setScene(scene);
         stage.show();        
-    }    
+    }
+   
+        void chercherReclamation(){
+
+             //// Code Recherche
+             try {
+            rec=sr.selectAll();     
+            list = FXCollections.observableArrayList(rec);     
+            Table.setItems(list);
+            FilteredList<Reclamation> listeFilter = new FilteredList<>(list, l-> true);
+               txtRech.textProperty().addListener((ObservableValue, oldValue, newValue) -> {
+                    listeFilter.setPredicate(reclamation-> {
+                        if (newValue == null || newValue.isEmpty()) {
+                            return true;
+                        }
+                        String lowerCase = newValue.toLowerCase();
+                        if (reclamation.getEtat().toLowerCase().contains(lowerCase)) {
+                            return true;
+                        }else
+
+                        return false;
+                    });
+                });               
+                SortedList<Reclamation> sortedData = new SortedList<>(listeFilter);
+                sortedData.comparatorProperty().bind(Table.comparatorProperty());
+                Table.setItems(sortedData);
+            } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+        
+    @FXML
+    void Reponses(ActionEvent event) throws IOException {
+        Parent retour = FXMLLoader.load(getClass().getResource("UserReponseReclamation.fxml"));
+        Scene scene = new Scene(retour);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("Ajouter une Reclamations");
+            UserReponseReclamationController acont = new UserReponseReclamationController();
+            index = Table.getSelectionModel().getSelectedIndex();
+         id_rep =Table.getItems().get(index).getId();
+            acont.GetId(id_rep);
+        stage.setScene(scene);
+        stage.show();
+        System.out.println(id_rep);
+
+    }        
 }

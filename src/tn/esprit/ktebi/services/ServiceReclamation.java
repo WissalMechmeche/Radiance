@@ -36,14 +36,13 @@ public class ServiceReclamation implements IService<Reclamation> {
     public void createOne(Reclamation r) throws SQLException {
         try {
             PreparedStatement st = cnx.prepareStatement("INSERT INTO reclamation (id_user, contenu,"
-                    + " date_rec, etat, id_reponse, img) VALUES (?, ?, ?, ?, ?, ?)");
+                    + " date_rec, etat, img) VALUES (?, ?, ?, ?, ?)");
             st.setInt(1,r.getUser().getId());
             st.setString(2,r.getContenu());
             st.setDate(3, Date.valueOf(r.getDate_reclamation()));
             st.setString(4,r.getEtat());
-            st.setInt(5,r.getReponse().getId());
             fis = new FileInputStream(r.getImg());
-            st.setBinaryStream(6,(InputStream)fis,r.getImg().length());
+            st.setBinaryStream(5,(InputStream)fis,r.getImg().length());
             st.executeUpdate();
             System.out.println("Reclamtion ajouté !");
         } catch (FileNotFoundException ex) {
@@ -54,13 +53,12 @@ public class ServiceReclamation implements IService<Reclamation> {
     @Override
     public void updateOne(Reclamation r) throws SQLException {
         PreparedStatement st = cnx.prepareStatement("update reclamation set id_user =?, contenu=?, date_rec=?,"
-                + " etat=?, id_reponse=? where id_rec =?");
+                + " etat=? where id_rec =?");
         st.setInt(1, r.getUser().getId());
         st.setString(2, r.getContenu());
         st.setDate(3, Date.valueOf(r.getDate_reclamation()));
         st.setString(4, r.getEtat());
-        st.setInt(5, r.getReponse().getId());
-        st.setInt(6, r.getId());
+        st.setInt(5, r.getId());
         st.executeUpdate();
 
     }
@@ -91,7 +89,6 @@ public class ServiceReclamation implements IService<Reclamation> {
             rec.setDate_reclamation(rs.getDate("date_rec").toLocalDate());
             rec.setEtat(rs.getString("etat"));
             rec.setUser(u);
-            rec.setReponse(r);
 
             liste.add(rec);
         }
@@ -115,7 +112,6 @@ public class ServiceReclamation implements IService<Reclamation> {
             rec.setDate_reclamation(rs.getDate("date_rec").toLocalDate());
             rec.setEtat(rs.getString("etat"));
             rec.setUser(u);
-            rec.setReponse(r);
             /*rec.setImg1(rs.getBlob("img"));*/
 
             liste.add(rec);
@@ -141,7 +137,6 @@ public class ServiceReclamation implements IService<Reclamation> {
             rec.setDate_reclamation(rs.getDate("date_rec").toLocalDate());
             rec.setEtat(rs.getString("etat"));
             rec.setUser(u);
-            rec.setReponse(r);
 
             liste.add(rec);
         }
@@ -149,16 +144,5 @@ public class ServiceReclamation implements IService<Reclamation> {
         return liste;
     }  
       
-    public void createOneReponse(ReponseReclamation r) throws SQLException {
-        PreparedStatement st = cnx.prepareStatement("INSERT INTO reponserec (contenu,id_reclamation)VALUES (?, ?)");
-        st.setString(1,r.getContenu());
-        st.setInt(2,r.getUser().getId());
-        st.executeUpdate();
-        PreparedStatement st1 = cnx.prepareStatement("update reclamation set etat=? where id_rec=?");
-        st1.setString(1,"terminé");
-        st1.setInt(2,r.getUser().getId());
-        st1.executeUpdate();
-
-        System.out.println("Reclamtion ajouté !");
-    }      
+      
 }

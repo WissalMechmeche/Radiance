@@ -29,6 +29,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import tn.esprit.ktebi.entities.Reclamation;
 import tn.esprit.ktebi.entities.ReponseReclamation;
 import tn.esprit.ktebi.services.ServiceReclamation;
+import tn.esprit.ktebi.services.ServiceReponse;
 
 /**
  * FXML Controller class
@@ -69,9 +70,10 @@ public class ReponseReclamationController implements Initializable {
 
     @FXML
     private Button btnDate;
-        List<Reclamation> rec = new ArrayList<>();          
-    
+    List<Reclamation> rec = new ArrayList<>();          
     ServiceReclamation sr = new ServiceReclamation();
+    ServiceReponse srep = new ServiceReponse();
+    
     ObservableList<Reclamation> list;
     /**
      * Initializes the controller class.
@@ -89,7 +91,6 @@ public class ReponseReclamationController implements Initializable {
         });
         AfficheRec();
         chercherReclamation();
-        TrierDate();
     }
     
         void chercherReclamation(){
@@ -107,19 +108,6 @@ public class ReponseReclamationController implements Initializable {
                         }
                         String lowerCase = newValue.toLowerCase();
                         if (reclamation.getEtat().toLowerCase().contains(lowerCase)) {
-                            return true;
-                        }else
-
-                        return false;
-                    });
-                });
-                txtNom.textProperty().addListener((ObservableValue, oldValue, newValue) -> {
-                    listeFilter.setPredicate(reclamation-> {
-                        if (newValue == null || newValue.isEmpty()) {
-                            return true;
-                        }
-                        String lowerCase = newValue.toLowerCase();
-                        if (reclamation.getContenu().toLowerCase().contains(lowerCase)) {
                             return true;
                         }else
 
@@ -156,12 +144,13 @@ public class ReponseReclamationController implements Initializable {
             al.setContentText("Le contenu est vide !");
             al.show();
         }else{
-            Reclamation rec = new Reclamation(Integer.parseInt(id_rec.getText()));
-            ReponseReclamation rep = new ReponseReclamation(txtRep.getText(),rec);
             
+            Integer index = Table.getSelectionModel().getSelectedIndex();
+            Reclamation rec = new Reclamation(Table.getItems().get(index).getId());
+            ReponseReclamation rep = new ReponseReclamation(txtRep.getText(),rec,LocalDate.now());            
             ServiceReclamation sr = new ServiceReclamation();
             try {
-                sr.createOneReponse(rep);
+                srep.createOne(rep);
                 Alert al = new Alert(Alert.AlertType.CONFIRMATION);
                 al.setTitle("Succés");
                 al.setHeaderText("Reponse envoyé");
@@ -181,7 +170,7 @@ public class ReponseReclamationController implements Initializable {
         }
     } 
     void TrierDate(){
-                List<Reclamation> listrec = new ArrayList<>();
+             List<Reclamation> listrec = new ArrayList<>();
         try {
             listrec = sr.selectAllOrderByDate();
         } catch (SQLException ex) {
