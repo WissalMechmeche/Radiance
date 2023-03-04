@@ -25,12 +25,12 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         // TODO code application logic here
 
-        Panier p = new Panier(2, 1, 2);
+//        Panier p = new Panier(2, 1, 2);
         ServicePanier se = new ServicePanier();
 
-        Facture f = new Facture(0, "", 3, 19);
+//        Facture f = new Facture(0, "", 3, 19);
         ServiceFacture sf = new ServiceFacture();
-        sf.ajouterFacture(3); 
+//        sf.ajouterFacture(3); 
 
 //               LignePanier ligne=new LignePanier(4, 7, 2);
 //                ServiceLignePanier sl=new ServiceLignePanier();

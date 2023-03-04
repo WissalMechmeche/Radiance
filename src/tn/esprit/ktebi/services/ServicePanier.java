@@ -14,6 +14,7 @@ import java.util.List;
 import tn.esprit.ktebi.entities.Livre;
 import tn.esprit.ktebi.interfaces.IPanier;
 import tn.esprit.ktebi.entities.Panier;
+import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.utils.MaConnexion;
 
 /**
@@ -34,7 +35,8 @@ public class ServicePanier implements IPanier {
         try {
             String requete = "insert into panier(id_user, qte, mnt_total) values (?, ?, ?)";
             PreparedStatement st = cnx.prepareStatement(requete);
-            st.setInt(1, panier.getUser());
+            
+            st.setInt(1, panier.getUser().getId());
             st.setInt(2, panier.getQte());
             st.setFloat(3, panier.getMontant_totale());
             st.executeUpdate();
@@ -64,7 +66,10 @@ public class ServicePanier implements IPanier {
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 int id = rs.getInt("id_panier");
-                int user = rs.getInt("id_user");
+                int Id = rs.getInt("id_user");
+                User user = new User();
+                user.setId(Id);
+                
                 int qte = rs.getInt("qte");
                 float montantTotale = rs.getFloat("mnt_total");
                 panier = new Panier(id, montantTotale, qte, user);
@@ -119,7 +124,12 @@ public class ServicePanier implements IPanier {
             p.setId(rs.getInt(1));
             p.setQte(rs.getInt("qte"));
             p.setMontant_totale(rs.getFloat("mnt_total"));
-            p.setUser(rs.getInt("id_user"));
+            int userId = rs.getInt("id_user");
+            User user = new User();
+            user.setId(userId);
+            p.setUser(user);
+            
+            
 
             listPanier.add(p);
 
@@ -164,7 +174,10 @@ public class ServicePanier implements IPanier {
                 livre.setLangue(rs.getString("langue"));
                 livre.setPromo(rs.getInt("code_promo"));
                 livre.setImage(rs.getString("image"));
-                livre.setUser(rs.getInt("id_user"));
+                int userId = rs.getInt("id_user");
+                User user = new User();
+                user.setId(userId);
+                livre.setUser(user);
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

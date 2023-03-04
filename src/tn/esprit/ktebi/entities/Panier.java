@@ -14,20 +14,20 @@ public class Panier {
     private int id;
     private float montant_totale;
     private int qte;
-    private int user;
+    private User user;
 
     public Panier() {
 
     }
 
-    public Panier(int id, float montant_totale, int qte, int user) {
+    public Panier(int id, float montant_totale, int qte, User user) {
         this.id = id;
         this.montant_totale = montant_totale;
         this.qte = qte;
         this.user = user;
     }
 
-    public Panier(float montant_totale, int qte, int user) {
+    public Panier(float montant_totale, int qte, User user) {
         this.montant_totale = montant_totale;
         this.qte = qte;
         this.user = user;
@@ -57,11 +57,11 @@ public class Panier {
         this.qte = qte;
     }
 
-    public int getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(int user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

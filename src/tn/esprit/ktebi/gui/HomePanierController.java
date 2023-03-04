@@ -45,6 +45,7 @@ import javafx.util.Duration;
 import tn.esprit.ktebi.entities.LignePanier;
 import tn.esprit.ktebi.entities.Livre;
 import tn.esprit.ktebi.entities.Panier;
+import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.services.ServiceLignePanier;
 import tn.esprit.ktebi.services.ServicePanier;
 import tn.esprit.ktebi.utils.MaConnexion;
@@ -76,7 +77,7 @@ public class HomePanierController implements Initializable {
     private TableColumn<Livre, Float> prix;
     @FXML
     private TableColumn<Livre, String> libelle;
-    public ObservableList<Livre> data = FXCollections.observableArrayList();
+    private ObservableList<Livre> data = FXCollections.observableArrayList();
 
     @FXML
     private Label Menu;
@@ -186,21 +187,24 @@ public class HomePanierController implements Initializable {
 
                                     try {
                                         int userId = 3;
+                                        User user = new User();
+                                        user.setId(userId);
                                         ServicePanier servicePanier = new ServicePanier();
                                         Panier panier = servicePanier.getPanierByUser(userId);
                                         if (panier == null) {
-                                            panier = new Panier(0, 0, userId);
+
+                                            panier = new Panier(0, 0, user);
                                             servicePanier.ajouterPanier(panier);
                                             panier = servicePanier.getPanierByUser(userId);
 
                                         } else {
                                             // Sinon, mettre à jour l'utilisateur du panier (au cas où il a été créé pour un autre utilisateur)
-                                            panier.setUser(userId);
+                                            panier.setUser(user);
                                             servicePanier.modifierPanier(panier);
                                         }
 
                                         // Vérifier si le livre sélectionné existe déjà dans le panier
-                                        LignePanier lignePanierExistante = lp.getLignePanierByLivreAndPanier(livre.getId(), panier.getId());
+                                        LignePanier lignePanierExistante = lp.getLignePanierByLivreAndPanier(livre, panier);
 
                                         if (lignePanierExistante != null) {
                                             // Si la lignePanier existe déjà, augmenter la quantité
@@ -210,9 +214,9 @@ public class HomePanierController implements Initializable {
                                         } else {
                                             // Sinon, créer une nouvelle lignePanier pour le livre sélectionné
                                             LignePanier lignePanier = new LignePanier();
-                                            lignePanier.setLivre(livre.getId());
-                                            lignePanier.setPanier(panier.getId()); // panier est toujours null ici si aucun panier n'a été trouvé pour l'utilisateur
-                                            lignePanier.setPanier(panier.getId());
+                                            lignePanier.setLivre(livre);
+                                            lignePanier.setPanier(panier); // panier est toujours null ici si aucun panier n'a été trouvé pour l'utilisateur
+                                            lignePanier.setPanier(panier);
                                             lignePanier.setQuantite(1);
                                             lp.ajouterLignePanier(lignePanier);
                                             System.out.println("Livre ajouté au panier avec succès !");

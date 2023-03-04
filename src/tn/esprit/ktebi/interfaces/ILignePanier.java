@@ -10,6 +10,7 @@ import java.util.List;
 import javafx.collections.ObservableList;
 import tn.esprit.ktebi.entities.LignePanier;
 import tn.esprit.ktebi.entities.Livre;
+import tn.esprit.ktebi.entities.Panier;
 
 /**
  *
@@ -20,11 +21,11 @@ public interface ILignePanier {
     public void ajouterLignePanier(LignePanier p) throws SQLException;
     public void modifierLignePanier(LignePanier p);
     public Float calculerPrixTotal(int id_panier) throws SQLException;
-    public LignePanier getLignePanierByLivreAndPanier(int idLivre, int idPanier) throws SQLException;
+    public LignePanier getLignePanierByLivreAndPanier(Livre livre, Panier panier) throws SQLException;
     public List<LignePanier> getLigneByUser(int id_user) throws SQLException;
     public ObservableList<Livre> listelivres() throws SQLException;
     public List<LignePanier> afficherLignePanier() throws SQLException;
-    public List<LignePanier> getLignePanierByLivre(Livre livre, int idPanier) throws SQLException;
+    public List<LignePanier> getLignePanierByLivre(Livre livre, Panier idPanier) throws SQLException;
     public void supprimerLignePanier(Livre livre);
 
 }

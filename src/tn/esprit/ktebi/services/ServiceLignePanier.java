@@ -16,7 +16,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import tn.esprit.ktebi.interfaces.ILignePanier;
 import tn.esprit.ktebi.entities.LignePanier;
+import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.entities.Livre;
+import tn.esprit.ktebi.entities.Panier;
 import tn.esprit.ktebi.utils.MaConnexion;
 
 /**
@@ -35,11 +37,13 @@ public class ServiceLignePanier implements ILignePanier {
     @Override
     public void ajouterLignePanier(LignePanier p) {
         try {
-            String requete = "insert into ligne_panier(id_livre,id_panier,qte) values(" + p.getLivre() + ",' " + p.getPanier() + "','" + p.getQuantite() + "');";
-
+            String requete = "INSERT INTO ligne_panier(id_livre, id_panier, qte) VALUES (?, ?, ?);";
             PreparedStatement st = cnx.prepareStatement(requete);
-            st.executeUpdate(requete);
-            System.out.println("Le ligne du panier est ajouté avec succèe!");
+            st.setInt(1, p.getLivre().getId());
+            st.setInt(2, p.getPanier().getId());
+            st.setInt(3, p.getQuantite());
+            st.executeUpdate();
+            System.out.println("La ligne du panier est ajoutée avec succès !");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -51,8 +55,8 @@ public class ServiceLignePanier implements ILignePanier {
             String requete = "update ligne_panier set qte = ? where id_livre = ? and id_panier = ?";
             PreparedStatement st = cnx.prepareStatement(requete);
             st.setInt(1, p.getQuantite());
-            st.setInt(2, p.getLivre());
-            st.setInt(3, p.getPanier());
+            st.setInt(2, p.getLivre().getId());
+            st.setInt(3, p.getPanier().getId());
             st.executeUpdate();
             System.out.println("La ligne du panier a été mise à jour avec succès !");
         } catch (SQLException ex) {
@@ -61,13 +65,14 @@ public class ServiceLignePanier implements ILignePanier {
     }
 
     @Override
-    public LignePanier getLignePanierByLivreAndPanier(int idLivre, int idPanier) throws SQLException {
+    public LignePanier getLignePanierByLivreAndPanier(Livre livre, Panier panier) throws SQLException {
         LignePanier lignePanier = null;
         String requete = "SELECT * FROM ligne_panier WHERE id_livre = ? AND id_panier = ?";
 
         try (PreparedStatement st = cnx.prepareStatement(requete)) {
-            st.setInt(1, idLivre);
-            st.setInt(2, idPanier);
+
+            st.setInt(1, livre.getId());
+            st.setInt(2, panier.getId());
 
             try (ResultSet rs = st.executeQuery()) {
                 if (rs.next()) {
@@ -75,7 +80,7 @@ public class ServiceLignePanier implements ILignePanier {
                     int qte = rs.getInt("qte");
 
                     // créer une nouvelle instance de LignePanier
-                    lignePanier = new LignePanier(id, idLivre, idPanier, qte);
+                    lignePanier = new LignePanier(id, livre, panier, qte);
                 }
             }
         } catch (SQLException ex) {
@@ -83,8 +88,6 @@ public class ServiceLignePanier implements ILignePanier {
         }
         return lignePanier;
     }
-
- 
 
     @Override
     public void supprimerLignePanier(Livre livre) {
@@ -110,21 +113,31 @@ public class ServiceLignePanier implements ILignePanier {
     }
 
     @Override
-    public List<LignePanier> getLignePanierByLivre(Livre livre, int idPanier) throws SQLException {
+    public List<LignePanier> getLignePanierByLivre(Livre livre, Panier p) throws SQLException {
         List<LignePanier> lignes = new ArrayList<>();
 
         String query = "SELECT * FROM ligne_panier WHERE id_livre=? AND id_panier=?";
         PreparedStatement stmt = cnx.prepareStatement(query);
         stmt.setInt(1, livre.getId());
-        stmt.setInt(2, idPanier); // idPanier doit être défini dans la classe ou passé en paramètre
+        stmt.setInt(2, p.getId()); 
 
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
             LignePanier ligne = new LignePanier();
             ligne.setId(rs.getInt("id_ligne"));
-            ligne.setPanier(rs.getInt("id_panier"));
-            ligne.setLivre(rs.getInt("id_livre"));
+            
+            //panier
+            int panier_id = rs.getInt("id_panier");
+            Panier panier = new Panier();
+            panier.setId(panier_id);
+            ligne.setPanier(panier);
+               
+            //livre
+            int livre_id = rs.getInt("id_livre");
+            Livre liv = new Livre();
+            liv.setId(livre_id);
+            ligne.setLivre(liv);
             ligne.setQuantite(rs.getInt("qte"));
 
             lignes.add(ligne);
@@ -132,8 +145,7 @@ public class ServiceLignePanier implements ILignePanier {
 
         return lignes;
     }
-    
-    
+
     @Override
     public List<LignePanier> afficherLignePanier() throws SQLException {
         List<LignePanier> listLigne = new ArrayList<>();
@@ -145,7 +157,10 @@ public class ServiceLignePanier implements ILignePanier {
         while (rs.next()) {
 
             LignePanier p = new LignePanier();
-            p.setLivre(rs.getInt("id_livre"));
+            int livre_id = rs.getInt("id_livre");
+            Livre liv = new Livre();
+            liv.setId(livre_id);
+            p.setLivre(liv);
             p.setQuantite(rs.getInt("qte"));
 
             listLigne.add(p);
@@ -198,10 +213,18 @@ public class ServiceLignePanier implements ILignePanier {
             ps.setInt(1, id_user);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
+                //recupérer livre
+                int livre_id = rs.getInt("id_livre");
+                Livre liv = new Livre();
+                liv.setId(livre_id);
+                // récupérer panier
+                int panier_id = rs.getInt("id_panier");
+                Panier panier = new Panier();
+                panier.setId(panier_id);
                 LignePanier lignePanier = new LignePanier(
                         rs.getInt("id_ligne"),
-                        rs.getInt("id_livre"),
-                        rs.getInt("id_panier"),
+                        liv,
+                        panier,
                         rs.getInt("qte")
                 );
                 lignesCommande.add(lignePanier);
@@ -211,7 +234,7 @@ public class ServiceLignePanier implements ILignePanier {
         }
         return lignesCommande;
     }
- 
+
     @Override
     public ObservableList<Livre> listelivres() throws SQLException {
         ObservableList<Livre> myList = FXCollections.observableArrayList();
@@ -232,7 +255,10 @@ public class ServiceLignePanier implements ILignePanier {
                 rec.setLangue(rs.getString("langue"));
                 rec.setPromo(rs.getInt("code_promo"));
                 rec.setLibelle(rs.getString("libelle"));
-                rec.setUser(rs.getInt("id_user"));
+                int userId = rs.getInt("id_user");
+                User user = new User();
+                user.setId(userId);
+                rec.setUser(user);
 
                 myList.add(rec);
 

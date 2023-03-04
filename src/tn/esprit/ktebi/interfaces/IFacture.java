@@ -16,7 +16,7 @@ import tn.esprit.ktebi.entities.User;
  * @author Pc Anis
  */
 public interface IFacture {
-        public void ajouterFacture(int id_user) throws SQLException;
+        public void ajouterFacture(int id_user,String mode_paiement) throws SQLException;
         public List<Facture> afficherFactures() throws SQLException;
         public void supprimerFacture(Facture f) throws SQLException;
         public User getUserById(int id) throws SQLException;

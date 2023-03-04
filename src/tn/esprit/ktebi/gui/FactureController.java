@@ -37,8 +37,11 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -51,14 +54,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tn.esprit.ktebi.entities.Livre;
 import tn.esprit.ktebi.entities.Panier;
@@ -157,7 +166,7 @@ public class FactureController implements Initializable {
 
             TableColumn<Livre, Float> sousTotColumn = new TableColumn<>("Sous-total");
             sousTotColumn.setCellValueFactory(cellData -> {
-                float sousTot = cellData.getValue().getPrix() * cellData.getValue().getUser(); //user==quantite(même type int)
+                float sousTot = cellData.getValue().getPrix() * cellData.getValue().getId(); //user==quantite(même type int)
                 return new SimpleFloatProperty(sousTot).asObject();
             });
 
@@ -196,14 +205,14 @@ public class FactureController implements Initializable {
             //remplissage du deuxième tableau
             data2.add(new Livre(quantiteTotale, prixTotal));
 
-            tot_qte.setCellValueFactory(new PropertyValueFactory<Livre, Integer>("user"));
+            tot_qte.setCellValueFactory(new PropertyValueFactory<Livre, Integer>("id"));
             mnt_tot.setCellValueFactory(new PropertyValueFactory<Livre, Float>("prix"));
             soustable_facture.setItems(data2);
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        quantite.setCellValueFactory(new PropertyValueFactory<Livre, Integer>("user"));
+        quantite.setCellValueFactory(new PropertyValueFactory<Livre, Integer>("id"));
         libelle.setCellValueFactory(new PropertyValueFactory<Livre, String>("libelle"));
         image.setCellValueFactory(new PropertyValueFactory<Livre, String>("image"));
         image.setCellFactory(column -> {
@@ -246,38 +255,74 @@ public class FactureController implements Initializable {
 
         } else {
 
-            try {
-                ImprimerFacture();
+            // Créer la boîte de dialogue pour choisir le mode de paiement
+            Dialog<String> dialog = new Dialog<>();
+            dialog.setTitle("Choisir le mode de paiement");
 
-                Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
-                sendMail();
+            // Créer les boutons radio
+            ToggleGroup toggleGroup = new ToggleGroup();
+            RadioButton cashRadioButton = new RadioButton("Espèce");
+            cashRadioButton.setToggleGroup(toggleGroup);
+            RadioButton checkRadioButton = new RadioButton("Chèque");
+            checkRadioButton.setToggleGroup(toggleGroup);
 
-                sf.ajouterFacture(id_user);
-                table_facture.getItems().clear();
-                soustable_facture.getItems().clear();
-                ShowContenuFac();
+            // Ajouter les boutons radio à la boîte de dialogue
+            VBox vBox = new VBox(cashRadioButton, checkRadioButton);
+            vBox.setPrefSize(300, 50);
+            dialog.getDialogPane().setContent(vBox);
 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Facture ajoutée");
-                alert.setHeaderText(null);
-                alert.setContentText("La facture a été ajoutée avec succès!");
-                alert.showAndWait();
+            // Ajouter les boutons "OK" et "Annuler" à la boîte de dialogue
+            ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE.OK_DONE);
+            ButtonType cancelButtonType = new ButtonType("Annuler", ButtonBar.ButtonData.CANCEL_CLOSE.CANCEL_CLOSE);
+            dialog.getDialogPane().getButtonTypes().addAll(okButtonType, cancelButtonType);
 
-            } catch (SQLException ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur");
-                alert.setHeaderText(null);
-                alert.setContentText("Une erreur s'est produite lors de l'ajout de la facture!");
-                alert.showAndWait();
-            }
+            // Attendre que l'utilisateur clique sur OK ou Annuler
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == okButtonType) {
+                    // Retourner la valeur sélectionnée
+                    if (cashRadioButton.isSelected()) {
+                        return "Espèce";
+                    } else if (checkRadioButton.isSelected()) {
+                        return "Chèque";
+                    } else {
+                        return null;
+                    }
+                }
+                return null;
+            });
+
+            Optional<String> result = dialog.showAndWait();
+
+            result.ifPresent(modePaiement -> {
+                try {
+                    ImprimerFacture();
+
+                    sf.ajouterFacture(id_user, modePaiement);
+                    table_facture.getItems().clear();
+                    soustable_facture.getItems().clear();
+                    ShowContenuFac();
+                    Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+                    sendMail();
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Facture ajoutée");
+                    alert.setHeaderText(null);
+                    alert.setContentText("La facture a été ajoutée avec succès!");
+                    alert.showAndWait();
+
+                } catch (SQLException ex) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Erreur");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Une erreur s'est produite lors de l'ajout de la facture!");
+                    alert.showAndWait();
+                } catch (IOException ex) {
+                    Logger.getLogger(FactureController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
         }
     }
 
-    
-  
-
-    
-    
     public void sendMail() throws SQLException {
         int userid = 3;
 
@@ -433,11 +478,11 @@ public class FactureController implements Initializable {
             com.itextpdf.layout.element.Image image = new com.itextpdf.layout.element.Image(ImageDataFactory.create(url));
             image.setWidth(50);
 
-            table.addCell(String.valueOf(livre.getUser()));
+            table.addCell(String.valueOf(livre.getId()));
             table.addCell(livre.getLibelle());
             table.addCell(image);
             table.addCell(String.valueOf(livre.getPrix()));
-            table.addCell(String.valueOf(livre.getUser() * livre.getPrix()));
+            table.addCell(String.valueOf(livre.getId() * livre.getPrix()));
 
         }
 

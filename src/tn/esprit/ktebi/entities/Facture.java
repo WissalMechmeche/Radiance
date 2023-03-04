@@ -5,35 +5,81 @@
  */
 package tn.esprit.ktebi.entities;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 /**
  *
  * @author MSI
  */
 public class Facture {
-    private int id ;
-    private float montant_totale ;
-    private String mode_paiement ;
-    private int user ;
-    private int panier ;
-    
-    public Facture()
-    {
-        
+
+    private int id;
+    private float montant_totale;
+    private String mode_paiement;
+    private User user;
+    private LocalDateTime date_fac;
+
+    public Facture() {
+
     }
 
-    public Facture(int id, float montant_totale, String mode_paiement, int user, int panier) {
+    public Facture(int id, float montant_totale, String mode_paiement, User user, LocalDateTime date_fac) {
         this.id = id;
         this.montant_totale = montant_totale;
         this.mode_paiement = mode_paiement;
         this.user = user;
-        this.panier = panier;
+        this.date_fac = date_fac;
     }
-    
-    public Facture(float montant_totale, String mode_paiement, int user, int panier) {
+
+    public Facture(int id, float montant_totale, String mode_paiement, User user) {
+        this.id = id;
         this.montant_totale = montant_totale;
         this.mode_paiement = mode_paiement;
         this.user = user;
-        this.panier = panier;
+    }
+
+    public Facture(float montant_totale, String mode_paiement, User user) {
+        this.montant_totale = montant_totale;
+        this.mode_paiement = mode_paiement;
+        this.user = user;
+    }
+
+    private String nom;
+    private String prenom;
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public Facture(int id, float montant_totale, String mode_paiement, User user, LocalDateTime date_fac, String nom, String prenom) {
+        this.id = id;
+        this.montant_totale = montant_totale;
+        this.mode_paiement = mode_paiement;
+        this.user = user;
+        this.date_fac = date_fac;
+        this.nom = nom;
+        this.prenom = prenom;
+    }
+
+    public Facture(float montant_totale, String mode_paiement, LocalDateTime date_fac, String nom, String prenom) {
+        this.montant_totale = montant_totale;
+        this.mode_paiement = mode_paiement;
+        this.date_fac = date_fac;
+        this.nom = nom;
+        this.prenom = prenom;
     }
 
     public int getId() {
@@ -60,28 +106,25 @@ public class Facture {
         this.mode_paiement = mode_paiement;
     }
 
-    public int getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(int user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public int getPanier() {
-        return panier;
+    public LocalDateTime getDate_fac() {
+        return date_fac;
     }
 
-    public void setPanier(int panier) {
-        this.panier = panier;
+    public void setDate_fac(LocalDateTime date_fac) {
+        this.date_fac = date_fac;
     }
 
     @Override
     public String toString() {
-        return "Facture{" + "id=" + id + ", montant_totale=" 
-                + montant_totale + ", mode_paiement=" 
-                + mode_paiement + ", user=" 
-                + user + ", panier=" + panier + '}';
+        return "Facture{" + "id=" + id + ", montant_totale=" + montant_totale + ", mode_paiement=" + mode_paiement + ", user=" + user + ", date_fac=" + date_fac + '}';
     }
 
     @Override
@@ -101,12 +144,5 @@ public class Facture {
         }
         return true;
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
 }

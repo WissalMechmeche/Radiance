@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +26,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -174,7 +176,7 @@ public class ContenuPanierController implements Initializable {
         });
         categorie.setCellValueFactory(new PropertyValueFactory<Livre, String>("categorie"));
         prix.setCellValueFactory(new PropertyValueFactory<Livre, Float>("prix"));
-        quantite.setCellValueFactory(new PropertyValueFactory<Livre, Integer>("user"));
+        quantite.setCellValueFactory(new PropertyValueFactory<Livre, Integer>("id"));
 
         table_panier.setItems(data);
 
@@ -238,7 +240,7 @@ public class ContenuPanierController implements Initializable {
         nom_livre.appendText(table_panier.getSelectionModel().getSelectedItem().getLibelle());
         cat.appendText(table_panier.getSelectionModel().getSelectedItem().getCategorie());
         prixx.appendText(Float.toString(table_panier.getSelectionModel().getSelectedItem().getPrix()));
-        quantitee.appendText(Integer.toString(table_panier.getSelectionModel().getSelectedItem().getUser()));
+        quantitee.appendText(Integer.toString(table_panier.getSelectionModel().getSelectedItem().getId()));
 
     }
 
@@ -255,14 +257,13 @@ public class ContenuPanierController implements Initializable {
 
             Panier panier = sp.getPanierByUser(id_user);
 
-            List<LignePanier> lignesPanier = lp.getLignePanierByLivre(livre, panier.getId());
+            List<LignePanier> lignesPanier = lp.getLignePanierByLivre(livre, panier);
             System.out.println(lignesPanier);
 
             for (LignePanier ligne : lignesPanier) {
                 ligne.setQuantite(nouvelleQuantite);
                 lp.modifierLignePanier(ligne);
             }
-
             // Mettre à jour le tableau
             showPanier();
 
@@ -298,18 +299,26 @@ public class ContenuPanierController implements Initializable {
                 return;
             }
 
-            lp.supprimerLignePanier(selectedLivre);
-            showPanier();
-            nom_livre.clear();
-            cat.clear();
-            prixx.clear();
-            quantitee.clear();
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Ligne supprimée!");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation de suppression");
             alert.setHeaderText(null);
-            alert.setContentText("Le livre a été supprimer du ligne du panier!");
-            alert.showAndWait();
+            alert.setContentText("Êtes-vous sûr de vouloir supprimer l'élément " + selectedLivre.getLibelle() + " du panier ?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                lp.supprimerLignePanier(selectedLivre);
+                showPanier();
+                nom_livre.clear();
+                cat.clear();
+                prixx.clear();
+                quantitee.clear();
+
+                Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+                alert2.setTitle("Ligne supprimée!");
+                alert2.setHeaderText(null);
+                alert2.setContentText("Le livre a été supprimer du ligne du panier!");
+                alert2.showAndWait();
+            }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         } catch (NullPointerException ex) {

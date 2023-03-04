@@ -6,14 +6,15 @@
 package tn.esprit.ktebi.services;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import tn.esprit.ktebi.entities.Facture;
 import tn.esprit.ktebi.entities.LigneFacture;
 import tn.esprit.ktebi.entities.Livre;
@@ -45,9 +46,9 @@ public class ServiceFacture implements IFacture {
         try {
             String requete = "insert into ligne_facture(id_facture, id_livre, id_user,mnt,qte) values (?, ?, ?,?,?)";
             PreparedStatement st = cnx.prepareStatement(requete);
-            st.setInt(1, ligneFac.getId_facture());
-            st.setInt(2, ligneFac.getId_livre());
-            st.setInt(3, ligneFac.getId_user());
+            st.setInt(1, ligneFac.getId_facture().getId());
+            st.setInt(2, ligneFac.getId_livre().getId());
+            st.setInt(3, ligneFac.getId_user().getId());
             st.setFloat(4, ligneFac.getMnt());
             st.setInt(5, ligneFac.getQte());
             st.executeUpdate();
@@ -58,7 +59,7 @@ public class ServiceFacture implements IFacture {
     }
 
     @Override
-    public void ajouterFacture(int id_user) throws SQLException {
+    public void ajouterFacture(int id_user, String mode_paiement) throws SQLException {
         try {
             cnx.setAutoCommit(false); // Démarrer la transaction
 
@@ -75,11 +76,12 @@ public class ServiceFacture implements IFacture {
             float montant_total = lp.calculerPrixTotal(panier.getId());
 
             // Ajouter la facture dans la table facture
-            String requete1 = "INSERT INTO facture (mode_paiement, mnt_totale, id_user) VALUES (?, ?, ?)";
+            String requete1 = "INSERT INTO facture (mode_paiement, mnt_totale, id_user,date_fac) VALUES (?, ?, ?,?)";
             PreparedStatement st1 = cnx.prepareStatement(requete1, Statement.RETURN_GENERATED_KEYS);
-            st1.setString(1, "Espèce");
+            st1.setString(1, mode_paiement);
             st1.setFloat(2, montant_total);
             st1.setInt(3, id_user);
+            st1.setTimestamp(4, java.sql.Timestamp.valueOf(LocalDateTime.now().now()));
             st1.executeUpdate();
 
             // Récupérer l'id de la facture ajoutée
@@ -152,7 +154,11 @@ public class ServiceFacture implements IFacture {
             float prix = rs.getFloat("prix");
             String langue = rs.getString("langue");
             int promo = rs.getInt("code_promo");
-            int user = rs.getInt("id_user");
+//            int user = rs.getInt("id_user");
+            int userId = rs.getInt("id_user");
+            User user = new User();
+            user.setId(userId);
+
             String image = rs.getString("image");
 
             Livre livre = new Livre(id, libelle, description, editeur, date_edition, categorie, prix, langue, promo, user, image);
@@ -187,13 +193,44 @@ public class ServiceFacture implements IFacture {
             facture.setId(rs.getInt(1));
             facture.setMode_paiement(rs.getString("mode_paiement"));
             facture.setMontant_totale(rs.getFloat("mnt_totale"));
-            facture.setUser(rs.getInt("id_user"));
+            int userId = rs.getInt("id_user");
+            User user = new User();
+            user.setId(userId);
+            facture.setUser(user);
 
             listFact.add(facture);
 
         }
 
         return listFact;
+    }
+
+    public List<Facture> afficherFacturesWithUser() throws SQLException {
+        List<Facture> facturesList = new ArrayList<>();
+        String query = "SELECT f.id_facture, f.mnt_totale, f.mode_paiement,f.id_user,f.date_fac, u.nom, u.prenom "
+                + "FROM facture f "
+                + "INNER JOIN utilisateur u ON f.id_user = u.id_user";
+
+        PreparedStatement pst = cnx.prepareStatement(query);
+        ResultSet rs = pst.executeQuery();
+
+        while (rs.next()) {
+            int id = rs.getInt("id_facture");
+            float montant_totale = rs.getFloat("mnt_totale");
+            String mode_paiement = rs.getString("mode_paiement");
+            String nom = rs.getString("nom");
+            String prenom = rs.getString("prenom");
+            int id_user = rs.getInt("id_user");
+            User user = new User();
+            user.setId(id_user);
+            Date d = rs.getDate("date_fac");
+            LocalDateTime date_fac = new java.sql.Timestamp(d.getTime()).toLocalDateTime();
+
+            Facture f = new Facture(id, montant_totale, mode_paiement, user, date_fac, nom, prenom);
+            facturesList.add(f);
+        }
+
+        return facturesList;
     }
 
     public List<LigneFacture> afficherLignesFactures() throws SQLException {
@@ -207,9 +244,23 @@ public class ServiceFacture implements IFacture {
 
             LigneFacture facture = new LigneFacture();
             facture.setId_ligne_fac(rs.getInt(1));
-            facture.setId_facture(rs.getInt("id_facture"));
-            facture.setId_livre(rs.getInt("id_livre"));
-            facture.setId_user(rs.getInt("id_user"));
+
+            //facture
+            int id_facture = rs.getInt("id_facture");
+            Facture f = new Facture();
+            f.setId(id_facture);
+            facture.setId_facture(f);
+            //livre
+            int id_livre = rs.getInt("id_livre");
+            Livre livre = new Livre();
+            livre.setId(id_livre);
+            facture.setId_livre(livre);
+            //user
+            int id_user = rs.getInt("id_user");
+            User user = new User();
+            user.setId(id_user);
+            facture.setId_livre(livre);
+            facture.setId_user(user);
             facture.setMnt(rs.getFloat("mnt"));
             facture.setQte(rs.getInt("qte"));
 
@@ -222,16 +273,28 @@ public class ServiceFacture implements IFacture {
 
     @Override
     public void supprimerFacture(Facture f) throws SQLException {
-        String requete = "delete from facture where id_facture=" + f.getId() + "";
+        String deleteFactureQuery = "DELETE FROM facture WHERE id_facture = ?";
+        String deleteLigneFactureQuery = "DELETE FROM ligne_facture WHERE id_facture = ?";
         try {
-            PreparedStatement st = cnx.prepareStatement(requete);
-            st.executeUpdate();
+            cnx.setAutoCommit(false);
+
+            PreparedStatement deleteLigneFactureStmt = cnx.prepareStatement(deleteLigneFactureQuery);
+            deleteLigneFactureStmt.setInt(1, f.getId());
+            deleteLigneFactureStmt.executeUpdate();
+
+            PreparedStatement deleteFactureStmt = cnx.prepareStatement(deleteFactureQuery);
+            deleteFactureStmt.setInt(1, f.getId());
+            deleteFactureStmt.executeUpdate();
+
+            cnx.commit();
             System.out.println("La facture est supprimée!");
 
         } catch (SQLException ex) {
+            cnx.rollback();
             System.out.println(ex.getMessage());
+        } finally {
+            cnx.setAutoCommit(true);
         }
-
     }
 
     @Override

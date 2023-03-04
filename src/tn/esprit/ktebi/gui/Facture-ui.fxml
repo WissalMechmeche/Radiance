@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="765.0" prefWidth="1254.0" stylesheets="@design.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.FactureController">
-<!--    <ImageView fitHeight="948.0" fitWidth="1330.0" layoutX="-51.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+    <!--    <ImageView fitHeight="948.0" fitWidth="1330.0" layoutX="-51.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
         <image>
             <Image url="@images/1.jpg" />
         </image>
@@ -184,8 +184,9 @@
         </font>
     </Label>
     <Button fx:id="save_fac" layoutX="975.0" layoutY="724.0" mnemonicParsing="false" onAction="#onBtnAjouterFactureClick" prefHeight="26.0" prefWidth="171.0" text="Enregistrer" textFill="WHITE">
-      <font>
-         <Font name="System Bold" size="13.0" />
-      </font></Button>
+        <font>
+            <Font name="System Bold" size="13.0" />
+        </font>
+    </Button>
     
 </AnchorPane>

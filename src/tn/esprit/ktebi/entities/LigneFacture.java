@@ -10,19 +10,18 @@ package tn.esprit.ktebi.entities;
  * @author Pc Anis
  */
 public class LigneFacture {
+
     private int id_ligne_fac;
-    private int id_facture;
-    private int id_livre;
-    private int id_user;
+    private Facture id_facture;
+    private Livre id_livre;
+    private User id_user;
     private float mnt;
     private int qte;
 
     public LigneFacture() {
     }
 
-    
-    
-    public LigneFacture(int id_ligne_fac, int id_facture, int id_livre, int id_user, float mnt, int qte) {
+    public LigneFacture(int id_ligne_fac, Facture id_facture, Livre id_livre, User id_user, float mnt, int qte) {
         this.id_ligne_fac = id_ligne_fac;
         this.id_facture = id_facture;
         this.id_livre = id_livre;
@@ -31,7 +30,7 @@ public class LigneFacture {
         this.qte = qte;
     }
 
-    public LigneFacture(int id_facture, int id_livre, int id_user, float mnt, int qte) {
+    public LigneFacture(Facture id_facture, Livre id_livre, User id_user, float mnt, int qte) {
         this.id_facture = id_facture;
         this.id_livre = id_livre;
         this.id_user = id_user;
@@ -47,27 +46,27 @@ public class LigneFacture {
         this.id_ligne_fac = id_ligne_fac;
     }
 
-    public int getId_facture() {
+    public Facture getId_facture() {
         return id_facture;
     }
 
-    public void setId_facture(int id_facture) {
+    public void setId_facture(Facture id_facture) {
         this.id_facture = id_facture;
     }
 
-    public int getId_livre() {
+    public Livre getId_livre() {
         return id_livre;
     }
 
-    public void setId_livre(int id_livre) {
+    public void setId_livre(Livre id_livre) {
         this.id_livre = id_livre;
     }
 
-    public int getId_user() {
+    public User getId_user() {
         return id_user;
     }
 
-    public void setId_user(int id_user) {
+    public void setId_user(User id_user) {
         this.id_user = id_user;
     }
 
@@ -116,9 +115,5 @@ public class LigneFacture {
         }
         return true;
     }
-    
-    
-    
-    
-    
+
 }

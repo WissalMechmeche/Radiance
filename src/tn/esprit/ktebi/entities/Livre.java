@@ -22,13 +22,13 @@ public class Livre {
     private float prix;
     private String langue;
     private int promo;
-    private int user;
+    private User user;
     private String image;
 
     public Livre() {
     }
 
-    public Livre(int id, String libelle, String description, String editeur, String date_edition, String categorie, float prix, String langue, int promo, int user, String image) {
+    public Livre(int id, String libelle, String description, String editeur, String date_edition, String categorie, float prix, String langue, int promo, User user, String image) {
         this.id = id;
         this.libelle = libelle;
         this.description = description;
@@ -41,22 +41,39 @@ public class Livre {
         this.user = user;
         this.image = image;
     }
-    
-    public Livre(int user,float prix){
-        this.user=user;
-        this.prix=prix;
-        
+
+    public Livre(int id, float prix) {
+        this.id = id;
+        this.prix = prix;
+
     }
-    public Livre(String libelle,String image, String categorie,float prix,int user){
+
+    public Livre(String libelle, String image, String categorie, float prix, User user) {
         this.libelle = libelle;
         this.categorie = categorie;
         this.prix = prix;
         this.image = image;
-        this.user=user;
-        
+        this.user = user;
+
     }
 
-    public Livre(String libelle, String description, String editeur, String date_edition, String categorie, float prix, String langue, int promo, int user, String image) {
+    public Livre(String libelle, String image, String categorie, float prix, int id) {
+        this.libelle = libelle;
+        this.categorie = categorie;
+        this.prix = prix;
+        this.image = image;
+        this.id = id;
+
+    }
+
+    public Livre(int id, String libelle, String image, float prix) {
+        this.id = id;
+        this.libelle = libelle;
+        this.image = image;
+        this.prix = prix;
+    }
+
+    public Livre(String libelle, String description, String editeur, String date_edition, String categorie, float prix, String langue, int promo, User user, String image) {
         this.libelle = libelle;
         this.description = description;
         this.editeur = editeur;
@@ -80,16 +97,12 @@ public class Livre {
 
     }
 
-    public Livre(int user, String libelle, String image, float prix) {
-        this.user=user;
-        this.libelle=libelle;
-        this.image=image;
-        this.prix=prix;
-        
-    }
+    public Livre(User user, String libelle, String image, float prix) {
+        this.user = user;
+        this.libelle = libelle;
+        this.image = image;
+        this.prix = prix;
 
-    public Livre(int qte, String string, String image, float aFloat, float sousTot) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public int getId() {
@@ -172,11 +185,11 @@ public class Livre {
         this.promo = promo;
     }
 
-    public int getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(int user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

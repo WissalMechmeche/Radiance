@@ -12,25 +12,24 @@ import java.util.Objects;
  * @author MSI
  */
 public class LignePanier {
+
     private int id;
-    private int livre ;
-    private int panier ;
-    private int quantite ;
-    
-    public LignePanier()
-    {
-        
+    private Livre livre;
+    private Panier panier;
+    private int quantite;
+
+    public LignePanier() {
+
     }
-    
-     public LignePanier(int id,int livre, int panier, int quantite) {
-         this.id=id;
+
+    public LignePanier(int id, Livre livre, Panier panier, int quantite) {
+        this.id = id;
         this.livre = livre;
         this.panier = panier;
         this.quantite = quantite;
     }
 
-
-    public LignePanier(int livre, int panier, int quantite) {
+    public LignePanier(Livre livre, Panier panier, int quantite) {
         this.livre = livre;
         this.panier = panier;
         this.quantite = quantite;
@@ -43,21 +42,20 @@ public class LignePanier {
     public void setId(int id) {
         this.id = id;
     }
-    
 
-    public int getLivre() {
+    public Livre getLivre() {
         return livre;
     }
 
-    public void setLivre(int livre) {
+    public void setLivre(Livre livre) {
         this.livre = livre;
     }
 
-    public int getPanier() {
+    public Panier getPanier() {
         return panier;
     }
 
-    public void setPanier(int panier) {
+    public void setPanier(Panier panier) {
         this.panier = panier;
     }
 
@@ -71,11 +69,10 @@ public class LignePanier {
 
     @Override
     public String toString() {
-        return "LignePanier{" + "livre=" 
-                + livre + ", panier=" + panier 
+        return "LignePanier{" + "livre="
+                + livre + ", panier=" + panier
                 + ", quantite=" + quantite + '}';
     }
-
 
     @Override
     public boolean equals(Object obj) {
@@ -97,17 +94,5 @@ public class LignePanier {
         }
         return true;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
 }
