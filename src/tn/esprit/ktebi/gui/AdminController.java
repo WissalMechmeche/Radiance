@@ -6,8 +6,25 @@
 package tn.esprit.ktebi.gui;
 
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import tn.esprit.ktebi.entities.User;
+import tn.esprit.ktebi.service.ServiceUser;
 
 /**
  * FXML Controller class
@@ -15,13 +32,93 @@ import javafx.fxml.Initializable;
  * @author Admin
  */
 public class AdminController implements Initializable {
+    @FXML
+    private TableColumn<User, String> coladrs;
 
+    @FXML
+    private TableColumn<User, LocalDate> colddate;
+
+    @FXML
+    private TableColumn<User, String> colemail;
+
+    @FXML
+    private TableColumn<User, String> colnom;
+
+    @FXML
+    private TableColumn<User, String> colprenom;
+
+    @FXML
+    private TableColumn<User, String> colpsd;
+
+    @FXML
+    private TableColumn<User, Integer> colrole;
+
+    @FXML
+    private TableColumn<User, String> colstatus;
+
+    @FXML
+    private TableColumn<User, Integer> coltel;
+
+    @FXML
+    private TableView<User> table;
+    
+    @FXML
+    private Button btndesc;
+
+    @FXML
+    private Button btnretour;
+    
+    ServiceUser se = new ServiceUser();
+    List<User> user;
+    ObservableList<User> list;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        user = new ArrayList<>();
+        try {
+            user =se.selectAll();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+   
+        list= FXCollections.observableList(user);  
+        colprenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+        colnom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        coltel.setCellValueFactory(new PropertyValueFactory<>("tel"));
+        coladrs.setCellValueFactory(new PropertyValueFactory<>("adresse"));
+        colemail.setCellValueFactory(new PropertyValueFactory<>("email"));        
+        colddate.setCellValueFactory(new PropertyValueFactory<>("dateNaissance"));
+        colstatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        table.setItems(list);       
     }    
-    
+    void Afficher(){
+
+    }
+
+    @FXML
+    void Desactiver(ActionEvent event) {
+        Integer index = table.getSelectionModel().getSelectedIndex();
+        User user = new User(table.getItems().get(index).getId());
+        try{
+            se.desactiver(user);
+            Alert al = new Alert(Alert.AlertType.INFORMATION);
+            al.setTitle("Acount");
+            al.setHeaderText("Desactivation");
+            al.setContentText("Compte desactivé");
+            al.show();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    @FXML
+    void btnretour(ActionEvent event) {
+
+    }    
 }

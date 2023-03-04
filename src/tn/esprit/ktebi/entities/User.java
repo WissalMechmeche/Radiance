@@ -22,6 +22,7 @@ public class User {
     private LocalDate dateNaissance ;
     private int tel ;
     private String motPasse ;
+    private String status;
     Role role ;
    public static int connecte;
 //
@@ -35,7 +36,7 @@ public class User {
 //        this.motPasse=password;
 //    }
 
-    public User(int id, String nom, String prenom, String email, String adresse, int tel, String motPasse) {
+    public User(int id, String nom, String prenom, String email, String adresse, int tel, String motPasse,LocalDate dateNaissance) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
@@ -43,17 +44,21 @@ public class User {
         this.adresse = adresse;
         this.tel = tel;
         this.motPasse = motPasse;
+        this.dateNaissance = dateNaissance;
+        
     }
 
 
-
+   public User(int id)
+    {
+        this.id=id;
+    }
     
 
     public User() {
     }
 
-    public User(int id, String nom, String prenom, String email, String adresse, LocalDate dateNaissance, int tel, String motPasse, Role role) {
-        this.id = id;
+    public User(String nom, String prenom, String email, String adresse, LocalDate dateNaissance, int tel, String motPasse, Role role,String status) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
@@ -62,18 +67,7 @@ public class User {
         this.tel = tel;
         this.motPasse = motPasse;
         this.role = role;
-    }
-    
-
-    public User(String nom, String prenom, String email, String adresse, LocalDate dateNaissance, int tel, String motPasse, Role role) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.email = email;
-        this.adresse = adresse;
-        this.dateNaissance = dateNaissance;
-        this.tel = tel;
-        this.motPasse = motPasse;
-        this.role = role;
+        this.status = status;
     }
 
 
@@ -147,6 +141,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

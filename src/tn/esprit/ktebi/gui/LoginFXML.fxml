@@ -24,11 +24,16 @@
          <font>
             <Font name="System Bold Italic" size="30.0" />
          </font></Label>
-      <Button fx:id="btnLogin" layoutX="500.0" layoutY="271.0" mnemonicParsing="false" onAction="#Login" prefHeight="45.0" prefWidth="93.0" text="Valider" textFill="#0b425e">
+      <Button fx:id="btnLogin" layoutX="508.0" layoutY="269.0" mnemonicParsing="false" onAction="#Login" prefHeight="45.0" prefWidth="93.0" text="Valider" textFill="#0b425e">
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Button>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3f558d" height="510.0" layoutY="-5.0" stroke="BLACK" strokeType="INSIDE" width="93.0" />
       <Button layoutX="259.0" layoutY="201.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="171.0" text="Mot de passe oublie" textFill="#242b8a" />
+      <Button layoutX="173.0" layoutY="269.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="103.0" text="Retour" textFill="#0b425e">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

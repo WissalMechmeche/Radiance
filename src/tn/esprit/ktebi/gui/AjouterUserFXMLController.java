@@ -27,6 +27,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import tn.esprit.ktebi.entities.Role;
@@ -43,8 +44,6 @@ public class AjouterUserFXMLController implements Initializable {
     @FXML
     private Button btnajouter;
 
-    @FXML
-    private Button btnact;
 
     @FXML
     private Button btnretour;
@@ -71,6 +70,10 @@ public class AjouterUserFXMLController implements Initializable {
 
     @FXML
     private TextField txtconmdp;
+    
+    @FXML
+    private Label  txtrole;
+    public static String rol;
     Integer id;
     ServiceUser se = new ServiceUser();
         private Connection cnx;
@@ -84,7 +87,6 @@ public class AjouterUserFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TO        
-
     }    
         @FXML
     void Actualiser(ActionEvent event) {
@@ -96,10 +98,9 @@ public class AjouterUserFXMLController implements Initializable {
         Role u = new Role();
         User user = new User(txtnom.getText()
                     , txtprenom.getText(),txtemail.getText(),txtadress.getText(),txtdate.getValue()
-                    ,Integer.parseInt(txttlfn.getText()),txtmdp.getText(),u);
+                    ,Integer.parseInt(txttlfn.getText()),txtmdp.getText(),u,"activer");
         try{
             se.updateOne(user);
-            System.out.println("yes");
 
         } catch (SQLException ex) {
             Logger.getLogger(AjouterUserFXMLController.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,11 +132,18 @@ public class AjouterUserFXMLController implements Initializable {
         }
         
         else{
+            System.out.println(rol);
             Role r = new Role() ;
-            r.setId(1);
+            if(rol.equals("Client")){
+                r.setId(1);
+            }else if(rol.equals("Auteur")){
+                r.setId(2);
+            }else{
+                r.setId(3);
+            }
             User p = new User(txtnom.getText()
                     , txtprenom.getText(),txtemail.getText(),txtadress.getText(),txtdate.getValue()
-                    ,Integer.parseInt(txttlfn.getText()),txtmdp.getText(),r);
+                    ,Integer.parseInt(txttlfn.getText()),txtmdp.getText(),r,"activer");
             
             ServiceUser sp = new ServiceUser();
             try {
@@ -184,5 +192,9 @@ public class AjouterUserFXMLController implements Initializable {
     void Retour(ActionEvent event) {
        
     }
-  
+     public void setrole(String role){
+    this.rol= role;
+
+     }
+ 
 }

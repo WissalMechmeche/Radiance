@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="484.0" prefWidth="738.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.AjouterUserFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="459.0" prefWidth="795.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.AjouterUserFXMLController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3b369a" height="77.0" layoutX="107.0" stroke="BLACK" strokeType="INSIDE" width="633.0" />
       <Button fx:id="btnajouter" layoutX="561.0" layoutY="390.0" mnemonicParsing="false" onAction="#AjouterUtilisateur" prefHeight="45.0" prefWidth="107.0" text="Ajouter" textFill="#0b425e">
@@ -54,7 +54,7 @@
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font></Text>
-      <Text fill="#0e0aee" layoutX="523.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="conf mdp">
+      <Text fill="#0e0aee" layoutX="523.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Role">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font></Text>
@@ -66,6 +66,6 @@
       </Label>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3f558d" height="484.0" layoutY="-1.0" stroke="BLACK" strokeType="INSIDE" width="107.0" />
       <PasswordField fx:id="txtmdp" layoutX="167.0" layoutY="345.0" />
-      <PasswordField fx:id="txtmdp1" layoutX="523.0" layoutY="345.0" />
+      <Label fx:id="txtrole" layoutX="523.0" layoutY="345.0" prefHeight="17.0" prefWidth="129.0" />
    </children>
 </AnchorPane>

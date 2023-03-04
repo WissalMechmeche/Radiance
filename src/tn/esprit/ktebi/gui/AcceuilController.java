@@ -44,19 +44,16 @@ public class AcceuilController implements Initializable {
             Parent root = FXMLLoader
                     .load(getClass().getResource("../gui/AcountFXML.fxml"));
             Scene scene = new Scene(root, 650, 500);
-            //AcountFXMLController acont = new AcountFXMLController();
-            //acont.getId(id);
+
             primaryStage.setTitle("Hello World!");
             primaryStage.setScene(scene);
             primaryStage.show();
             
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
-    void getId(Integer id){
-        this.id=id;
-    }
+
     
 }
 

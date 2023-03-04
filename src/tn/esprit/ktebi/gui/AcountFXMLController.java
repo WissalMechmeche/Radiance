@@ -5,17 +5,26 @@
  */
 package tn.esprit.ktebi.gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.service.ServiceUser;
 
@@ -35,9 +44,6 @@ public class AcountFXMLController implements Initializable {
     private TextField txtadress;
 
     @FXML
-    private TextField txtconmdp;
-
-    @FXML
     private DatePicker txtdate;
 
     @FXML
@@ -55,7 +61,6 @@ public class AcountFXMLController implements Initializable {
     @FXML
     private TextField txttlfn;
     ServiceUser se = new ServiceUser();
-     int id = 1;
       User user =new User();
     /**
      * Initializes the controller class.
@@ -64,48 +69,40 @@ public class AcountFXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
      // TODO
-     user =se.SelectUser(User.connecte);
+    Affciher();
+     
+    }  
+    void Affciher(){
+    user =se.SelectUser(User.connecte);
      txtemail.setText(user.getEmail());
-          txtnom.setText(user.getNom());
-     txtprenom.setText(user.getPrenom());  
-     
-     txtadress.setText(user.getAdresse());
-//     txtmdp.setText(user.getMotPasse());
-     txttlfn.setText(String.valueOf(user.getTel()));
-     
-     
-
-     
-     // txttlfn.setText(String.valueOf(l.getId()));
-     /*
      txtnom.setText(user.getNom());
-     txtprenom.setText(user.getPrenom());
-     txtadress.setText(user.getAdresse());
-     txtemail.setText(user.getEmail());
+     txtprenom.setText(user.getPrenom()); 
      txtdate.setValue(user.getDateNaissance());
+     txtadress.setText(user.getAdresse());
      txttlfn.setText(String.valueOf(user.getTel()));
-     txtmdp.setText(user.getMotPasse());*/
-    }    
+    txtmdp.setText(user.getMotPasse());
+    }
         @FXML
-    void ModifierUser(ActionEvent event) {
-     
+    void ModifierUser(ActionEvent event) throws IOException {
+        User u=new User(Integer.valueOf(user.getId()) ,txtnom.getText(),txtprenom.getText(),
+                       txtemail.getText(),txtadress.getText(),Integer.valueOf(txttlfn.getText()),
+                       txtmdp.getText(),txtdate.getValue());
+
+        try{
+            se.updateOne(u);
+            Alert al = new Alert(Alert.AlertType.INFORMATION);
+            al.setTitle("Acount");
+            al.setHeaderText("Modification");
+            al.setContentText("information modifié");
+            al.show();
+            Affciher();
+        } catch (SQLException ex) {
+            Logger.getLogger(AcountFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
     void Retour(ActionEvent event) {
-
-    }
-    public void getId(Integer id){
-     User user =new User();
-
-        try{
-        user =se.SelectUser(id);
-        
-
-        System.out.println(user);
-    } catch (SQLException ex) {
-            Logger.getLogger(AcountFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
     }
 

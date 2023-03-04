@@ -5,37 +5,28 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="647.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.AcceuilController">
    <children>
-      <Button fx:id="btnAccount" layoutX="489.0" layoutY="14.0" mnemonicParsing="false" onAction="#AfficherAccount" prefHeight="39.0" prefWidth="117.0" text="Compte" textFill="#3e08ff">
+      <Button fx:id="btnAccount" layoutX="518.0" layoutY="56.0" mnemonicParsing="false" onAction="#AfficherAccount" prefHeight="39.0" prefWidth="117.0" text="Compte" textFill="#0b425e">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font></Button>
-      <ImageView fitHeight="80.0" fitWidth="78.0" layoutX="37.0" layoutY="35.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../../../../Users/Admin/Downloads/richdad.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="80.0" fitWidth="78.0" layoutX="141.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="80.0" fitWidth="78.0" layoutX="255.0" layoutY="280.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../../../../Users/Admin/Downloads/it%20ends%20with%20us.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="80.0" fitWidth="66.0" layoutX="242.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="80.0" fitWidth="66.0" layoutX="386.0" layoutY="271.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../../../../Users/Admin/Downloads/Becoming.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="80.0" fitWidth="86.0" layoutX="386.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="80.0" fitWidth="86.0" layoutX="465.0" layoutY="156.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../../../../Users/Admin/Downloads/HOOKLINE.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="80.0" fitWidth="86.0" layoutX="37.0" layoutY="164.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../../../../Users/Admin/Downloads/a%20TOLL%20OF%20TWO%20CITIES.jpg" />
          </image>
       </ImageView>
       <ImageView fitHeight="80.0" fitWidth="70.0" layoutX="152.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true">
@@ -53,7 +44,7 @@
             <Image url="@../../../../../../../../Users/Admin/Downloads/HOOKLINE.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="80.0" fitWidth="78.0" layoutX="54.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="80.0" fitWidth="78.0" layoutX="71.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../../../../Users/Admin/Downloads/MISSING%20RICE.jpg" />
          </image>
@@ -63,13 +54,19 @@
             <Image url="@../../../../../../../../Users/Admin/Downloads/bRIDGERTO.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="45.0" layoutY="140.0" text="30.000DT" />
-      <Label layoutX="155.0" layoutY="140.0" text="30.000DT" />
-      <Label layoutX="393.0" layoutY="279.0" text="30.000DT" />
-      <Label layoutX="275.0" layoutY="279.0" text="50.000DT" />
+      <Label layoutX="274.0" layoutY="369.0" text="30.000DT" />
+      <Label layoutX="393.0" layoutY="254.0" text="30.000DT" />
+      <Label layoutX="269.0" layoutY="262.0" text="50.000DT" />
       <Label layoutX="154.0" layoutY="270.0" text="850.000DT" />
-      <Label layoutX="59.0" layoutY="271.0" text="860.000DT" />
-      <Label layoutX="393.0" layoutY="139.0" text="50.000DT" />
-      <Label layoutX="261.0" layoutY="140.0" text="30.000DT" />
+      <Label layoutX="69.0" layoutY="263.0" text="860.000DT" />
+      <Label layoutX="475.0" layoutY="246.0" text="50.000DT" />
+      <Label layoutX="400.0" layoutY="360.0" text="30.000DT" />
+      <Button layoutX="518.0" layoutY="337.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="106.0" text="Retour" textFill="#0b425e">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3b369a" height="54.0" layoutX="58.0" layoutY="-1.0" stroke="BLACK" strokeType="INSIDE" width="588.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3f558d" height="401.0" stroke="BLACK" strokeType="INSIDE" width="64.0" />
    </children>
 </AnchorPane>

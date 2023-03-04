@@ -30,7 +30,7 @@ public class FXMain extends Application {
         try {
             Parent root = FXMLLoader
                     .load(getClass().getResource("../gui/FXMLh.fxml"));
-            Scene scene = new Scene(root, 650, 500);
+            Scene scene = new Scene(root, 800, 500);
             
             primaryStage.setTitle("Hello World!");
             primaryStage.setScene(scene);

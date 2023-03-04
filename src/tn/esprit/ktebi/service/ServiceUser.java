@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import tn.esprit.ktebi.entities.Role;
 import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.utils.MaConnexion;
 /**
@@ -35,9 +36,9 @@ public class ServiceUser implements IService<User>{
                 Date date = java.sql.Date.valueOf(t.getDateNaissance());
        
                 String req = "INSERT INTO `utilisateur`( `prenom`, `nom`, `email`,"
-                        + " `password`, `tel`, `dateDeNaissance`, `adresse`, `id_role`)"
+                        + " `password`, `tel`, `dateDeNaissance`, `adresse`, `id_role`,`status`)"
                 +" VALUES ('"+t.getPrenom()+"', '"+t.getNom()+"','"+t.getEmail()+"','"+t.getMotPasse()+"',"
-                        + "'"+t.getTel()+"','"+date+"','"+t.getAdresse()+"','"+1+"')";
+                        + "'"+t.getTel()+"','"+date+"','"+t.getAdresse()+"','"+t.getRole().getId()+"','"+t.getStatus()+"')";
         Statement st = cnx.createStatement();
         st.executeUpdate(req);
         System.out.println("Person ajouté !");
@@ -45,10 +46,10 @@ public class ServiceUser implements IService<User>{
 
     @Override
     public void updateOne(User t) throws SQLException {
-            PreparedStatement st = cnx.prepareStatement("update set utilisateur prenom=?, nom=?, email=?, password=?, tel=?,"
+            PreparedStatement st = cnx.prepareStatement("update utilisateur set  prenom=?, nom=?, email=?, password=?, tel=?,"
                     + " dateDeNaissance=?, adresse=? where id_user=? ");
-        st.setString(1, t.getNom());
-        st.setString(2,t.getPrenom());
+        st.setString(1, t.getPrenom());
+        st.setString(2,t.getNom());
         st.setString(3, t.getEmail());
         st.setString(4, t.getMotPasse());
         st.setInt(5,t.getTel());
@@ -56,10 +57,6 @@ public class ServiceUser implements IService<User>{
         st.setString(7, t.getAdresse());
         st.setInt(8, t.getId());
         st.executeUpdate();
-    }
-
-    @Override
-    public void deletOne(User t) throws SQLException {
     }
 
     @Override
@@ -75,6 +72,7 @@ public class ServiceUser implements IService<User>{
         while (rs.next()){
 
             User p = new User();
+            p.setId(rs.getInt("id_user"));
             p.setPrenom(rs.getString("prenom"));
             p.setNom(rs.getString("nom"));
             p.setEmail(rs.getString("email"));
@@ -82,55 +80,31 @@ public class ServiceUser implements IService<User>{
             p.setTel(rs.getInt("tel"));
             p.setAdresse(rs.getString("adresse"));
             p.setDateNaissance(rs.getDate("dateDeNaissance").toLocalDate());
+            p.setStatus(rs.getString("status")); 
             user.add(p);
         }    
         return user;
     }
-    public User SelectUser(Integer id)throws SQLException{
-        
-        User user = new User();
-        String req = "SELECT * FROM `utilisateur` where id_user=?";
-        PreparedStatement ps = cnx.prepareStatement(req);
-        ps.setInt(1,id);
 
+      public List<Role> RecupCombo() throws SQLException{
+             
+             
+      List<Role> list = new ArrayList<>();
+    
+          String sql = "SELECT * FROM `role`";
+
+        PreparedStatement ps = cnx.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
-         while(rs.next()){
-            user.setPrenom(rs.getString("prenom"));
-            user.setNom(rs.getString("nom"));
-            user.setEmail(rs.getString("email"));
-            user.setMotPasse(rs.getString("password"));
-            user.setTel(rs.getInt("tel"));
-            user.setAdresse(rs.getString("adresse"));
-            user.setDateNaissance(rs.getDate("dateDeNaissance").toLocalDate());
-         }
-            return user;
-        
-    }
-      public static ObservableList<String> RecupCombo(){
-             
-             
-    ObservableList<String> list = FXCollections.observableArrayList();
-    
-       java.sql.Connection cnx;
-     cnx = MaConnexion.getInstance().getCnx();
-          String sql = "SELECT role FROM `role`";
-    try {
-       
-        PreparedStatement st = (PreparedStatement) cnx.prepareStatement(sql);
-
-    ResultSet R = st.executeQuery();
-    while (R.next()){
-      
-     
-   String r = R.getString(1);
-        System.out.println(r);
-    
+    while (rs.next()){
+     Role r = new Role();
+        r.setId(rs.getInt("id_role"));
+        r.setRole(rs.getString("role"));
      
       list.add(r);
+
     }
-    }catch (SQLException ex){
-    ex.getMessage(); 
-    } 
+
+
     return list;
     }
          public User SelectUser(int id){
@@ -146,7 +120,9 @@ public class ServiceUser implements IService<User>{
             
             while(rs.next()){           
                  
-               r = new User(rs.getInt("id_user") ,rs.getString("nom"),rs.getString("prenom"),rs.getString("email"),rs.getString("adresse"),rs.getInt("tel"),rs.getString("password"));
+               r = new User(rs.getInt("id_user") ,rs.getString("nom"),rs.getString("prenom"),
+                       rs.getString("email"),rs.getString("adresse"),rs.getInt("tel"),
+                       rs.getString("password"),rs.getDate("dateDeNaissance").toLocalDate());
 
             }
             
@@ -170,5 +146,17 @@ public class ServiceUser implements IService<User>{
              User.connecte = id  ;
          }
             return id;        
+    }
+    
+    public void desactiver(User t) throws SQLException {
+            PreparedStatement st = cnx.prepareStatement("update utilisateur set  status=? where id_user=? ");
+        st.setString(1,"desactiver");
+        st.setInt(2,t.getId());
+        st.executeUpdate();        
+    }
+    
+    @Override
+    public void deletOne(User t) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
