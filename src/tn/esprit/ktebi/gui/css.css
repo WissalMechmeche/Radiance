@@ -1,0 +1,116 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2 mars 2023, 21:08:09
+    Author     : MSI
+*/
+
+.root{
+  -fx-background: white;
+  -fx-text-fill: -text-light;
+  -fx-prompt-text-fill: rgba(0,0,0,.3);
+
+  -text-disabled: -text-disabled-light;
+  -background-disabled:rgba(0,0,0,.12);
+  -background-fill: -text-light;
+
+  
+}
+/*
+  //-flat-button-hover-background: rgba(#999999,.2);
+  -flat-button-pressed-background: rgba(#999999,.4);
+  -flat-button-disabled-fill: rgba(#000000,.26);
+*/
+.menuItem:hover{
+    -fx-border-color:  #4275DC;
+    -fx-border-width: 0px 0px 3px 0px;
+}
+
+
+.table-view{
+    -fx-background-color:  linear-gradient(to right, #CCE5FF, #CCE5FF, #CCE5FF);
+    -fx-background-radius:12;
+    -fx-fill: white;
+
+}
+.table-row-cell{
+    -fx-background-color:transparent;
+
+
+}
+.table-view .table-cell{
+    -fx-alignment: CENTER;
+    -fx-text-fill:black;
+    -fx-border-color:transparent;
+
+}
+.table-row-cell:selected .table-cell {
+    -fx-background-color: linear-gradient(to top, #ADC8EC, #ADC8EC, #ADC8EC);
+    -fx-border-color:transparent;
+
+
+}
+.table-view .column-header-background{
+    -fx-background-color: linear-gradient(to top, #4275dc , #4275dc , #4275dc);
+    -fx-background-radius: 12;
+
+   
+
+
+}
+.table-view .column-header, .table-view .filler{
+    -fx-background-radius: 12;
+    -fx-size: 40;
+
+   
+    -fx-background-color: transparent;
+}
+.table-view .column-header .label{
+    -fx-text-fill: white;
+    -fx-background-radius: 12;
+
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #ADC8EC;
+    -fx-text-fill: white;
+}
+#btnRedirectionAjout,#btnDetail{
+    -fx-background-color: #4275dc;
+}
+#btnSupprimer{
+    -fx-background-color: #FF5252;
+}
+#btnModifier{
+    -fx-background-color: #00CC66;
+}
+
+
+
+
+.sidebar{
+    -fx-background-color: #2262C6;
+    -fx-background-radius: 0px 50px 0px 0px;
+}
+.labbtn{
+    -fx-text-fill: #2262C6;
+    -fx-background-color: #FEFFFD;
+    -fx-background-radius: 50px;
+}
+.sidebar-btn{
+    -fx-background-color: transparent;
+}
+.sidebar-btn-text{
+    -fx-text-fill: #A2BEE8;
+}
+.sidebar-btn:hover .sidebar-btn-text{
+    -fx-text-fill: #7AA2E7;
+}
+
+#Menu {    -fx-background-color: #7AA2E7;
+}
+
+

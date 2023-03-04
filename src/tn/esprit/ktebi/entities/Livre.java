@@ -5,7 +5,12 @@
  */
 package tn.esprit.ktebi.entities;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.Objects;
+import java.awt.Image;
+
+
+
 
 
 
@@ -22,16 +27,17 @@ public class Livre implements Comparable<Livre> {
     private String categorie ;
     private float prix ;
     private String langue ;
-    private String image ;
-    private int promo ;
-    private int id_user ;
-    private String auteur ;
+    private Image image;
+    private Promo promo ;
+    private User auteur;
+    
+    
     
     
     public Livre(){
     }
 
-    public Livre(int id, String libelle, String description, String editeur, Date date_edition, String categorie, float prix, String langue, String image , int promo, int id_user, String auteur) {
+    public Livre(int id, String libelle, String description, String editeur, Date date_edition, String categorie, float prix, String langue, Image image, Promo promo, User auteur) {
         this.id = id;
         this.libelle = libelle;
         this.description = description;
@@ -40,13 +46,13 @@ public class Livre implements Comparable<Livre> {
         this.categorie = categorie;
         this.prix = prix;
         this.langue = langue;
-        this.image = image ;
+        this.image = image;
         this.promo = promo;
-        this.id_user = id_user;
-        this.auteur = auteur ;
+        this.auteur = auteur;
     }
     
-    public Livre(String libelle, String description, String editeur, Date date_edition, String categorie, float prix, String langue, String image , int promo, int id_user , String auteur) {
+    
+    public Livre(String libelle, String description, String editeur, Date date_edition, String categorie, float prix, String langue, Image image, Promo promo, User auteur) {
         this.libelle = libelle;
         this.description = description;
         this.editeur = editeur;
@@ -54,26 +60,12 @@ public class Livre implements Comparable<Livre> {
         this.categorie = categorie;
         this.prix = prix;
         this.langue = langue;
-        this.image = image ;
+        this.image = image;
         this.promo = promo;
-        this.id_user = id_user;
-        this.auteur = auteur ;
-    }
-    
-
-    public Livre(String libelle, String description, float prix, String langue, String auteur) {
-        this.libelle = libelle;
-        this.description = description;
-        this.prix = prix;
-        this.langue = langue;
         this.auteur = auteur;
     }
 
-   
     
-    
-
-       
 
     public int getId() {
         return id;
@@ -107,6 +99,8 @@ public class Livre implements Comparable<Livre> {
         this.editeur = editeur;
     }
 
+  
+
     public Date getDate_edition() {
         return date_edition;
     }
@@ -139,49 +133,43 @@ public class Livre implements Comparable<Livre> {
         this.langue = langue;
     }
 
-    public String getImage() {
+    public Image getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(Image image) {
         this.image = image;
     }
 
-    public int getPromo() {
+    public Promo getPromo() {
         return promo;
     }
 
-    public void setPromo(int promo) {
+    public void setPromo(Promo promo) {
         this.promo = promo;
     }
 
-    public int getId_user() {
-        return id_user;
-    }
-
-    public void setId_user(int id_user) {
-        this.id_user = id_user;
-    }
-
-    public String getAuteur() {
+    public User getAuteur() {
         return auteur;
     }
 
-    public void setAuteur(String auteur) {
+    public void setAuteur(User auteur) {
         this.auteur = auteur;
     }
-    
-   
 
     @Override
     public String toString() {
-        return "\nLivre{" + "id=" + id + ", libelle=" + libelle 
-                + ", description=" + description + ", editeur=" + editeur 
-                + ", date_edition=" + date_edition + ", categorie=" + categorie 
-                + ", prix=" + prix + ", langue=" + langue + ", image=" + image 
-                + ", promo=" + promo + ", id_user=" + id_user + "}";
+        return "Livre{" + "id=" + id 
+                + ", libelle=" + libelle 
+                + ", description=" + description 
+                + ", editeur=" + editeur 
+                + ", date_edition=" + date_edition 
+                + ", categorie=" + categorie 
+                + ", prix=" + prix 
+                + ", langue=" + langue 
+                + ", image=" + image 
+                + ", promo=" + promo + ", auteur=" + auteur + '}';
     }
-    
 
     @Override
     public boolean equals(Object obj) {
@@ -195,11 +183,13 @@ public class Livre implements Comparable<Livre> {
             return false;
         }
         final Livre other = (Livre) obj;
-        if (this.id != other.id) {
+        if (!Objects.equals(this.libelle, other.libelle)) {
             return false;
         }
         return true;
     }
+    
+    
 
     @Override
     public int compareTo(Livre o) {

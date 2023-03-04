@@ -30,7 +30,7 @@ public class MainFX extends Application {
             Parent root = FXMLLoader
                     .load(getClass().getResource("/tn/esprit/ktebi/gui/Liste_livres.fxml"));
             
-            Scene scene = new Scene(root, 1000, 700);
+            Scene scene = new Scene(root, 1100, 800);
             
             primaryStage.setTitle("Liste des livres ");
             primaryStage.setScene(scene);

@@ -17,5 +17,6 @@ public interface IPromoService<T> {
     public void update(T t) throws SQLException ;
     public void delete(int id) throws SQLException ;
     public List <T> selectAll() throws SQLException ;
+    public T selectById(int id) throws SQLException ;
     
 }

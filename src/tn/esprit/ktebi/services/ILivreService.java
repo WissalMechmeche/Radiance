@@ -18,5 +18,5 @@ public interface ILivreService<T> {
     public void delete(int id) throws SQLException ;
     public List <T> selectAll() throws SQLException ;
     public List <T> searchByLibelle(String libelle) throws SQLException ;
-    public List <T> searchByCategorie(String libelle) throws SQLException ;
+    public List <T> searchByCategorie(String categorie) throws SQLException ;
 }

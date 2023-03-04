@@ -5,14 +5,21 @@
  */
 package tn.esprit.ktebi.tests;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
+import java.util.Calendar;
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.List;
+import javax.imageio.ImageIO;
 import tn.esprit.ktebi.entities.Livre;
 import tn.esprit.ktebi.entities.Promo;
-import tn.esprit.ktebi.services.LivreService;
+import tn.esprit.ktebi.entities.User;
+import tn.esprit.ktebi.services.LivreServicee;
 import tn.esprit.ktebi.services.PromoService;
+import tn.esprit.ktebi.services.UserService;
+
 
 
 /**
@@ -23,61 +30,91 @@ public class Main {
 
     /**
      * @param args the command line arguments
+     * @throws java.sql.SQLException
      */
     public static void main(String[] args) throws SQLException {
         // TODO code application logic here
         //Connection cnx = MaConnexion.getInstance().getCnx() ;
         
+        LivreServicee ls = new LivreServicee();
         
-        //CRUD Promo
-        PromoService ps = new PromoService();
+        Calendar calendar = Calendar.getInstance();
+        java.util.Date utilDate = calendar.getTime();
+
+        // Convertir la date en java.sql.Date
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
         
-        //Ajouter un code Promo
-        Date date_expirationC = Date.valueOf("2022-10-10");
-        Promo tC = new Promo(date_expirationC);
-        //ps.create(tC);
-        
-        //Modifier un code Promo
-        Date date_expirationU = Date.valueOf("2022-10-25");
-        Promo tU = new Promo(1,date_expirationU);
-        //ps.update(tU);
-        
-        //Lister les promos
-        System.out.println(ps.selectAll());
+        Livre livreA = new Livre();
         
         
+        livreA.setLibelle("Test livre");
+        livreA.setDescription("Description du test livre");
+        livreA.setAuteur(new User(1,"Wissal", "Mechmeche")); // suppose que l'utilisateur d'id 1 existe déjà dans la base de données
+        livreA.setEditeur("Test éditeur");
+        livreA.setCategorie("Test catégorie");
         
-       //CRUD Livre
-       LivreService ls = new LivreService();
+        livreA.setDate_edition(sqlDate);
+        livreA.setPromo(new Promo(1,"PROMO10",10.5,sqlDate,sqlDate)); // suppose que la promotion d'id 1 existe déjà dans la base de données
+        livreA.setPrix(10.0f);
+        livreA.setImage(null);
+        livreA.setLangue("Français");
+        
+        //ls.create(livreA);
+        
+        Livre livreU = new Livre();
+        livreU.setId(3); // L'ID du livre à mettre à jour
+        livreU.setLibelle("Nouveau titre");
+        livreU.setDescription("Nouvelle description");
+        livreU.setEditeur("Nouvel éditeur");
+        livreU.setCategorie("Nouvelle catégorie");
+        livreU.setDate_edition(sqlDate);
+        livreU.setPrix(25.5f);
+        livreU.setLangue("Nouvelle langue");
        
-       //Ajouter un livre
+        
+        
+        User auteur = new User(1,"Wissal", "Mechmeche");
+        livreU.setAuteur(auteur);
+
+        // Récupération du code promo à partir de la base de données
+        Promo promo = new PromoService().selectById(1);
+        livreU.setPromo(promo);
+        
+        /*// Chargement de la nouvelle image à partir d'un fichier
+        File imageFile = new File("src/tn/esprit/ktebi/ressources/images/nouvelle_image.png");
+        try {
+            BufferedImage bufferedImage = ImageIO.read(imageFile);
+            livreU.setImage(bufferedImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+        
+        //ls.update(livreU);
+        
+        //ls.delete(19);
+        
+        
+        //Liste des Livres
+        List<Livre> livres = ls.selectAll();
+        for (Livre livre : livres) {
+            System.out.println(livre);
+        }
+        
+        UserService us = new UserService();
+        
+        List<User> users =  us.getAll();
+        for (User user: users) {
+            System.out.println(user);
+            
+        }
+        
+        
+        
+        
+        
        
-       Date dateC = Date.valueOf("2022-10-10");
-       Livre lC = new Livre("Libelle","Description","Editeur",dateC,"Categorie",20.5f,"Langue","",1,1,"Auteur");
-       //ls.create(lC);
-        
-       //Modifier un livre
-       Date dateU = Date.valueOf("2022-10-25");
-       Livre lU = new Livre(2,"Libelle1","Description1","Editeur1",dateU,"Categorie1",20.5f,"Langue1","",1,1,"Auteur1");
-       //ls.update(lU);
-        
-        //Récupérer la liste des livres
-         List list = ls.selectAll() ;
-         
-         
-        //Trier la liste les livres par Libelle
-        Collections.sort(list);
-     
-        
-        //Afficher la liste des livres
-        System.out.println(list);
         
         
-        //Rechercher un livre par Libelle
-        System.out.println(ls.searchByLibelle("Libelle"));
-        
-        //Rechercher un livre par Categorie
-        System.out.println(ls.searchByCategorie("Enfant"));
         
         
         

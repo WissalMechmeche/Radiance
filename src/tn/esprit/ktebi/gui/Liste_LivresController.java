@@ -5,6 +5,8 @@
  */
 package tn.esprit.ktebi.gui;
 
+import java.awt.Image;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -21,21 +23,26 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
+
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+
 import tn.esprit.ktebi.entities.Livre;
-import tn.esprit.ktebi.services.LivreService;
+import tn.esprit.ktebi.services.LivreServicee;
 
 /**
  * FXML Controller class
@@ -46,22 +53,24 @@ public class Liste_LivresController implements Initializable {
 
     @FXML
     private TableColumn<Livre, String> libelle;
+    
     private TableColumn<Livre, String> editeur;
     @FXML
     private TableColumn<Livre, String> categorie;
+    
     @FXML
     private TableColumn<Livre, Float> prix;
+    
     @FXML
-    private Button btnRedirectionAjout;
+    private TableColumn<Livre, Date> date;
+    
     @FXML
     private TableView<Livre> tvLivres;
     
     
-    LivreService ls = new LivreService();
-    public static ObservableList<Livre> listL = null;
     
     @FXML
-    private TableColumn<Livre, Date> date;
+    private Button btnRedirectionAjout;
     @FXML
     private Button btnSupprimer;
     @FXML
@@ -75,6 +84,12 @@ public class Liste_LivresController implements Initializable {
     @FXML
     private ComboBox<String> combo;
     
+    
+    LivreServicee ls = new LivreServicee();
+    
+    
+    public static ObservableList<Livre> listL = null;
+    
     Livre livre = null ;
     
     
@@ -87,12 +102,14 @@ public class Liste_LivresController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
+        
+        ObservableList<String> list = FXCollections.observableArrayList("Tous les livres","Libelle", "Catégorie");
+        
+             combo.setItems(list);
         try {
             displayLivres();
             
-            ObservableList<String> list = FXCollections.observableArrayList("Libelle", "Catégorie");
-        
-             combo.setItems(list);
+            
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -102,24 +119,7 @@ public class Liste_LivresController implements Initializable {
     
     public void displayLivres() throws SQLException{
         
-        ImageView delete = new ImageView(getClass().getResource("/tn/esprit/ktebi/ressources/images/supp.png").toExternalForm());
-        btnSupprimer.setGraphic(delete);
         
-        ImageView add = new ImageView(getClass().getResource("/tn/esprit/ktebi/ressources/images/ajouter.png").toExternalForm());
-        btnRedirectionAjout.setGraphic(add);
-        
-        ImageView edit = new ImageView(getClass().getResource("/tn/esprit/ktebi/ressources/images/modifier.png").toExternalForm());
-        btnModifier.setGraphic(edit);
-        
-        ImageView detail = new ImageView(getClass().getResource("/tn/esprit/ktebi/ressources/images/detail.jpg").toExternalForm());
-        btnDetail.setGraphic(detail);
-        
-        ImageView search = new ImageView(getClass().getResource("/tn/esprit/ktebi/ressources/images/recherche.png").toExternalForm());
-        btnRechercher.setGraphic(search);
-        
-        
-        
-        	
         libelle.setCellValueFactory(new PropertyValueFactory("libelle"));
         date.setCellValueFactory(new PropertyValueFactory("date_edition"));
         categorie.setCellValueFactory(new PropertyValueFactory("categorie"));
@@ -134,8 +134,8 @@ public class Liste_LivresController implements Initializable {
     }
 
     @FXML
-    private void RedirectionAjout(ActionEvent event) {
-        
+    private void RedirectionAjout(ActionEvent event) throws IOException {
+
         btnRedirectionAjout.setOnAction(new EventHandler<ActionEvent>() {
             
             @Override
@@ -144,7 +144,7 @@ public class Liste_LivresController implements Initializable {
                 try {
                     root = FXMLLoader
                             .load(getClass().getResource("/tn/esprit/ktebi/gui/AjouterLivre.fxml"));
-                    Scene scene = new Scene(root, 1000, 700);
+                    Scene scene = new Scene(root, 1100, 900);
             
                     Stage stage = new Stage();
                     stage.setTitle("Ajouter Livre ");
@@ -158,106 +158,190 @@ public class Liste_LivresController implements Initializable {
             }
         });
     }
+    
+    public void updateListeLivres() throws SQLException {
+        // Récupérer la liste des livres de la base de données
+        List<Livre> livres = ls.selectAll();
+
+        // Mettre à jour la table view
+        tvLivres.setItems(FXCollections.observableArrayList(livres));
+    }
 
     @FXML
     private void SupprimerLivre(ActionEvent event) throws SQLException {
-        Livre l = (Livre) tvLivres.getSelectionModel().getSelectedItem();
-        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-        a.setContentText("Voulez-vous vraiment supprimer le livre :"+l.getLibelle());
-        a.setTitle("Confirmer");
-        Optional<ButtonType> res = a.showAndWait();
-        if(res.get() == ButtonType.OK)
+        Livre livre = tvLivres.getSelectionModel().getSelectedItem();
+        if (livre == null) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Aucun livre sélectionné");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez sélectionner un livre dans la liste.");
+            alert.showAndWait();
+    }
+        else
         {
-            listL.remove(l);
-            
-            LivreService ls = new LivreService();
-            ls.delete(l.getId());
-            
+             Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+            a.setContentText("Voulez-vous vraiment supprimer le livre :" + livre.getLibelle());
+            a.setTitle("Confirmer");
+            Optional<ButtonType> res = a.showAndWait();
+            if (res.get() == ButtonType.OK) {
+                listL.remove(livre);
+
+                LivreServicee ls = new LivreServicee();
+                ls.delete(livre.getId());
+
+            }
         }
-    }
-
-    @FXML
-    private void modifierLivre(ActionEvent event) throws SQLException {
-        
-        livre = tvLivres.getSelectionModel().getSelectedItem();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/tn/esprit/ktebi/gui/ModifierLivre.fxml"));
-        try {
-            loader.load();
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        }
-
-        ModifierLivreController m = loader.getController();
-        // mrc.setUpdate(true);
-        m.setTextFields(livre);
-        Parent parent = loader.getRoot();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(parent));
-        stage.initStyle(StageStyle.UTILITY);
-        stage.show();
-        displayLivres();
-        
-    }
-
-    @FXML
-    private void detailLivre(ActionEvent event) {
-    }
-
-    @FXML
-    private void chercherLivre(ActionEvent event) {
-        
-        btnRechercher.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                ImageView delete = new ImageView(getClass().getResource("/tn/esprit/ktebi/ressources/images/supp.png").toExternalForm());
-        btnSupprimer.setGraphic(delete);
-        
-        ImageView add = new ImageView(getClass().getResource("/tn/esprit/ktebi/ressources/images/ajouter.png").toExternalForm());
-        btnRedirectionAjout.setGraphic(add);
-        
-        ImageView edit = new ImageView(getClass().getResource("/tn/esprit/ktebi/ressources/images/modifier.png").toExternalForm());
-        btnModifier.setGraphic(edit);
-        
-        ImageView detail = new ImageView(getClass().getResource("/tn/esprit/ktebi/ressources/images/detail.jpg").toExternalForm());
-        btnDetail.setGraphic(detail);
-        
-        ImageView search = new ImageView(getClass().getResource("/tn/esprit/ktebi/ressources/images/recherche.png").toExternalForm());
-        btnRechercher.setGraphic(search);
-        
-        
-        
-        	
-        libelle.setCellValueFactory(new PropertyValueFactory("libelle"));
-        date.setCellValueFactory(new PropertyValueFactory("date_edition"));
-        categorie.setCellValueFactory(new PropertyValueFactory("categorie"));
-        prix.setCellValueFactory(new PropertyValueFactory("prix"));
-        
-                try {
-                    String filtre = combo.getSelectionModel().getSelectedItem();
-                    if(filtre == "Libelle")
-                    {
-                        List l = ls.searchByLibelle(tfRecherche.getText());
-                        listL =FXCollections.observableArrayList(l);
-                    } 
-                    else {
-                        List l = ls.searchByCategorie(tfRecherche.getText());
-                        listL =FXCollections.observableArrayList(l);
-                        
-                    }
        
-                    
-                    tvLivres.setItems(listL);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Liste_LivresController.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    @FXML
+    private void modifierLivre(ActionEvent event) throws SQLException, IOException {
+        
+       ActionEvent eve = null ;
+{
+    // Vérifier si un livre a été sélectionné dans la liste des livres
+    Livre livreSelectionne = tvLivres.getSelectionModel().getSelectedItem();
+            if (livreSelectionne == null) {
+                // Afficher un message d'erreur si aucun livre n'a été sélectionné
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText("Aucun livre sélectionné");
+                alert.setContentText("Veuillez sélectionner un livre à modifier.");
+                alert.showAndWait();
+                return;
+            }
+
+            // Charger le formulaire de modification de livre
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ModifierLivre.fxml"));
+            Parent root;
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            ModifierLivreController controller = loader.getController();
+
+            // Afficher les informations du livre sélectionné dans le formulaire de modification
+            controller.setLivre(livreSelectionne);
+
+            // Afficher le formulaire de modification de livre dans une fenêtre modale
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Modifier le livre");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.showAndWait();
+
+            // Mettre à jour le livre dans la base de données si l'utilisateur a soumis le formulaire
+            if (controller.isSoumettre(eve)) {
+                // Récupérer les nouvelles informations du livre à partir du formulaire de modification
+                Livre livreModifie = controller.getLivre();
+
+                // Mettre à jour le livre dans la base de données
+                try {
+                    ls.update(livreModifie);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    // Afficher un message d'erreur si la mise à jour a échoué
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Erreur");
+                    alert.setHeaderText("La mise à jour du livre a échoué");
+                    alert.setContentText("Une erreur est survenue lors de la mise à jour du livre dans la base de données.");
+                    alert.showAndWait();
+                    return;
                 }
-            
-            
+
+                // Mettre à jour la liste des livres dans la table view
+                updateListeLivres();
+            }
+}
+
+        
+        
+        
+    }
+
+    @FXML
+    private void detailLivre(ActionEvent event) throws SQLException {
+        
+        
+        tvLivres.setOnMouseClicked(event1 -> {
+    // Vérifier si l'événement est un double-clic
+    if (event1.getClickCount() == 2) {
+                // Récupérer le livre sélectionné dans la TableView
+                Livre livreSelectionne = tvLivres.getSelectionModel().getSelectedItem();
+
+                // Vérifier si un livre a été sélectionné
+                if (livreSelectionne != null) {
+                    // Créer une nouvelle fenêtre de dialogue pour afficher les détails du livre
+                    Stage detailsStage = new Stage();
+                    detailsStage.setTitle("Détails du livre");
+
+                    // Créer des labels pour afficher les informations du livre
+                    Label labelLibelle = new Label("Libellé: " + livreSelectionne.getLibelle());
+                    Label labelDescription = new Label("Description: " + livreSelectionne.getDescription());
+                    Label labelAuteur = new Label("Auteur: " + livreSelectionne.getAuteur().getNom());
+                    Label labelEditeur = new Label("Editeur: " + livreSelectionne.getEditeur());
+                    Label labelCategorie = new Label("Catégorie: " + livreSelectionne.getCategorie());
+                    Label labelDateEdition = new Label("Date d'édition: " + livreSelectionne.getDate_edition().toString());
+                    Label labelCodePromo = new Label("Code promo: " + livreSelectionne.getPromo().getCode());
+                    Label labelPrix = new Label("Prix: " + livreSelectionne.getPrix() + " DT");
+                    /*ImageView imageView = new ImageView();
+                    try {
+                        // Convertir le tableau de bytes de l'image en objet Image
+                        Image image = new Image(new ByteArrayInputStream(livreSelectionne.getImage()));
+
+                        // Afficher l'image dans l'ImageView
+                        imageView.setImage(image);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+*/
+                    // Créer un VBox pour ajouter les labels et l'ImageView
+                    VBox vbox = new VBox(10);
+                    vbox.getChildren().addAll(labelLibelle, labelDescription, labelAuteur, labelEditeur, labelCategorie,
+                            labelDateEdition, labelCodePromo, labelPrix);
+
+                    // Créer une nouvelle scène avec le VBox comme racine
+                    Scene scene = new Scene(vbox, 400, 500);
+
+                    // Afficher la scène dans la nouvelle fenêtre de dialogue
+                    detailsStage.setScene(scene);
+                    detailsStage.show();
+                }
             }
         });
-        
     }
+
+    @FXML
+    private void chercherLivre(ActionEvent event) throws SQLException {
+
+        String mot = tfRecherche.getText();
+        
+        String filtre = combo.getValue();
+
+        if (filtre=="Libelle") {
+            List<Livre> livres = ls.searchByLibelle(mot);
+            tvLivres.getItems().clear();
+            tvLivres.getItems().addAll(livres);
+        }
+        else if(filtre == "Catégorie")
+        {
+            List<Livre> livres = ls.searchByCategorie(mot);
+            tvLivres.getItems().clear();
+            tvLivres.getItems().addAll(livres);
+        }
+        else
+        {
+            List<Livre> livres = ls.selectAll();
+            tvLivres.getItems().clear();
+            tvLivres.getItems().addAll(livres);
+        }
+        
+
+    }
+
 
     
     

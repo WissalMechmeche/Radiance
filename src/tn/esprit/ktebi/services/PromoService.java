@@ -82,11 +82,49 @@ public class PromoService implements IPromoService<Promo> {
         while(rs.next())
         {
             Promo p = new Promo();
-            p.setCodePromo(rs.getInt(1));
-            p.setDate_expiration(rs.getDate(2));
+            p.setId(rs.getInt(1));
+            p.setDate_fin(rs.getDate(2));
+            p.setCode(rs.getString(3));
+            p.setReduction(rs.getDouble(4));
+            p.setDate_debut(rs.getDate(5));
+            
+                    
             temp.add(p);
         }
         return temp ;
     }
+
+    @Override
+    public Promo selectById(int id) throws SQLException {
+        
+        Promo promo = null;
+
+        String req="SELECT * FROM `promo` WHERE id=?";
+        
+        PreparedStatement ps = cnx.prepareStatement(req);
+
+        ps.setInt(1, id);
+            
+        ResultSet rs = ps.executeQuery() ;
+        
+        while(rs.next())
+        {
+            promo = new Promo();
+                promo.setId(rs.getInt("id"));
+                promo.setCode(rs.getString("code"));
+                promo.setReduction(rs.getDouble("reduction"));
+                promo.setDate_debut(rs.getDate("date_debut"));
+                promo.setDate_fin(rs.getDate("date_fin"));
+        }
+        
+             
+        return promo;
+    }
+
+  
+
+
+
+    }
     
-}
+
