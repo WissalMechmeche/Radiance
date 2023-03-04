@@ -49,6 +49,7 @@ public class UserService {
             user.setId(rs.getInt("id_user"));
             user.setNom(rs.getString("nom"));
             user.setPrenom(rs.getString("prenom"));
+            user.setEmail(rs.getString("email"));
             
             users.add(user);
             

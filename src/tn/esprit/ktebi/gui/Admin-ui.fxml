@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="580.0" prefWidth="919.0" stylesheets="@design.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.AdminController">
+    <children>
+
+        <fx:include source="sidebarAdmin.fxml" />
+       
+        
+        
+        <Label alignment="CENTER" layoutX="287.0" layoutY="112.0" text="MES CHIFFRES" textFill="#545352">
+            <font>
+                <Font name="Berlin Sans FB" size="14.0" />
+            </font>
+        </Label>
+        <AnchorPane layoutX="287.0" layoutY="146.0" prefHeight="120.0" prefWidth="191.0" style="-fx-border-radius: 0px 50px 0px 0px; -fx-border-color: #F1F2F7;">
+            <effect>
+                <DropShadow color="#9a9696" />
+            </effect>
+            <children>
+                <ImageView fitHeight="44.0" fitWidth="51.0" layoutX="24.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../ressources/images/user.png" />
+                    </image>
+                </ImageView>
+                <Label fx:id="cltSomme" alignment="CENTER" layoutX="27.0" layoutY="79.0" text="Users" textFill="#2262c6">
+                    <font>
+                        <Font name="Berlin Sans FB" size="14.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="495.0" layoutY="147.0" prefHeight="120.0" prefWidth="191.0" style="-fx-border-radius: 0px 50px 0px 0px; -fx-border-color: #F1F2F7;">
+            <effect>
+                <DropShadow color="#9a9696" />
+            </effect>
+            <children>
+                <ImageView fitHeight="44.0" fitWidth="51.0" layoutX="24.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../ressources/images/book.png" />
+                    </image>
+                </ImageView>
+                <Label fx:id="livreSomme" alignment="CENTER" layoutX="27.0" layoutY="79.0" text="Livres" textFill="#2262c6">
+                    <font>
+                        <Font name="Berlin Sans FB" size="14.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="702.0" layoutY="147.0" prefHeight="120.0" prefWidth="191.0" style="-fx-border-radius: 0px 50px 0px 0px; -fx-border-color: #F1F2F7;">
+            <effect>
+                <DropShadow color="#9a9696" />
+            </effect>
+            <children>
+                <ImageView fitHeight="44.0" fitWidth="51.0" layoutX="24.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../ressources/images/facture.png" />
+                    </image>
+                </ImageView>
+                <Label fx:id="facSomme" alignment="CENTER" layoutX="27.0" layoutY="79.0" text="Factures" textFill="#2262c6">
+                    <font>
+                        <Font name="Berlin Sans FB" size="14.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+        <Label alignment="CENTER" layoutX="287.0" layoutY="78.0" text="Mon Dashboard" textFill="#2262c6">
+            <font>
+                <Font name="Berlin Sans FB" size="20.0" />
+            </font>
+        </Label>
+                    <PieChart fx:id="pieChart" layoutX="665.0" layoutY="308.0" prefHeight="150.0" prefWidth="5.0" AnchorPane.rightAnchor="54.0" />
+      <Text fill="#2262c6" layoutX="507.0" layoutY="304.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Livre plus cher">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="18.0" />
+         </font>
+      </Text>
+      <Text fill="#2262c6" layoutX="477.0" layoutY="476.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Livre le plus populaire">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="18.0" />
+         </font>
+      </Text>
+      <BarChart fx:id="barChart" layoutX="237.0" layoutY="482.0" prefHeight="230.0" prefWidth="679.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </BarChart>
+<!--      <Label alignment="CENTER" layoutX="504.0" layoutY="248.0" text="Livre le plus cher" textFill="#2262c6">
+         <font>
+            <Font name="Berlin Sans FB" size="20.0" />
+         </font>
+      </Label>-->
+
+    </children>
+
+</AnchorPane>

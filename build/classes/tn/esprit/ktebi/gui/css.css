@@ -78,12 +78,17 @@ and open the template in the editor.
     -fx-background-color: #ADC8EC;
     -fx-text-fill: white;
 }
-#btnRedirectionAjout,#btnDetail{
+#btnRedirectionAjout{
     -fx-background-color: #4275dc;
 }
-#btnSupprimer{
+#btnDetail
+{
+    -fx-background-color:#F5E592
+}
+#btnSupprimer,#btnSupp{
     -fx-background-color: #FF5252;
 }
+
 #btnModifier{
     -fx-background-color: #00CC66;
 }

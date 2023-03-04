@@ -88,6 +88,7 @@ public class AjouterLivreController implements Initializable {
 
     List<Promo> listP = null;
 
+    Livre livre =null ;
     /**
      * Initializes the controller class.
      */
@@ -186,17 +187,24 @@ public class AjouterLivreController implements Initializable {
                 
         }
          
-          Livre livre = new Livre(libelle, description,editeur,new java.sql.Date(Date.valueOf(dateEdition).getTime()),categorie,prix,langue,null,pr, aut);
+         livre = new Livre(libelle, description,editeur,new java.sql.Date(Date.valueOf(dateEdition).getTime()),categorie,prix,langue,pr, aut,"");
           
           System.out.println(livre);
           
           
         ls.create(livre);
         
+         Alert al = new Alert(Alert.AlertType.INFORMATION);
+
+            al.setTitle("Livre ajouté");
+            al.setHeaderText("");
+            al.setContentText("Le livre " + livre.getLibelle() + " a été ajouté avec succès !");
+            al.show();
+        
         // Envoi de l'e-mail de notification
         String recipient = "recipient@example.com";
         String subject = "Nouveau livre ajouté";
-        String body = "Un nouveau livre intitulé \"" + livre.getLibelle()+ "\" a été ajouté à la bibliothèque.";
+        String body = "Bonjour,\n Un nouveau livre intitulé :"+livre.getLibelle()+" a été ajouté à la libraire ktebi.";
         
         Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
         sendMail(); // Gérer l'erreur d'envoi de l'e-mail
@@ -215,13 +223,17 @@ public class AjouterLivreController implements Initializable {
  
 
     public void sendMail() throws SQLException {
-        int userid = 1;
-
-        User user = us.getUserById(userid);
+       
+        List<User> clients = us.getAllClients();
+        for(User user : clients)
+        {
+             int userid = user.getId();
+             
+             User client = us.getUserById(userid);
                 
-        System.out.println(user.getEmail());
+        System.out.println(client.getEmail());
 
-        if (user == null) {
+        if (client == null) {
             System.out.println("User with ID " + userid + " not found!");
             return;
         } else {
@@ -230,10 +242,10 @@ public class AjouterLivreController implements Initializable {
         final String username = "wissal.mechmeche@esprit.tn";
         final String password = "223JFT5669";
         
-        String recipientEmail = user.getEmail();
+        String recipientEmail = client.getEmail();
         
         String subject = "Ajout Livre notification";
-        String message = "Un  process has completed successfully.";
+        String message = "Bonjour,\n Un nouveau livre intitulé :"+livre.getLibelle()+" a été ajouté à la libraire ktebi.";
         
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -262,6 +274,8 @@ public class AjouterLivreController implements Initializable {
             System.out.println(ex.getMessage());
         }
 
+        }
+        
     }
 
 

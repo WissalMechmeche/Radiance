@@ -135,6 +135,8 @@ public class ModifierLivreController implements Initializable {
         String auteurSelectionnee = auteurs.getValue();
         String codeSelectionnee = promos.getValue();
         
+        LocalDate date_edition = date.getValue();
+        
        
         if (tfLibelle.getText().isEmpty()
                 || taDescription.getText().isEmpty()
@@ -161,8 +163,9 @@ public class ModifierLivreController implements Initializable {
         nouveauLivre.setLibelle(libelle);
         nouveauLivre.setDescription(description);
         nouveauLivre.setEditeur(editeur);
-        nouveauLivre.setLangue(langue);
         nouveauLivre.setCategorie(categorie);
+        nouveauLivre.setLangue(langue);
+        nouveauLivre.setDate_edition(new java.sql.Date(Date.valueOf(date_edition).getTime()));
         nouveauLivre.setPrix(prix);
         
        
@@ -178,8 +181,6 @@ public class ModifierLivreController implements Initializable {
                 
         }
          Promo p = null ;
-        
-       
         
          for (Promo pr : listP) {
             String temp = pr.getCode() ;
@@ -208,11 +209,17 @@ public class ModifierLivreController implements Initializable {
              Parent root = loader.load();
              Liste_LivresController controller = loader.getController();
              controller.updateListeLivres();
+             
              Scene scene = new Scene(root);
              Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
              stage.setScene(scene);
              stage.show();
+             
+             
+    
 
+             
+       
     }
          
     }
@@ -228,8 +235,11 @@ public class ModifierLivreController implements Initializable {
         tfLangue.setText(livre.getLangue());
         tfCategorie.setText(livre.getCategorie());
         tfPrix.setText(String.valueOf(livre.getPrix()));
-        auteurs.getSelectionModel().select(livre.getAuteur().getPrenom());
-        promos.getSelectionModel().select(livre.getPromo().getCode());
+       
+        
+        auteurs.setValue(livre.getAuteur().getPrenom());
+        
+        promos.setValue(livre.getPromo().getCode());
         
         java.sql.Date sqlDate = livre.getDate_edition();
         LocalDate localDate = sqlDate.toLocalDate();

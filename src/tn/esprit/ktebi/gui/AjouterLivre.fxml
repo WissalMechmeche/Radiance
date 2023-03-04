@@ -12,6 +12,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="856.0" prefWidth="1201.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.AjouterLivreController">
    <children>
+       <fx:include source="sidebar.fxml" />
       <DatePicker fx:id="date" layoutX="355.0" layoutY="618.0" prefHeight="45.0" prefWidth="263.0" />
       <Label layoutX="222.0" layoutY="693.0" text="Code Promo : ">
          <font>
@@ -44,9 +45,9 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label layoutX="210.0" layoutY="42.0" text="Ajouter un livre" textFill="BROWN">
+      <Label layoutX="27.0" layoutY="14.0" prefHeight="42.0" prefWidth="316.0" text="Ajouter un livre" textFill="#4275dc" underline="true">
          <font>
-            <Font name="Arial Bold" size="37.0" />
+            <Font name="System Bold" size="37.0" />
          </font>
       </Label>
       <Label layoutX="232.0" layoutY="145.0" text="Libelle :">

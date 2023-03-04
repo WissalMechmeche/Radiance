@@ -10,8 +10,11 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -42,7 +45,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import tn.esprit.ktebi.entities.Livre;
+import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.services.LivreServicee;
+import tn.esprit.ktebi.services.UserService;
 
 /**
  * FXML Controller class
@@ -87,6 +92,8 @@ public class Liste_LivresController implements Initializable {
     
     LivreServicee ls = new LivreServicee();
     
+    UserService us = new UserService();
+    
     
     public static ObservableList<Livre> listL = null;
     
@@ -106,8 +113,12 @@ public class Liste_LivresController implements Initializable {
         ObservableList<String> list = FXCollections.observableArrayList("Tous les livres","Libelle", "Catégorie");
         
              combo.setItems(list);
+             
         try {
+           
             displayLivres();
+            
+            
             
             
         } catch (SQLException ex) {
@@ -318,6 +329,9 @@ public class Liste_LivresController implements Initializable {
         
 
     }
+    
+    
+
 
 
     

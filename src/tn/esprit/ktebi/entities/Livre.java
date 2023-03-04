@@ -7,7 +7,7 @@ package tn.esprit.ktebi.entities;
 
 import java.sql.Date;
 import java.util.Objects;
-import java.awt.Image;
+
 
 
 
@@ -27,7 +27,7 @@ public class Livre implements Comparable<Livre> {
     private String categorie ;
     private float prix ;
     private String langue ;
-    private Image image;
+    private String image;
     private Promo promo ;
     private User auteur;
     
@@ -36,8 +36,29 @@ public class Livre implements Comparable<Livre> {
     
     public Livre(){
     }
+    public Livre(int id, float prix) {
+        this.id = id;
+        this.prix = prix;
 
-    public Livre(int id, String libelle, String description, String editeur, Date date_edition, String categorie, float prix, String langue, Image image, Promo promo, User auteur) {
+    }
+    
+    public Livre(int id, String libelle, String image, float prix) {
+        this.id = id;
+        this.libelle = libelle;
+        this.image = image;
+        this.prix = prix;
+    }
+    
+    public Livre(String libelle, String image, String categorie, float prix, int id) {
+        this.libelle = libelle;
+        this.categorie = categorie;
+        this.prix = prix;
+        this.image = image;
+        this.id = id;
+
+    }
+
+    public Livre(int id, String libelle, String description, String editeur, Date date_edition, String categorie, float prix, String langue, String image, Promo promo, User auteur) {
         this.id = id;
         this.libelle = libelle;
         this.description = description;
@@ -50,9 +71,8 @@ public class Livre implements Comparable<Livre> {
         this.promo = promo;
         this.auteur = auteur;
     }
-    
-    
-    public Livre(String libelle, String description, String editeur, Date date_edition, String categorie, float prix, String langue, Image image, Promo promo, User auteur) {
+ 
+    public Livre(String libelle, String description, String editeur, Date date_edition, String categorie, float prix, String langue, Promo promo, User user, String image) {
         this.libelle = libelle;
         this.description = description;
         this.editeur = editeur;
@@ -60,9 +80,25 @@ public class Livre implements Comparable<Livre> {
         this.categorie = categorie;
         this.prix = prix;
         this.langue = langue;
-        this.image = image;
         this.promo = promo;
-        this.auteur = auteur;
+        this.auteur = user;
+        this.image = image;
+
+    }
+    
+    
+    public Livre(int id, String libelle, String description, String editeur, Date date_edition, String categorie, float prix, String langue, Promo promo, User user, String image) {
+        this.id = id;
+        this.libelle = libelle;
+        this.description = description;
+        this.editeur = editeur;
+        this.date_edition = date_edition;
+        this.categorie = categorie;
+        this.prix = prix;
+        this.langue = langue;
+        this.promo = promo;
+        this.auteur = user;
+        this.image = image;
     }
 
     
@@ -133,11 +169,11 @@ public class Livre implements Comparable<Livre> {
         this.langue = langue;
     }
 
-    public Image getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Image image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

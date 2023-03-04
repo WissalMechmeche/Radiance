@@ -12,7 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import tn.esprit.ktebi.entities.Livre;
-import tn.esprit.ktebi.services.LivreService;
+import tn.esprit.ktebi.services.LivreServicee;
 
 /**
  * FXML Controller class

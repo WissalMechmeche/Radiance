@@ -11,13 +11,20 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.Calendar;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 import javax.imageio.ImageIO;
+import tn.esprit.ktebi.entities.Facture;
+import tn.esprit.ktebi.entities.LignePanier;
 import tn.esprit.ktebi.entities.Livre;
+import tn.esprit.ktebi.entities.Panier;
 import tn.esprit.ktebi.entities.Promo;
 import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.services.LivreServicee;
 import tn.esprit.ktebi.services.PromoService;
+import tn.esprit.ktebi.services.ServiceFacture;
+import tn.esprit.ktebi.services.ServiceLignePanier;
+import tn.esprit.ktebi.services.ServicePanier;
 import tn.esprit.ktebi.services.UserService;
 
 
@@ -36,7 +43,7 @@ public class Main {
         // TODO code application logic here
         //Connection cnx = MaConnexion.getInstance().getCnx() ;
         
-        LivreServicee ls = new LivreServicee();
+       /* LivreServicee ls = new LivreServicee();
         
         Calendar calendar = Calendar.getInstance();
         java.util.Date utilDate = calendar.getTime();
@@ -49,7 +56,7 @@ public class Main {
         
         livreA.setLibelle("Test livre");
         livreA.setDescription("Description du test livre");
-        livreA.setAuteur(new User(1,"Wissal", "Mechmeche")); // suppose que l'utilisateur d'id 1 existe déjà dans la base de données
+        livreA.setAuteur(new User(1,"Wissal", "Mechmeche","mechmechwissal@gmail.com")); // suppose que l'utilisateur d'id 1 existe déjà dans la base de données
         livreA.setEditeur("Test éditeur");
         livreA.setCategorie("Test catégorie");
         
@@ -67,13 +74,12 @@ public class Main {
         livreU.setDescription("Nouvelle description");
         livreU.setEditeur("Nouvel éditeur");
         livreU.setCategorie("Nouvelle catégorie");
-        livreU.setDate_edition(sqlDate);
         livreU.setPrix(25.5f);
         livreU.setLangue("Nouvelle langue");
        
         
         
-        User auteur = new User(1,"Wissal", "Mechmeche");
+        User auteur = new User(1,"Wissal", "Mechmeche","mechmechwissal@gmail.com");
         livreU.setAuteur(auteur);
 
         // Récupération du code promo à partir de la base de données
@@ -81,16 +87,16 @@ public class Main {
         Promo promo = ps.selectById(1);
         livreU.setPromo(promo);
         
-        /*// Chargement de la nouvelle image à partir d'un fichier
+        // Chargement de la nouvelle image à partir d'un fichier
         File imageFile = new File("src/tn/esprit/ktebi/ressources/images/nouvelle_image.png");
         try {
             BufferedImage bufferedImage = ImageIO.read(imageFile);
             livreU.setImage(bufferedImage);
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
         
-        //ls.update(livreU);
+        ls.update(livreU);
         
         //ls.delete(19);
         
@@ -124,26 +130,49 @@ public class Main {
         //dps.delete(3);
         
         
-        System.out.println(ps.selectAll());
-        
-        
-        
-        
-        
-        
+        System.out.println(ps.selectAll());*/
        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+       //ServiceLignePanier sp = new ServiceLignePanier();
+       User u = new User(1,"Wissal", "Mechmeche","mechmechwissal@gmail.com");
        
+       Panier p = new Panier(1,25,600,u);
+       
+       ServicePanier sp = new ServicePanier();
+       
+       //sp.ajouterPanier(p);
+       
+        Livre livreU = new Livre();
+        livreU.setId(3); // L'ID du livre à mettre à jour
+        livreU.setLibelle("Nouveau titre");
+        livreU.setDescription("Nouvelle description");
+        livreU.setEditeur("Nouvel éditeur");
+        livreU.setCategorie("Nouvelle catégorie");
+        livreU.setPrix(25.5f);
+        livreU.setLangue("Nouvelle langue");
+        
+       LignePanier lp = new LignePanier(livreU,p,45);
+       
+       ServiceLignePanier s = new ServiceLignePanier();
+       //s.ajouterLignePanier(lp);
+       
+       
+       ServiceFacture f = new ServiceFacture();
+       
+       Facture ft = new Facture(200f,"Especes",u,Timestamp.valueOf("2022-05-20 00:25:33"));
+       
+       //f.ajouterFacture(1, "Especes");
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       //System.out.println(sp.ajouterLignePanier(p));
         
         
+     
     }
-    
 }

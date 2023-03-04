@@ -57,11 +57,8 @@ public class LivreServicee implements ILivreService<Livre> {
             ps.setInt(7, t.getPromo().getId()); // suppose que la classe Promo a un attribut id
             ps.setDouble(8, t.getPrix());
             ps.setString(9, t.getLangue());
-       try {
-            ps.setBytes(10, imageToBytes(t.getImage())); // convertit l'image en tableau d'octets (byte[])
-        } catch (IOException ex) {
-            Logger.getLogger(LivreServicee.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            
+            ps.setString(10, t.getImage());
             
             
             
@@ -114,15 +111,13 @@ public class LivreServicee implements ILivreService<Livre> {
         ps.setInt(3, t.getAuteur().getId());
         ps.setString(4, t.getEditeur());
         ps.setString(5, t.getCategorie());
-        //ps.setDate(6, new java.sql.Date(t.getDate_edition().getTime()));
+        ps.setDate(6, new java.sql.Date(t.getDate_edition().getTime()));
         ps.setInt(7, t.getPromo().getId());
         ps.setDouble(8, t.getPrix());
         ps.setString(9, t.getLangue());
-        try {
-            ps.setBytes(10, imageToBytes(t.getImage()));
-        } catch (IOException ex) {
-            Logger.getLogger(LivreServicee.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
+        ps.setString(10, t.getImage());
+       
         ps.setInt(11, t.getId());
         
         int rowsUpdated = ps.executeUpdate();

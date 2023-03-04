@@ -10,31 +10,26 @@ package tn.esprit.ktebi.entities;
  * @author MSI
  */
 public class Panier {
-    private int id ;
-    private float montant_totale ;
-    private int nb_articles ;
-    private User user ;
-    private Facture facture ;
-    
-    public Panier()
-    {
-        
+   private int id;
+    private float montant_totale;
+    private int qte;
+    private User user;
+
+    public Panier() {
+
     }
 
-    public Panier(int id, float montant_totale, int nb_articles, User user, Facture facture) {
+    public Panier(int id, float montant_totale, int qte, User user) {
         this.id = id;
         this.montant_totale = montant_totale;
-        this.nb_articles = nb_articles;
+        this.qte = qte;
         this.user = user;
-        this.facture = facture;
     }
-    
-    
-    public Panier(float montant_totale, int nb_articles, User user, Facture facture) {
+
+    public Panier(float montant_totale, int qte, User user) {
         this.montant_totale = montant_totale;
-        this.nb_articles = nb_articles;
+        this.qte = qte;
         this.user = user;
-        this.facture = facture;
     }
 
     public int getId() {
@@ -53,12 +48,12 @@ public class Panier {
         this.montant_totale = montant_totale;
     }
 
-    public int getNb_articles() {
-        return nb_articles;
+    public int getQte() {
+        return qte;
     }
 
-    public void setNb_articles(int nb_articles) {
-        this.nb_articles = nb_articles;
+    public void setQte(int qte) {
+        this.qte = qte;
     }
 
     public User getUser() {
@@ -69,23 +64,14 @@ public class Panier {
         this.user = user;
     }
 
-    public Facture getFacture() {
-        return facture;
-    }
-
-    public void setFacture(Facture facture) {
-        this.facture = facture;
-    }
-
     @Override
     public String toString() {
-        return "Panier{" + "id=" + id + ", montant_totale=" 
-                + montant_totale + ", nb_articles=" 
-                + nb_articles + ", user=" + user 
-                + ", facture=" + facture + '}';
+        return "Panier{" + "id=" + id + ", montant_totale=" + montant_totale + ", qte=" + qte + ", user=" + user + '}';
     }
 
-
+    
+    
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -103,9 +89,6 @@ public class Panier {
         }
         return true;
     }
-    
-    
-    
     
     
     

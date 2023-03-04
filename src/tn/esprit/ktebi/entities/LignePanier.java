@@ -12,19 +12,34 @@ import java.util.Objects;
  * @author MSI
  */
 public class LignePanier {
-    private Livre livre ;
-    private Panier panier ;
-    private int quantite ;
-    
-    public LignePanier()
-    {
-        
+    private int id;
+    private Livre livre;
+    private Panier panier;
+    private int quantite;
+
+    public LignePanier() {
+
+    }
+
+    public LignePanier(int id, Livre livre, Panier panier, int quantite) {
+        this.id = id;
+        this.livre = livre;
+        this.panier = panier;
+        this.quantite = quantite;
     }
 
     public LignePanier(Livre livre, Panier panier, int quantite) {
         this.livre = livre;
         this.panier = panier;
         this.quantite = quantite;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Livre getLivre() {
@@ -53,11 +68,10 @@ public class LignePanier {
 
     @Override
     public String toString() {
-        return "LignePanier{" + "livre=" 
-                + livre + ", panier=" + panier 
+        return "LignePanier{" + "livre="
+                + livre + ", panier=" + panier
                 + ", quantite=" + quantite + '}';
     }
-
 
     @Override
     public boolean equals(Object obj) {
@@ -80,16 +94,5 @@ public class LignePanier {
         return true;
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+   
 }

@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="734.0" prefWidth="1252.0" stylesheets="@css.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.Liste_LivresController">
+<AnchorPane id="AnchorPane" prefHeight="734.0" prefWidth="1252.0" stylesheets="@design.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.Liste_LivresController">
    <children>
        
-     
+     <fx:include source="sidebarAdmin.fxml" />
       <Label layoutX="27.0" layoutY="14.0" prefHeight="42.0" prefWidth="316.0" text="Liste des livres" textFill="#4275dc" underline="true">
          <font>
             <Font name="System Bold" size="37.0" />
@@ -31,21 +26,21 @@
             <TableColumn fx:id="date" prefWidth="153.0" text="Date d'édition" />
         </columns>
       </TableView>
-      <Button fx:id="btnRedirectionAjout" layoutX="372.0" layoutY="557.0" mnemonicParsing="false" onAction="#RedirectionAjout" text="Ajouter Livre">
+      <Button fx:id="btnRedirectionAjout" layoutX="372.0" layoutY="557.0" mnemonicParsing="false" onAction="#RedirectionAjout" text="Ajouter Livre" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Button>
-      <Button fx:id="btnDetail" layoutX="696.0" layoutY="557.0" mnemonicParsing="false" onAction="#detailLivre" text="Détail Livre">
+      <Button fx:id="btnDetail" layoutX="696.0" layoutY="557.0" mnemonicParsing="false" onAction="#detailLivre" text="Détail Livre" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Button fx:id="btnSupprimer" layoutX="837.0" layoutY="557.0" mnemonicParsing="false" onAction="#SupprimerLivre" text="Supprimer Livre">
+      <Button fx:id="btnSupprimer" layoutX="837.0" layoutY="557.0" mnemonicParsing="false" onAction="#SupprimerLivre" text="Supprimer Livre" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Button fx:id="btnModifier" layoutX="526.0" layoutY="557.0" mnemonicParsing="false" onAction="#modifierLivre" text="Modifier Livre">
+      <Button fx:id="btnModifier" layoutX="526.0" layoutY="557.0" mnemonicParsing="false" onAction="#modifierLivre" text="Modifier Livre" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
