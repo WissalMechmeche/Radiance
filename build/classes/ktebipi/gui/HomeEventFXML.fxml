@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="465.0" prefWidth="663.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ktebipi.gui.HomeEventFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="465.0" prefWidth="791.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ktebipi.gui.HomeEventFXMLController">
    <children>
       <Text fill="#1f225b" layoutX="31.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="welcome to our events :" textAlignment="CENTER" wrappingWidth="300.13671875">
          <font>
             <Font name="Algerian" size="18.0" />
          </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Button fx:id="btnParticiper" layoutX="273.0" layoutY="409.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="PARTICIPER" textFill="WHITE" />
-      <TableView fx:id="listtabevent" layoutX="31.0" layoutY="96.0" prefHeight="297.0" prefWidth="610.0">
+<!--<Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />-->
+      <TableView fx:id="listtabevent" layoutX="10.0" layoutY="60.0" prefHeight="297.0" prefWidth="754.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="NOM" />
-          <TableColumn prefWidth="75.0" text="THEME" />
-            <TableColumn prefWidth="118.0" text="DESCRIPTION" />
-            <TableColumn prefWidth="78.0" text="LIEU" />
-            <TableColumn prefWidth="63.0" text="DATE" />
-            <TableColumn prefWidth="91.0" text="IMAGE" />
-            <TableColumn prefWidth="81.0" text="PRIX" />
+          <TableColumn fx:id="colname" prefWidth="75.0" text="NOM" />
+          <TableColumn fx:id="coltheme" prefWidth="75.0" text="THEME" />
+            <TableColumn fx:id="coldesc" prefWidth="118.0" text="DESCRIPTION" />
+            <TableColumn fx:id="collieu" prefWidth="78.0" text="LIEU" />
+            <TableColumn fx:id="datedebut" prefWidth="63.0" text="DATE" />
+            <TableColumn fx:id="imagecall" prefWidth="91.0" text="IMAGE" />
+            <TableColumn fx:id="colprix" prefWidth="81.0" text="PRIX" />
         </columns>
       </TableView>
    </children>

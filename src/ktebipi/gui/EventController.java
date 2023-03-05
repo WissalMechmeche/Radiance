@@ -89,11 +89,10 @@ public class EventController implements Initializable {
     @FXML
     private Button ajouter;
 
-     @FXML
+    @FXML
     private JFXComboBox<String> combotheme;
     @FXML
     private TextField imagefild;
-
 
     @FXML
     private TableView<Evenement> tabevent;
@@ -130,19 +129,16 @@ public class EventController implements Initializable {
 
     @FXML
     private Button btnupload;
-@FXML
+    @FXML
     private TextField recherche;
 
     @FXML
     private Button btnRechercher;
-       @FXML
+    @FXML
     private Button tri;
 
-
-    
 //    @FXML
 //    private TextField rechercherEvent;
-
     private ObservableList<Evenement> data = FXCollections.observableArrayList();
 
     eventService se = new eventService();
@@ -160,7 +156,6 @@ public class EventController implements Initializable {
     private Button bntmodif;
     @FXML
     private Button btnreset;
-    
 
     /**
      * Initializes the controller class.
@@ -169,27 +164,26 @@ public class EventController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         // TODO
-      load();
-      refplat();
+        load();
+        refplat();
 
     }
 
-   
- private void load() {
-    eventService pp=new eventService();
-    connection= Maconnexion.getInstance().getCnx();
-    refplat();
-    calid.setCellValueFactory(new PropertyValueFactory<>("id"));
-    colname.setCellValueFactory(new PropertyValueFactory<>("Nomevent"));
-    coldesc.setCellValueFactory(new PropertyValueFactory<>("description"));
-    collieu.setCellValueFactory(new PropertyValueFactory<>("lieu"));
-    coltheme.setCellValueFactory(new PropertyValueFactory<>("nom"));
-    datedebut.setCellValueFactory(new PropertyValueFactory<>("date_evenement"));
-    colprix.setCellValueFactory(new PropertyValueFactory<>("prix"));
-    imagecall.setCellValueFactory(new PropertyValueFactory<>("image"));
-    combotheme.setItems(FXCollections.observableArrayList(pp.getAll()));
-    }   
-    
+    private void load() {
+        eventService pp = new eventService();
+        connection = Maconnexion.getInstance().getCnx();
+        refplat();
+        calid.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colname.setCellValueFactory(new PropertyValueFactory<>("Nomevent"));
+        coldesc.setCellValueFactory(new PropertyValueFactory<>("description"));
+        collieu.setCellValueFactory(new PropertyValueFactory<>("lieu"));
+        coltheme.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        datedebut.setCellValueFactory(new PropertyValueFactory<>("date_evenement"));
+        colprix.setCellValueFactory(new PropertyValueFactory<>("prix"));
+        imagecall.setCellValueFactory(new PropertyValueFactory<>("image"));
+        combotheme.setItems(FXCollections.observableArrayList(pp.getAll()));
+    }
+
     @FXML
     private void SelectItems(MouseEvent event) {
         Evenement cattt = tabevent.getSelectionModel().getSelectedItem();
@@ -211,54 +205,14 @@ public class EventController implements Initializable {
         txtPrix.appendText(Float.toString(tabevent.getSelectionModel().getSelectedItem().getPrix()));
 //        txtDate.appendText(LocalDate.parse(tabevent.getSelectionModel().getSelectedItem().getDate_evenement()));
         txtDescription.appendText(tabevent.getSelectionModel().getSelectedItem().getDescription());
-          String path = cattt.getImage();
-               File file=new File(path);
-              Image img = new Image(file.toURI().toString());
-                imageview.setImage(img);
+        String path = cattt.getImage();
+        File file = new File(path);
+        Image img = new Image(file.toURI().toString());
+        imageview.setImage(img);
 
     }
 
-    public void sendMail() throws SQLException {
-        int userid = 3;
-        eventService es = new eventService();
-        User user = es.getUserById(userid);
-        System.out.println(user.getEmail());
-
-        if (user == null) {
-            System.out.println("User with ID " + userid + " not found!");
-            return;
-        } else {
-        }
-
-        final String username = "farah.weslati@esprit.tn";
-        final String password = "fariiiiihaaa (mdp mail)";
-        String recipientEmail = user.getEmail();
-        String subject = "Payment notification";
-        String message = "The payment process has completed successfully.";
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-        Session session = Session.getInstance(props, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
-            }
-        });
-        try {
-            Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress(username));
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
-            msg.setSubject(subject);
-            msg.setText(message);
-            Transport.send(msg);
-            System.out.println("Email notification sent successfully.");
-        } catch (MessagingException ex) {
-            System.out.println(ex.getMessage());
-        }
-
-    }
+  
 
     @FXML
     public void ResetEvenet(ActionEvent event) {
@@ -273,51 +227,52 @@ public class EventController implements Initializable {
     @FXML
     private void deletehandler(ActionEvent event) throws SQLException, NullPointerException {
         if (!tabevent.getSelectionModel().isEmpty()) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Etes vous sur de vouloir supprimer plat " + tabevent.getSelectionModel().getSelectedItem().getNomevent()+ " ?", ButtonType.YES, ButtonType.NO);
-alert.showAndWait();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Etes vous sur de vouloir supprimer plat " + tabevent.getSelectionModel().getSelectedItem().getNomevent() + " ?", ButtonType.YES, ButtonType.NO);
+            alert.showAndWait();
 
-if (alert.getResult() == ButtonType.YES) {
-    eventService r=new eventService();
-    r.supprimer(tabevent.getSelectionModel().getSelectedItem());
-     Notifications notificationBuild = Notifications.create()
-                                      .title("Traitement réclamation ")
-                                      .text("la réclamation a été supprimé avec succes")
-                                      .graphic(null)
-                                      .position(Pos.CENTER)
-                                      .onAction(new EventHandler<ActionEvent>() {
-                                  @Override
-                                  public void handle(ActionEvent event) {
-                                      System.out.println("click here");
-                                  }
-                                  
-                              });
-                              notificationBuild.show(); 
-    refplat();
-}
- 
-        }
-         else{
-              Alert alert = new Alert(Alert.AlertType.ERROR);
+            if (alert.getResult() == ButtonType.YES) {
+                eventService r = new eventService();
+                r.supprimer(tabevent.getSelectionModel().getSelectedItem());
+                Notifications notificationBuild = Notifications.create()
+                        .title("Traitement réclamation ")
+                        .text("la réclamation a été supprimé avec succes")
+                        .graphic(null)
+                        .position(Pos.CENTER)
+                        .onAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                System.out.println("click here");
+                            }
+
+                        });
+                notificationBuild.show();
+                refplat();
+            }
+
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
             alert.setContentText("il faut séléctionner une ligne");
-            alert.showAndWait();}
+            alert.showAndWait();
+        }
     }
-   @FXML
+
+    @FXML
     void modifevent(ActionEvent event) {
- Evenement cat=new Evenement();
-   eventService pl = new eventService();
-   cat=tabevent.getSelectionModel().getSelectedItem();
-   cat.setDescription(txtDescription.getText());
-   cat.setNom(txtNomEvent.getText());
-   cat.setImage(imagefild.getText());
-  
+        Evenement cat = new Evenement();
+        eventService pl = new eventService();
+        cat = tabevent.getSelectionModel().getSelectedItem();
+        cat.setDescription(txtDescription.getText());
+        cat.setNom(txtNomEvent.getText());
+        cat.setImage(imagefild.getText());
+
 //   float prix=Float.valueOf(txtPrix.getText());
-  // cat.setPrix(prix);
- cat.setLieu(txtLieu.getText());
- //cat.setDate_evenement(txtDate.getValue());
-   pl.modifier(cat);
-   load(); 
-refplat(); 
+        // cat.setPrix(prix);
+        cat.setLieu(txtLieu.getText());
+        //cat.setDate_evenement(txtDate.getValue());
+        pl.modifier(cat);
+        load();
+        refplat();
     }
 
     private void refplat() {
@@ -346,27 +301,27 @@ refplat();
             System.out.println(ex.getMessage());
         }
     }
- 
-      @FXML
+
+    @FXML
     void imageupload(ActionEvent event) throws FileNotFoundException, IOException {
-   Random rand = new Random();
+        Random rand = new Random();
         int x = rand.nextInt(1000);
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Upload File Path");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
         File file = fileChooser.showOpenDialog(null);
-        String DBPath = "C:\\\\xampp\\\\htdocs\\\\piKtebi\\\\"+  x + ".jpg";
+        String DBPath = "C:\\\\xampp\\\\htdocs\\\\piKtebi\\\\" + x + ".jpg";
         if (file != null) {
             FileInputStream Fsource = new FileInputStream(file.getAbsolutePath());
             FileOutputStream Fdestination = new FileOutputStream(DBPath);
             BufferedInputStream bin = new BufferedInputStream(Fsource);
             BufferedOutputStream bou = new BufferedOutputStream(Fdestination);
             System.out.println(file.getAbsoluteFile());
-            String path=file.getAbsolutePath();
+            String path = file.getAbsolutePath();
             Image img = new Image(file.toURI().toString());
             imageview.setImage(img);
-           /* File File1 = new File(DBPath);
+            /* File File1 = new File(DBPath);
             Image img = new Image(File1.getAbsolutePath());
             image_event.setImage(img);*/
             imagefild.setText(DBPath);
@@ -377,44 +332,44 @@ refplat();
             }
             bin.close();
             bou.close();
-            
+
         } else {
             System.out.println("error");
 
         }
     }
-    
-      @FXML
+
+    @FXML
     void ajouterrr(ActionEvent event) throws SQLException {
-  connection = Maconnexion.getInstance().getCnx();
+        connection = Maconnexion.getInstance().getCnx();
         String Nomevent = txtNomEvent.getText();
         String description = txtDescription.getText();
-        
-          String id_theme = combotheme.getValue();
-           eventService rec = new eventService();
+
+        String id_theme = combotheme.getValue();
+        eventService rec = new eventService();
         int idth = rec.chercherIdtheme(id_theme);
         String lieu = txtLieu.getText();
         float prix = Float.parseFloat(txtPrix.getText());
-       LocalDate date_evenement = txtDate.getValue();
-            User u=new User();
+        LocalDate date_evenement = txtDate.getValue();
+        User u = new User();
         Scontrol sc = new Scontrol();
 
-       Evenement re = new Evenement(Nomevent, description, lieu, prix,date_evenement,u, imagefild.getText(), idth);
+        Evenement re = new Evenement(Nomevent, description, lieu, prix, date_evenement, u, imagefild.getText(), idth);
 
         if (Nomevent.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-           alert.setContentText("champs vides");
+            alert.setContentText("champs vides");
             alert.showAndWait();
         } else if (!sc.isNumeric(txtPrix.getText())) {
-           Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setContentText("quantité doit étre un nombre");
             alert.showAndWait();
-       } else {
+        } else {
             rec.ajouter(re);
             refplat();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setContentText("event ajouter");
-           alert.showAndWait();
+            alert.showAndWait();
         }
     }
 //  private void populateTable(ObservableList<Evenement> branlist){
@@ -438,7 +393,7 @@ refplat();
 
     @FXML
     private void rechercher(ActionEvent event) {
-         Metier met = new Metier();
+        Metier met = new Metier();
         //ServiceUser sca = new ServiceUser();
         System.out.println("/////////////recherche//////////");
         System.out.println(recherche.getText());
@@ -456,9 +411,10 @@ refplat();
     @FXML
     private void rechercherbar(KeyEvent event) {
     }
+
     @FXML
     void tri(ActionEvent event) {
-             Metier met = new Metier();
+        Metier met = new Metier();
         //ServiceUser sca = new ServiceUser();
         System.out.println("/////////////recherche//////////");
         System.out.println(tri.getText());
@@ -470,11 +426,10 @@ refplat();
         collieu.setCellValueFactory(new PropertyValueFactory<>("lieu"));
         imagecall.setCellValueFactory(new PropertyValueFactory<>("image"));
         datedebut.setCellValueFactory(new PropertyValueFactory<>("date_evenement"));
-         colprix.setCellValueFactory(new PropertyValueFactory<>("prix"));
+        colprix.setCellValueFactory(new PropertyValueFactory<>("prix"));
 
         tabevent.setItems(data);
 
     }
-    
-}
 
+}

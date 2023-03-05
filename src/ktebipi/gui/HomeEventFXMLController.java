@@ -6,6 +6,7 @@
 package ktebipi.gui;
 
 import java.net.URL;
+import java.security.Security;
 import java.sql.Date;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -18,39 +19,37 @@ import ktebipi.entities.Evenement;
 import ktebipi.services.eventService;
 import ktebipi.utils.Maconnexion;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TableCell;
 import javafx.scene.input.MouseEvent;
-
-
-
-
+import javafx.util.Callback;
+import javax.mail.*;
+import javax.mail.internet.*;
+import tn.esprit.ktebi.entities.User;
 
 /**
  * FXML Controller class
  *
  * @author ASUS
- * 
- * 
+ *
+ *
  */
-
 public class HomeEventFXMLController implements Initializable {
-    
-    @FXML
-    private Button btnParticiper;
 
     @FXML
     private TableView<Evenement> listtabevent;
-    
 
     @FXML
     private TableColumn<Evenement, String> colname;
@@ -73,143 +72,227 @@ public class HomeEventFXMLController implements Initializable {
     @FXML
     private TableColumn<Evenement, String> imagecall;
 
-    @FXML
-    private TableColumn<Evenement, Integer> calid;
-
-        ObservableList<Evenement> platList = FXCollections.observableArrayList();
- Evenement ss = new Evenement();
+//    @FXML
+//    private TableColumn<Evenement, Integer> calid;
+    ObservableList<Evenement> platList = FXCollections.observableArrayList();
+    Evenement ss = new Evenement();
     Statement ste;
     private Evenement r;
     String query = null;
     Connection connection = null;
     Connection cnx = Maconnexion.getInstance().getCnx();
     PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+    ResultSet resultSet = null;
+    eventService es = new eventService();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-          table();
+        table();
 
-      
-       listtabevent.setOnMouseClicked((MouseEvent event) -> {
-   if (event.getClickCount() > 0) {
-       onEdit();
-               }
-       });
-               }
-    public void table(){
-     
-         calid.setCellValueFactory(new PropertyValueFactory<>("id"));
-    colname.setCellValueFactory(new PropertyValueFactory<>("Nomevent"));
-    coldesc.setCellValueFactory(new PropertyValueFactory<>("description"));
-    collieu.setCellValueFactory(new PropertyValueFactory<>("lieu"));
-    coltheme.setCellValueFactory(new PropertyValueFactory<>("nom"));
-    datedebut.setCellValueFactory(new PropertyValueFactory<>("date_evenement"));
-    colprix.setCellValueFactory(new PropertyValueFactory<>("prix"));
-    imagecall.setCellValueFactory(new PropertyValueFactory<>("image"));
-
-        listtabevent.setItems(RecupBase()); 
-
-}
-      public static ObservableList<Evenement> RecupBase(){
-             
-    ObservableList<Evenement> list = FXCollections.observableArrayList();
-    
-       java.sql.Connection cnx;
-     cnx = Maconnexion.getInstance().getCnx();
-          String sql = "select *from event";
-    try {
-       
-        PreparedStatement st = (PreparedStatement) cnx.prepareStatement(sql);
-
-    ResultSet R = st.executeQuery();
-    while (R.next()){
-      Evenement r =new Evenement();
-     //r.setId(R.getString(1));
-           r.setNomevent(R.getString(1));
-           
-
-      // r.setTheme(R.getClass());
-     r.setDescription(R.getString(3));
-     
-     r.setLieu(R.getString(4));
-          r.setDate_evenement(R.getDate(4).toLocalDate());
-     r.setImage(R.getString(4));
-     r.setPrix(R.getFloat(4));
-
-    
-     
-      list.add(r);
+////        listtabevent.setOnMouseClicked((MouseEvent event) -> {
+////            if (event.getClickCount() > 0) {
+//////                onEdit();
+////            }
+//        });
     }
-    }catch (SQLException ex){
-    ex.getMessage(); 
-    } 
-    return list;
+
+    public void table() {
+        ObservableList<Evenement> platlist = es.afficher();
+
+//         calid.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colname.setCellValueFactory(new PropertyValueFactory<>("Nomevent"));
+        coldesc.setCellValueFactory(new PropertyValueFactory<>("description"));
+        collieu.setCellValueFactory(new PropertyValueFactory<>("lieu"));
+        coltheme.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        datedebut.setCellValueFactory(new PropertyValueFactory<>("date_evenement"));
+        colprix.setCellValueFactory(new PropertyValueFactory<>("prix"));
+        imagecall.setCellValueFactory(new PropertyValueFactory<>("image"));
+
+        TableColumn<Evenement, Void> colBtn = new TableColumn<>("participer");
+        Callback<TableColumn<Evenement, Void>, TableCell<Evenement, Void>> cellFactory = new Callback<TableColumn<Evenement, Void>, TableCell<Evenement, Void>>() {
+            @Override
+            public TableCell<Evenement, Void> call(final TableColumn<Evenement, Void> param) {
+                final TableCell<Evenement, Void> cell = new TableCell<Evenement, Void>() {
+
+                    private final Button btn = new Button("participer");
+
+                    {
+                        btn.setStyle("-fx-background-color: #4275dc; -fx-text-fill: white; -fx-font-weight: bold;-fx-font-size: 14px;");
+
+                        btn.setOnAction((ActionEvent event) -> {
+                            try {
+                                Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+
+                                sendMail();
+                            } catch (SQLException ex) {
+                                Logger.getLogger(HomeEventFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("SUCCEES");
+                            alert.setHeaderText(null);
+                            alert.setContentText("vous avez participer !le payement sera lors le levenement et merci");
+                            alert.showAndWait();
+
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+        listtabevent.getColumns().add(colBtn);
+        listtabevent.setItems(platlist);
     }
-      public void onEdit(){
+
+    public static ObservableList<Evenement> RecupBase() {
+
+        ObservableList<Evenement> list = FXCollections.observableArrayList();
 
         java.sql.Connection cnx;
         cnx = Maconnexion.getInstance().getCnx();
-                  String sql = "select *from event";
-
-        PreparedStatement st = null;
+        String sql = "select *from event";
         try {
-            st = (PreparedStatement) cnx.prepareStatement(sql);
-        } catch (SQLException ex) {
-            Logger.getLogger(HomeEventFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
-    ResultSet R = null;
-        try {
-            R = st.executeQuery();
-        } catch (SQLException ex) {
-            Logger.getLogger(HomeEventFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            PreparedStatement st = (PreparedStatement) cnx.prepareStatement(sql);
 
-        if (listtabevent.getSelectionModel().getSelectedItem() != null) {
-            Evenement r = listtabevent.getSelectionModel().getSelectedItem();
-//            String n = Prixx.getText();
-//int p = Integer.valueOf(n);
-            try {
+            ResultSet R = st.executeQuery();
+            while (R.next()) {
+                Evenement r = new Evenement();
+                //r.setId(R.getString(1));
                 r.setNomevent(R.getString(1));
-            } catch (SQLException ex) {
-                Logger.getLogger(HomeEventFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-           
 
-            try {
                 // r.setTheme(R.getClass());
                 r.setDescription(R.getString(3));
-            } catch (SQLException ex) {
-                Logger.getLogger(HomeEventFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-     
-            try {
-                r.setLieu(R.getString(4));
-            } catch (SQLException ex) {
-                Logger.getLogger(HomeEventFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                r.setDate_evenement(R.getDate(4).toLocalDate());
-            } catch (SQLException ex) {
-                Logger.getLogger(HomeEventFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                r.setImage(R.getString(4));
-            } catch (SQLException ex) {
-                Logger.getLogger(HomeEventFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                r.setPrix(R.getFloat(4));
-            } catch (SQLException ex) {
-                Logger.getLogger(HomeEventFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-            }
 
-       } 
-      }
+                r.setLieu(R.getString(4));
+                r.setDate_evenement(R.getDate(4).toLocalDate());
+                r.setImage(R.getString(4));
+                r.setPrix(R.getFloat(4));
+
+                list.add(r);
+            }
+        } catch (SQLException ex) {
+            ex.getMessage();
+        }
+        return list;
+    }
+
+    public void sendMail() throws SQLException {
+        int userid = 1;
+        eventService es = new eventService();
+        User user = es.getUserById(userid);
+        System.out.println(user.getEmail());
+
+        if (user == null) {
+            System.out.println("User with ID " + userid + " not found!");
+            return;
+        } else {
+        }
+
+        final String username = "farah.weslati@esprit.tn";
+        final String password = "223JFT0698";
+        String recipientEmail = user.getEmail();
+        String subject = "Payment notification";
+        String message = "The payment process has completed successfully.";
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        Session session = Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+        try {
+            Message msg = new MimeMessage(session);
+            msg.setFrom(new InternetAddress(username));
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
+            msg.setSubject(subject);
+            msg.setText(message);
+            Transport.send(msg);
+            System.out.println("Email notification sent successfully.");
+        } catch (MessagingException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+    }
 }
-    /*
+
+//    public void onEdit() {
+//
+//        java.sql.Connection cnx;
+//        cnx = Maconnexion.getInstance().getCnx();
+//        String sql = "select *from event";
+//
+//        PreparedStatement st = null;
+//        try {
+//            st = (PreparedStatement) cnx.prepareStatement(sql);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(HomeEventFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        ResultSet R = null;
+//        try {
+//            R = st.executeQuery();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(HomeEventFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        if (listtabevent.getSelectionModel().getSelectedItem() != null) {
+//            Evenement r = listtabevent.getSelectionModel().getSelectedItem();
+////            String n = Prixx.getText();
+////int p = Integer.valueOf(n);
+//            try {
+//                r.setNomevent(R.getString(1));
+//            } catch (SQLException ex) {
+//                Logger.getLogger(HomeEventFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//
+//            try {
+//                // r.setTheme(R.getClass());
+//                r.setDescription(R.getString(3));
+//            } catch (SQLException ex) {
+//                Logger.getLogger(HomeEventFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//
+//            try {
+//                r.setLieu(R.getString(4));
+//            } catch (SQLException ex) {
+//                Logger.getLogger(HomeEventFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            try {
+//                r.setDate_evenement(R.getDate(4).toLocalDate());
+//            } catch (SQLException ex) {
+//                Logger.getLogger(HomeEventFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            try {
+//                r.setImage(R.getString(4));
+//            } catch (SQLException ex) {
+//                Logger.getLogger(HomeEventFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            try {
+//                r.setPrix(R.getFloat(4));
+//            } catch (SQLException ex) {
+//                Logger.getLogger(HomeEventFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//
+//        }
+//    }
+//}
+/*
 private void load() throws SQLException {
     eventService pp=new eventService();
         Connection Connection = Maconnexion.getInstance().getCnx();
@@ -245,7 +328,6 @@ private void load() throws SQLException {
      }
     }
  */
-
-    /**
-     * Initializes the controller class.
-     */
+/**
+ * Initializes the controller class.
+ */

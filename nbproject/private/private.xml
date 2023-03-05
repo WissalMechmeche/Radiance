@@ -5,7 +5,11 @@
         <group>
             <file>file:/D:/Program%20Files/Netbeans/ktebiPi/src/ktebipi/gui/HomeEventFXMLController.java</file>
             <file>file:/D:/Program%20Files/Netbeans/ktebiPi/src/ktebipi/services/eventService.java</file>
-            <file>file:/D:/Program%20Files/Netbeans/ktebiPi/src/ktebipi/gui/ServiceEvenement.java</file>
+            <file>file:/D:/Program%20Files/Netbeans/ktebiPi/src/ktebipi/tests/Main.java</file>
+            <file>file:/D:/Program%20Files/Netbeans/ktebiPi/src/ktebipi/services/ModifierInterface.java</file>
+            <file>file:/D:/Program%20Files/Netbeans/ktebiPi/src/ktebipi/entities/Evenement.java</file>
+            <file>file:/D:/Program%20Files/Netbeans/ktebiPi/src/ktebipi/services/Metier.java</file>
+            <file>file:/D:/Program%20Files/Netbeans/ktebiPi/src/ktebipi/gui/HomeEventFXML.fxml</file>
             <file>file:/D:/Program%20Files/Netbeans/ktebiPi/src/ktebipi/gui/EventController.java</file>
         </group>
     </open-files>
