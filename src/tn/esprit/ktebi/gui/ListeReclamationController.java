@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.net.URL;
 import static java.nio.file.Files.list;
 import static java.rmi.Naming.list;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,8 +30,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -38,11 +41,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import tn.esprit.ktebi.entities.Reclamation;
 import tn.esprit.ktebi.entities.ReponseReclamation;
 import tn.esprit.ktebi.entities.User;
+import static tn.esprit.ktebi.gui.UserReponseReclamationController.liste;
 import tn.esprit.ktebi.services.ServiceReclamation;
+import tn.esprit.ktebi.services.ServiceReponse;
 
 /**
  * FXML Controller class
@@ -65,7 +73,7 @@ public class ListeReclamationController implements Initializable {
     private TableColumn<Reclamation, String> ColEtat;
     
     @FXML
-    private TableColumn<Reclamation, Image> colimg;
+    private TableColumn colimg;
     @FXML
     private Button btnmod;
 
@@ -87,6 +95,7 @@ public class ListeReclamationController implements Initializable {
     private TextField txtRech;
     static  Integer index;
     static  Integer id_rep;       
+    ServiceReponse srep = new ServiceReponse();
 
     InputStream in;    
     ServiceReclamation sr = new ServiceReclamation();
@@ -99,28 +108,15 @@ public class ListeReclamationController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
             // TODO
-            AfficheRecById();
-        } catch (SQLException ex) {
-            Logger.getLogger(ListeReclamationController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Table.setOnMouseClicked(t->{
+                Table.setOnMouseClicked(t->{
             if(t.getClickCount() ==1){
-                Integer index = Table.getSelectionModel().getSelectedIndex();
+                 index = Table.getSelectionModel().getSelectedIndex();
                 txtRec.setText(Table.getItems().get(index).getContenu());
-
-
             }
-        });
-        txtRec.setWrapText(true);
-       chercherReclamation();
-    }
-    
-    
-    
-        public void AfficheRecById() throws SQLException {
-        List<Reclamation> rec = new ArrayList<>();
+        });    
+            
+        rec = new ArrayList<>();
         User user = new User(5);
         try {
             rec =sr.selectAllById(user.getId());
@@ -132,7 +128,56 @@ public class ListeReclamationController implements Initializable {
         colDate.setCellValueFactory(new PropertyValueFactory<>("date_reclamation"));
         colContenu.setCellValueFactory(new PropertyValueFactory<>("contenu"));
         ColEtat.setCellValueFactory(new PropertyValueFactory<>("etat"));
+        Callback<TableColumn<Reclamation, String>, TableCell<Reclamation, String>> cellFactory =(e)->{
+            final TableCell<Reclamation, String> cell=new TableCell<Reclamation, String>(){
+              @Override
+              public void updateItem(String item,boolean empty){
+                  super.updateItem(item,empty);
+                  if(empty){
+                      setGraphic(null);
+                      setText(null);
+                  }else{
+                      
+                      final Button edit = new Button("show");
+                      edit.setOnAction(event ->{
+                          Reclamation r = getTableView().getItems().get(getIndex());
+                          liste = new ReponseReclamation();
+    
+                          try {
+                              liste=srep.selectAllById(r.getId());
+                          } catch (SQLException ex) {
+                              Logger.getLogger(ListeReclamationController.class.getName()).log(Level.SEVERE, null, ex);
+                          }  
+                            Alert al = new Alert(Alert.AlertType.INFORMATION);                           
+                            if(!al.isShowing()){
+                            al.setTitle("Reponse");
+                            al.setHeaderText("Votre reclamation est : \n"+r.getContenu());    
+                            al.setContentText("Date Reponse :\n"+liste.getDateRep()+"\n"+
+                                              "Reponse :\n"+liste.getContenu());
+                            al.show();
+                            }else{
+                                al.hide();
+                            }
+
+                            
+                      });
+                      setGraphic(edit);
+                      setText(null);
+                  };
+              };
+            };      
+            return cell;
+};
+        colimg.setCellFactory(cellFactory);
         Table.setItems(list);
+        txtRec.setWrapText(true);
+       chercherReclamation();
+    }
+    
+    
+    
+        public void AfficheRecById() throws SQLException {
+
             /*in =list.get(0).getImg1().getBinaryStream();
             Image image = new Image(in);
             imgview.setFitWidth(200);
@@ -153,9 +198,9 @@ public class ListeReclamationController implements Initializable {
         Reclamation rec = new Reclamation(id_rep,
                 txtRec.getText(),LocalDate.now(),etat,u);
         try{
-            sr.updateOne(rec);
-            AfficheRecById();
-            txtRec.setText("");
+        sr.updateOne(rec);
+        resetTableData();
+        txtRec.setText("");
 
         } catch (SQLException ex) {
             Logger.getLogger(ListeReclamationController.class.getName()).log(Level.SEVERE, null, ex);
@@ -231,5 +276,14 @@ public class ListeReclamationController implements Initializable {
         stage.show();
         System.out.println(id_rep);
 
-    }        
+    }
+    
+  public void resetTableData() throws SQLDataException, SQLException {
+
+        rec = new ArrayList<>();
+        User user=new User(5);
+        rec =sr.selectAllById(user.getId());
+        ObservableList<Reclamation> data = FXCollections.observableArrayList(rec);
+        Table.setItems(data);
+    }    
 }

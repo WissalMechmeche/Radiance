@@ -17,7 +17,10 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,6 +31,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -47,8 +51,11 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import tn.esprit.ktebi.entities.Reclamation;
 import tn.esprit.ktebi.entities.ReponseReclamation;
+import tn.esprit.ktebi.entities.Role;
+import tn.esprit.ktebi.entities.TypeReclamation;
 import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.services.ServiceReclamation;
+import tn.esprit.ktebi.services.ServiceTypeReclamation;
 import tray.animations.AnimationType;
 import tray.notification.NotificationType;
 import tray.notification.TrayNotification;
@@ -73,7 +80,12 @@ public class AjouterReclamationController implements Initializable {
     
     @FXML
     private Label imgpath;
+    
+    @FXML
+    private ComboBox<String> combotype;
+  ServiceTypeReclamation str = new ServiceTypeReclamation();  
     private FileInputStream fis;
+    ObservableList<TypeReclamation> list;
 
     /**
      * Initializes the controller class.
@@ -81,6 +93,14 @@ public class AjouterReclamationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+             try {
+            list= FXCollections.observableList(str.selectAll());
+            for(int i=0;i<list.size();i++){
+            combotype.getItems().add(list.get(i).getType());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AjouterReclamationController.class.getName()).log(Level.SEVERE, null, ex);
+        }  
     }
 
 
@@ -93,39 +113,42 @@ public class AjouterReclamationController implements Initializable {
             al.setContentText("Le contenu est vide !");
             al.show();
         }else{
-        String etat ="en cours";
-        User u=new User(5);
-                  
-
-            Reclamation ev = new Reclamation(txtRec.getText(),LocalDate.now(),etat,u,imgpath.getText());
-            
-            ServiceReclamation sr = new ServiceReclamation();
             try {
-                sr.createOne(ev);
-                TrayNotification tray = new TrayNotification();
-            AnimationType type = AnimationType.SLIDE;
-            tray.setAnimationType(type);
-            tray.setTitle("Vous avez ajouter une nouvelle reclamation");
-            tray.setMessage("Vous avez ajouter une nouvelle reclamation");
-            tray.setNotificationType(NotificationType.INFORMATION);
-            tray.showAndDismiss(Duration.millis(3000));
-            
-            Parent root = FXMLLoader.load(getClass().getResource("ListeReclamation.fxml"));
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setTitle("Ajouter une Reclamations");
-            stage.setScene(scene);
-            stage.show();
-            sendMail("akrimi.amine@esprit.tn","Reclamation envoyé avec succée",txtRec.getText());
-            sendMail("ktebiktebi117@gmail.com","Nouvelle reclamation ",txtRec.getText());
-
-            
+                String etat ="en cours";
+                User u=new User(5);
+                               
+                Reclamation ev = new Reclamation(txtRec.getText(),LocalDate.now(),etat,u,imgpath.getText(),str.selectAllByType(combotype.getValue()) );
+                ServiceReclamation sr = new ServiceReclamation();
+                try {
+                    sr.createOne(ev);
+                    TrayNotification tray = new TrayNotification();
+                    AnimationType type = AnimationType.SLIDE;
+                    tray.setAnimationType(type);
+                    tray.setTitle("Vous avez ajouter une nouvelle reclamation");
+                    tray.setMessage("Vous avez ajouter une nouvelle reclamation");
+                    tray.setNotificationType(NotificationType.INFORMATION);
+                    tray.showAndDismiss(Duration.millis(3000));
+                    
+                    Parent root = FXMLLoader.load(getClass().getResource("ListeReclamation.fxml"));
+                    Scene scene = new Scene(root);
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.setTitle("Ajouter une Reclamations");
+                    stage.setScene(scene);
+                    stage.show();
+                    sendMail("akrimi.amine@esprit.tn","Reclamation envoyé avec succée",txtRec.getText());
+                    sendMail("ktebiktebi117@gmail.com","Nouvelle reclamation ",txtRec.getText());
+                    
+                    
+                } catch (SQLException ex) {
+                    Alert al = new Alert(Alert.AlertType.ERROR);
+                    al.setTitle("Erreur");
+                    al.setHeaderText("Erreur Interne");
+                    al.setContentText(ex.getMessage());
+                    al.show();
+                }
+                
             } catch (SQLException ex) {
-                Alert al = new Alert(Alert.AlertType.ERROR);
-                al.setTitle("Erreur");
-                al.setHeaderText("Erreur Interne");
-                al.setContentText(ex.getMessage());
-                al.show();
+                Logger.getLogger(AjouterReclamationController.class.getName()).log(Level.SEVERE, null, ex);
             }
             
         }

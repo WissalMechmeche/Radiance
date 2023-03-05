@@ -36,13 +36,14 @@ public class ServiceReclamation implements IService<Reclamation> {
     public void createOne(Reclamation r) throws SQLException {
         try {
             PreparedStatement st = cnx.prepareStatement("INSERT INTO reclamation (id_user, contenu,"
-                    + " date_rec, etat, img) VALUES (?, ?, ?, ?, ?)");
+                    + " date_rec, etat, img, type_rec) VALUES (?, ?, ?, ?, ?,?)");
             st.setInt(1,r.getUser().getId());
             st.setString(2,r.getContenu());
             st.setDate(3, Date.valueOf(r.getDate_reclamation()));
             st.setString(4,r.getEtat());
             fis = new FileInputStream(r.getImg());
             st.setBinaryStream(5,(InputStream)fis,r.getImg().length());
+            st.setInt(6,r.getType().getId());            
             st.executeUpdate();
             System.out.println("Reclamtion ajouté !");
         } catch (FileNotFoundException ex) {
