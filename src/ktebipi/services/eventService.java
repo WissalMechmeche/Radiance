@@ -191,40 +191,40 @@ public class eventService implements Iservice<Evenement> {
         return list;
     }
 
-    public ObservableList<Evenement> chercherEvent(String chaine) {
-        String sql = "SELECT * FROM event WHERE (nom_event LIKE ? or lieu_event LIKE ?  )";
-
-        Connection cnx = Maconnexion.getInstance().getCnx();
-        String ch = "%" + chaine + "%";
-        ObservableList<Evenement> myList = FXCollections.observableArrayList();
-        try {
-
-            Statement ste = cnx.createStatement();
-            // PreparedStatement pst = myCNX.getCnx().prepareStatement(requete6);
-            PreparedStatement stee = cnx.prepareStatement(sql);
-            stee.setString(1, ch);
-            stee.setString(2, ch);
-
-            ResultSet rs = stee.executeQuery();
-            while (rs.next()) {
-                Evenement p = new Evenement();
-                p.setId(rs.getInt(1));
-                p.setDescription(rs.getString(2));
-                p.setNomevent(rs.getString(3));
-                p.setImage(rs.getString(4));
-
-                p.setPrix(rs.getFloat(6));
-                p.setLieu(rs.getString(7));
-                p.setDate_evenement(rs.getDate(8).toLocalDate());
-
-                myList.add(p);
-                System.out.println("titre trouvé! ");
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        return myList;
-    }
+//    public ObservableList<Evenement> chercherEvent(String chaine) {
+//        String sql = "SELECT * FROM event WHERE (nom_event LIKE ? or lieu_event LIKE ?  )";
+//
+//        Connection cnx = Maconnexion.getInstance().getCnx();
+//        String ch = "%" + chaine + "%";
+//        ObservableList<Evenement> myList = FXCollections.observableArrayList();
+//        try {
+//
+//            Statement ste = cnx.createStatement();
+//            // PreparedStatement pst = myCNX.getCnx().prepareStatement(requete6);
+//            PreparedStatement stee = cnx.prepareStatement(sql);
+//            stee.setString(1, ch);
+//            stee.setString(2, ch);
+//
+//            ResultSet rs = stee.executeQuery();
+//            while (rs.next()) {
+//                Evenement p = new Evenement();
+//                p.setId(rs.getInt(1));
+//                p.setDescription(rs.getString(2));
+//                p.setNomevent(rs.getString(3));
+//                p.setImage(rs.getString(4));
+//
+//                p.setPrix(rs.getFloat(6));
+//                p.setLieu(rs.getString(7));
+//                p.setDate_evenement(rs.getDate(8).toLocalDate());
+//
+//                myList.add(p);
+//                System.out.println("titre trouvé! ");
+//            }
+//        } catch (SQLException ex) {
+//            System.out.println(ex.getMessage());
+//        }
+//        return myList;
+//    }
 
     public void modifiersstock(int a) {
         Evenement p = new Evenement();

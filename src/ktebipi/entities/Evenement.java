@@ -8,6 +8,7 @@ package ktebipi.entities;
 import java.time.LocalDate;
 import tn.esprit.ktebi.entities.Theme;
 import tn.esprit.ktebi.entities.User;
+import java.util.Date;
 
 /**
  *
@@ -95,7 +96,48 @@ public class Evenement {
         this.id_theme = id_theme;
     }
 
- 
+    public Evenement(int id, String Nomevent,  String lieu ,String description, float prix,int id_theme, String image) {
+        this.id = id;
+        this.Nomevent = Nomevent;
+        this.description = description;
+        this.lieu = lieu;
+        this.prix = prix;
+        this.id_theme = id_theme;
+        this.image = image;
+        
+    }
+
+    public Evenement(int aInt, String nom, String lieu, float prix, String desc,  String image) {
+this.id=aInt;
+this.Nomevent=nom;
+this.lieu=lieu;
+this.prix=prix;
+this.description=desc ;
+this.image=image;
+        
+        }
+
+    /**
+     *
+     * @param aInt
+     * @param nom
+     * @param lieu
+     * @param prix
+     * @param desc
+     * @param date
+     * @param image
+     */
+    public Evenement(int aInt, String nom, String lieu, float prix, String desc,LocalDate date,  String image) {
+this.id=aInt;
+this.Nomevent=nom;
+this.lieu=lieu;
+this.prix=prix;
+this.description=desc ;
+this.image=image;
+        this.date_evenement=date;
+        }
+
+
     
     
     

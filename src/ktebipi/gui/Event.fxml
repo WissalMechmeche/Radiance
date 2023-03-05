@@ -75,21 +75,17 @@
                 <TableColumn fx:id="colprix" minWidth="0.0" prefWidth="66.0" text="prix" />
             </columns>
         </TableView>
-<!--     <ImageView fitHeight="44.0" fitWidth="51.0" layoutX="38.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
-        <image>
-            <Image url="@ktebipi\gui\ktebi.png" />
-        </image>
-    </ImageView>-->
-        <TextField fx:id="rechercher" layoutX="749.0" layoutY="43.0" onKeyPressed="#recherchebar" prefHeight="37.0" prefWidth="248.0" promptText="Rechercher ici" />
       
 
-        <ImageView fx:id="imageview" fitHeight="75.0" fitWidth="90.0" layoutX="331.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true" />
-        <Button fx:id="btnupload" layoutX="331.0" layoutY="404.0" mnemonicParsing="false" onAction="#imageupload" prefHeight="25.0" prefWidth="81.0" text="UPLOAD" />
-        <Button fx:id="bntmodif" layoutX="522.0" layoutY="589.0" mnemonicParsing="false" onAction="#modifevent" prefHeight="25.0" prefWidth="110.0" text="MODIFIER" />
-        <Button fx:id="btnsupp" layoutX="686.0" layoutY="589.0" mnemonicParsing="false" onAction="#deletehandler" prefHeight="25.0" prefWidth="102.0" text="SUPPRIMER" />
-        <Button fx:id="btnreset" layoutX="272.0" layoutY="589.0" mnemonicParsing="false" onAction="#ResetEvenet" prefHeight="25.0" prefWidth="102.0" text="RESET" />
+          <ImageView fx:id="imageview" fitHeight="79.0" fitWidth="90.0" layoutX="342.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true" />
+        <Button fx:id="btnupload" layoutX="336.0" layoutY="404.0" mnemonicParsing="false" onAction="#imageupload" prefHeight="28.0" prefWidth="102.0" text="UPLOAD" textFill="WHITE" />
+        <Button fx:id="bntmodif" layoutX="563.0" layoutY="589.0" mnemonicParsing="false" onAction="#modifevent" prefHeight="25.0" prefWidth="110.0" text="MODIFIER" textFill="WHITE" />
+        <Button fx:id="btnsupp" layoutX="746.0" layoutY="589.0" mnemonicParsing="false" onAction="#deletehandler" prefHeight="25.0" prefWidth="102.0" text="SUPPRIMER" textFill="WHITE" />
+        <Button fx:id="btnreset" layoutX="312.0" layoutY="589.0" mnemonicParsing="false" onAction="#ResetEvenet" prefHeight="25.0" prefWidth="102.0" text="RESET" textFill="WHITE" />
       <JFXComboBox fx:id="combotheme" layoutX="166.0" layoutY="316.0" prefHeight="25.0" prefWidth="158.0" />
-      <Button fx:id="ajouter" layoutX="92.0" layoutY="569.0" mnemonicParsing="false" onAction="#ajouterrr" text="Button" />
-      <TextField fx:id="rechercherEvent" layoutX="428.0" layoutY="39.0" onKeyPressed="#eventrecherche" />
+      <Button fx:id="ajouter" layoutX="170.0" layoutY="589.0" mnemonicParsing="false" onAction="#ajouterrr" prefHeight="25.0" prefWidth="90.0" text="AJOUTER" textFill="WHITE" />
+      <TextField fx:id="recherche" layoutX="486.0" layoutY="39.0" prefHeight="26.0" prefWidth="213.0" promptText="rechercher ici" />
+      <Button fx:id="btnRechercher" layoutX="718.0" layoutY="36.0" mnemonicParsing="false" onAction="#rechercher" prefHeight="32.0" prefWidth="120.0" text="RECHERCHER" />
+      <Button fx:id="tri" layoutX="878.0" layoutY="39.0" mnemonicParsing="false" onAction="#tri" prefHeight="32.0" prefWidth="81.0" text="TRI" />
     </children>
 </AnchorPane>

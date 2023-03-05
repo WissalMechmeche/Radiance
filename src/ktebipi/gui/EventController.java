@@ -62,6 +62,7 @@ import tn.esprit.ktebi.entities.Theme;
 import tn.esprit.ktebi.entities.User;
 import javax.mail.*;
 import javax.mail.internet.*;
+import ktebipi.services.Metier;
 import org.controlsfx.control.Notifications;
 
 /**
@@ -87,19 +88,12 @@ public class EventController implements Initializable {
     private TextArea txtDescription;
     @FXML
     private Button ajouter;
-    @FXML
-    private Button btnAjouter;
-
-    @FXML
-    private Button btnAnnuler;
 
      @FXML
     private JFXComboBox<String> combotheme;
     @FXML
     private TextField imagefild;
 
-    @FXML
-    private Button upload;
 
     @FXML
     private TableView<Evenement> tabevent;
@@ -127,34 +121,27 @@ public class EventController implements Initializable {
 
     @FXML
     private TableColumn<Evenement, Integer> calid;
-    @FXML
-
-    private Button btnrest;
-
-    @FXML
-    private Button btnnmodif;
 
     @FXML
     private Button btnsupp;
 
     @FXML
-    private Button btnajouter;
-    @FXML
     private ImageView imageview;
-    @FXML
-    private Button aaa;
-
-    @FXML
-    private Button upp;
 
     @FXML
     private Button btnupload;
+@FXML
+    private TextField recherche;
 
     @FXML
-    private Button aba;
-     
-    @FXML
-    private TextField rechercherEvent;
+    private Button btnRechercher;
+       @FXML
+    private Button tri;
+
+
+    
+//    @FXML
+//    private TextField rechercherEvent;
 
     private ObservableList<Evenement> data = FXCollections.observableArrayList();
 
@@ -169,6 +156,11 @@ public class EventController implements Initializable {
     Connection cnx = Maconnexion.getInstance().getCnx();
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
+    @FXML
+    private Button bntmodif;
+    @FXML
+    private Button btnreset;
+    
 
     /**
      * Initializes the controller class.
@@ -425,24 +417,64 @@ refplat();
            alert.showAndWait();
         }
     }
-  private void populateTable(ObservableList<Evenement> branlist){
-       tabevent.setItems(branlist);
-   
-       }
-      @FXML
-    void eventrecherche(KeyEvent event) {
- eventService bs=new eventService(); 
-        Evenement b= new Evenement();
-        ObservableList<Evenement>filter= bs.chercherEvent(rechercherEvent.getText());
-      populateTable(filter);
-    }
+//  private void populateTable(ObservableList<Evenement> branlist){
+//       tabevent.setItems(branlist);
+//   
+//    }
+//      @FXML
+//    void eventrecherche(KeyEvent event) {
+// eventService bs=new eventService(); 
+//        Evenement b= new Evenement();
+//        ObservableList<Evenement>filter= bs.chercherEvent(rechercherEvent.getText());
+//      populateTable(filter);
+//    }
 ////@FXML
-////void rechercherbar(KeyEvent event){
-////      eventService bs=new eventService(); 
-////        Evenement b= new Evenement();
-////        ObservableList<Evenement>filter= bs.chercherEvent(rechercher.getText());
-////        populateTable(filter); 
-////}
+//void rechercherbar(KeyEvent event){
+//      eventService bs=new eventService(); 
+//        Evenement b= new Evenement();
+//        ObservableList<Evenement>filter= bs.chercherEvent(rechercher.getText());
+//        populateTable(filter); 
+//}
+
+    @FXML
+    private void rechercher(ActionEvent event) {
+         Metier met = new Metier();
+        //ServiceUser sca = new ServiceUser();
+        System.out.println("/////////////recherche//////////");
+        System.out.println(recherche.getText());
+        ObservableList<Evenement> data = FXCollections.observableArrayList(met.SearchByName(recherche.getText()));
+        System.out.println(data);
+        colname.setCellValueFactory(new PropertyValueFactory<>("nomevent"));
+        coldesc.setCellValueFactory(new PropertyValueFactory<>("description"));
+        collieu.setCellValueFactory(new PropertyValueFactory<>("lieu"));
+        imagecall.setCellValueFactory(new PropertyValueFactory<>("image"));
+        colprix.setCellValueFactory(new PropertyValueFactory<>("prix"));
+
+        tabevent.setItems(data);
+    }
+
+    @FXML
+    private void rechercherbar(KeyEvent event) {
+    }
+    @FXML
+    void tri(ActionEvent event) {
+             Metier met = new Metier();
+        //ServiceUser sca = new ServiceUser();
+        System.out.println("/////////////recherche//////////");
+        System.out.println(tri.getText());
+//        List<Evenement> data = Metier.sortByDate();
+        ObservableList<Evenement> data = FXCollections.observableArrayList(met.sortByDate());
+        System.out.println(data);
+        colname.setCellValueFactory(new PropertyValueFactory<>("nomevent"));
+        coldesc.setCellValueFactory(new PropertyValueFactory<>("description"));
+        collieu.setCellValueFactory(new PropertyValueFactory<>("lieu"));
+        imagecall.setCellValueFactory(new PropertyValueFactory<>("image"));
+        datedebut.setCellValueFactory(new PropertyValueFactory<>("date_evenement"));
+         colprix.setCellValueFactory(new PropertyValueFactory<>("prix"));
+
+        tabevent.setItems(data);
 
     }
+    
+}
 

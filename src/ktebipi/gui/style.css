@@ -82,6 +82,12 @@ and open the template in the editor.
  
  #btnParticiper {-fx-background-color:#00008B;}
  #AnchorPane {-fx-background-color:#F0F8FF;}
+ #btnupload {-fx-background-color:#00008B;}
+ #bntmodif {-fx-background-color:#00008B;}
+ #btnsupp {-fx-background-color:#00008B;}
+ #btnreset {-fx-background-color:#00008B;}
+ #ajouter {-fx-background-color:#00008B;}
+ #btnRechercher {-fx-background-color:#00008B;}
 /*#supprimerBTN,#annuler_r,#supprimer_r,#desinscrire,#asso {
     -fx-background-color: #f44336;
 }
