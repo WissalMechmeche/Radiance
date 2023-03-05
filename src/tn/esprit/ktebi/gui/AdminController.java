@@ -15,6 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,7 +24,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import tn.esprit.ktebi.entities.Role;
 import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.service.ServiceUser;
 
@@ -51,7 +55,7 @@ public class AdminController implements Initializable {
     private TableColumn<User, String> colpsd;
 
     @FXML
-    private TableColumn<User, Integer> colrole;
+    private TableColumn<String, String> colrole;
 
     @FXML
     private TableColumn<User, String> colstatus;
@@ -71,6 +75,10 @@ public class AdminController implements Initializable {
     ServiceUser se = new ServiceUser();
     List<User> user;
     ObservableList<User> list;
+
+   
+    @FXML
+    private TextField txtRech;
     /**
      * Initializes the controller class.
      */
@@ -80,21 +88,29 @@ public class AdminController implements Initializable {
         user = new ArrayList<>();
         try {
             user =se.selectAll();
-
+            System.out.println(user);
         } catch (SQLException ex) {
             Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-   
-        list= FXCollections.observableList(user);  
+        /*String id = null;
+           for(User u : user){
+                id = u.getRole().getRole();
+           }*/
+        }      
+
+       
+        list= FXCollections.observableList(user);
         colprenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
         colnom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         coltel.setCellValueFactory(new PropertyValueFactory<>("tel"));
         coladrs.setCellValueFactory(new PropertyValueFactory<>("adresse"));
         colemail.setCellValueFactory(new PropertyValueFactory<>("email"));        
         colddate.setCellValueFactory(new PropertyValueFactory<>("dateNaissance"));
+        colrole.setCellValueFactory(new PropertyValueFactory<>("role"));
         colstatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+
         table.setItems(list);       
-    }    
+chercherReclamation();
+    }
     void Afficher(){
 
     }
@@ -120,5 +136,26 @@ public class AdminController implements Initializable {
     @FXML
     void btnretour(ActionEvent event) {
 
-    }    
+    } 
+    void chercherReclamation(){
+
+        //// Code Recherche
+        FilteredList<User> listeFilter = new FilteredList<>(list, l-> true);
+        txtRech.textProperty().addListener((ObservableValue, oldValue, newValue) -> {
+            listeFilter.setPredicate(user-> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCase = newValue.toLowerCase();
+                if (user.getStatus().toLowerCase().contains(lowerCase)) {
+                    return true;
+                }else
+                    
+                    return false;
+            });
+        });
+        SortedList<User> sortedData = new SortedList<>(listeFilter);
+        sortedData.comparatorProperty().bind(table.comparatorProperty());
+        table.setItems(sortedData);
+    }
 }

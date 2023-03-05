@@ -3,18 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/gui/LoginFXMLController.java</file>
-            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/gui/AdminController.java</file>
             <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/gui/FXMLhController.java</file>
             <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/gui/AcountFXMLController.java</file>
-            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/tests/FXMain.java</file>
-            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/gui/AjouterUserFXMLController.java</file>
-            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/gui/Admin.fxml</file>
-            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/utils/MaConnexion.java</file>
-            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/gui/MotdepasseoublieController.java</file>
-            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/gui/AfficherUserFXMLController.java</file>
-            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/gui/Motdepasseoublie.fxml</file>
+            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/gui/LoginFXML.fxml</file>
+            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/gui/AjouterUserFXML.fxml</file>
             <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/gui/AcceuilController.java</file>
+            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/gui/style.css</file>
+            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/gui/AcountFXML.fxml</file>
+            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/gui/AfficherUserFXML.fxml</file>
+            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/gui/LoginFXMLController.java</file>
+            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/gui/AdminController.java</file>
+            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/gui/Acceuil.fxml</file>
+            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/service/IService.java</file>
+            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/gui/AjouterUserFXMLController.java</file>
+            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/tests/FXMain.java</file>
+            <file>file:/C:/xampp/htdocs/JavaApplication7/src/tn/esprit/ktebi/service/ServiceUser.java</file>
         </group>
     </open-files>
 </project-private>

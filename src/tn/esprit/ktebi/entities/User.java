@@ -47,6 +47,8 @@ public class User {
         this.dateNaissance = dateNaissance;
         
     }
+    
+    
 
 
    public User(int id)

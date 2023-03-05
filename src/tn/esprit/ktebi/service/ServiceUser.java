@@ -63,7 +63,9 @@ public class ServiceUser implements IService<User>{
     public List<User> selectAll() throws SQLException {
       List<User> user = new ArrayList<>();
 
-        String req = "SELECT * FROM `utilisateur`";
+        String req = "SELECT utilisateur.*,role.role as nomrole,role.*"
+                +"FROM `utilisateur`"
+                +"JOIN role on utilisateur.id_role = role.id_role ";
 
         PreparedStatement ps = cnx.prepareStatement(req);
 
@@ -81,6 +83,11 @@ public class ServiceUser implements IService<User>{
             p.setAdresse(rs.getString("adresse"));
             p.setDateNaissance(rs.getDate("dateDeNaissance").toLocalDate());
             p.setStatus(rs.getString("status")); 
+            
+            Role r = new Role();
+            r.setId(rs.getInt("id_role"));
+            r.setRole(rs.getString("nomrole"));
+            p.setRole(r);
             user.add(p);
         }    
         return user;
@@ -146,6 +153,32 @@ public class ServiceUser implements IService<User>{
              User.connecte = id  ;
          }
             return id;        
+    }
+    
+        public Boolean  VerifMail(String email)throws SQLException{
+        Boolean test = false ;
+        String req = "SELECT * FROM utilisateur where email=?";
+        PreparedStatement ps = cnx.prepareStatement(req);
+        ps.setString(1,email);
+        ResultSet rs = ps.executeQuery();
+         if(rs.next()){
+            test=true;
+         }
+            return test;        
+    }
+        
+            public Boolean  VerifStatus(String email)throws SQLException{
+        Boolean test = false ;
+        String req = "SELECT * FROM utilisateur where email=?";
+        PreparedStatement ps = cnx.prepareStatement(req);
+        ps.setString(1,email);
+        ResultSet rs = ps.executeQuery();
+         if(rs.next()){
+             if(rs.getString("status").equals("desactiver")){
+            test=true;
+             }
+         }
+            return test;        
     }
     
     public void desactiver(User t) throws SQLException {

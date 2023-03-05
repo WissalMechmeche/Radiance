@@ -70,6 +70,7 @@ public class AjouterUserFXMLController implements Initializable {
 
     @FXML
     private TextField txtconmdp;
+ 
     
     @FXML
     private Label  txtrole;
@@ -134,9 +135,7 @@ public class AjouterUserFXMLController implements Initializable {
         else{
             System.out.println(rol);
             Role r = new Role() ;
-            if(rol.equals("Client")){
-                r.setId(1);
-            }else if(rol.equals("Auteur")){
+             if(rol.equals("Auteur")){
                 r.setId(2);
             }else{
                 r.setId(3);
@@ -190,8 +189,25 @@ public class AjouterUserFXMLController implements Initializable {
 
     @FXML
     void Retour(ActionEvent event) {
-       
+        Stage primaryStage = new Stage();
+        System.out.println(getClass().getResource("/tn/esprit/ktebi/gui/"));
+
+        try {
+            Parent root = FXMLLoader
+                    .load(getClass().getResource("../gui/FXMLh.fxml"));
+            Scene scene = new Scene(root, 650, 500);
+
+            primaryStage.setTitle("Hello World!");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+            
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }
+
+       
+    
      public void setrole(String role){
     this.rol= role;
 

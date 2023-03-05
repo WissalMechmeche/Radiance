@@ -45,7 +45,7 @@ public class FXMLhController implements Initializable {
     @FXML
     private Button btntest;
     
-      @FXML
+     
     public ComboBox<String> comm;
            ObservableList<Role> list;
 
@@ -59,7 +59,7 @@ public class FXMLhController implements Initializable {
           try {
             // TODO
             list= FXCollections.observableList(se.RecupCombo());
-            for(int i=0;i<3;i++){
+            for(int i=0;i<list.size();i++){
             this.comm.getItems().add(list.get(i).getRole());
             }
         } catch (SQLException ex) {
@@ -86,8 +86,8 @@ public class FXMLhController implements Initializable {
       @FXML
       public void toSignup(ActionEvent event) throws IOException{
     
-    
-       Stage primaryStage = new Stage();
+   
+          Stage primaryStage = new Stage();
                 System.out.println(getClass().getResource("/tn/esprit/ktebi/gui/"));
                  Parent root = FXMLLoader
                     .load(getClass().getResource("../gui/AjouterUserFXML.fxml"));
@@ -96,10 +96,10 @@ public class FXMLhController implements Initializable {
             primaryStage.setTitle("ktebi");
             primaryStage.setScene(scene);
             primaryStage.show();
-     AjouterUserFXMLController acont = new AjouterUserFXMLController();
+            AjouterUserFXMLController acont = new AjouterUserFXMLController();
             String s =comm.getValue();
             acont.setrole(s);
-
+          
     }
        
     

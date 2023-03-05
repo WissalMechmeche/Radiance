@@ -5,7 +5,6 @@
  */
 package tn.esprit.ktebi.gui;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -15,6 +14,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import tn.esprit.ktebi.entities.User;
+import tn.esprit.ktebi.service.ServiceUser;
 
 /**
  * FXML Controller class
@@ -24,6 +25,11 @@ import javafx.stage.Stage;
 public class AcceuilController implements Initializable {
 
     private Integer id;
+//      @FXML
+//    private Button btnAccount;
+
+      ServiceUser se = new ServiceUser();
+      User user =new User();
 
     /**
      * Initializes the controller class.
@@ -54,7 +60,6 @@ public class AcceuilController implements Initializable {
         }
     }
 
-    
 }
 
 
