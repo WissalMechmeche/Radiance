@@ -12,6 +12,7 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 import javax.imageio.ImageIO;
 import tn.esprit.ktebi.entities.Facture;
@@ -25,6 +26,7 @@ import tn.esprit.ktebi.services.PromoService;
 import tn.esprit.ktebi.services.ServiceFacture;
 import tn.esprit.ktebi.services.ServiceLignePanier;
 import tn.esprit.ktebi.services.ServicePanier;
+import tn.esprit.ktebi.services.SmsSender;
 import tn.esprit.ktebi.services.UserService;
 
 
@@ -133,7 +135,7 @@ public class Main {
         System.out.println(ps.selectAll());*/
        
        //ServiceLignePanier sp = new ServiceLignePanier();
-       User u = new User(1,"Wissal", "Mechmeche","mechmechwissal@gmail.com");
+      /* User u = new User(1,"Wissal", "Mechmeche","mechmechwissal@gmail.com");
        
        Panier p = new Panier(1,25,600,u);
        
@@ -160,7 +162,7 @@ public class Main {
        
        Facture ft = new Facture(200f,"Especes",u,Timestamp.valueOf("2022-05-20 00:25:33"));
        
-       //f.ajouterFacture(1, "Especes");
+       //f.ajouterFacture(1, "Especes");*/
        
        
        
@@ -171,6 +173,37 @@ public class Main {
        
        
        //System.out.println(sp.ajouterLignePanier(p));
+       /*
+       UserService us = new UserService();
+      List<User> clients = us.getAllClients();
+       PromoService ps = new PromoService();
+       List<Promo> list = ps.selectAll();
+       
+       LocalDate today = LocalDate.now();
+
+
+        LocalDate datePlus5 = today.plusDays(5);
+
+
+        Date datePlus5Sql = Date.valueOf(datePlus5);
+      
+       
+      /* for(Promo p : list)
+       {
+           if(p.getDate_fin() == datePlus5Sql)
+           {
+               
+           }
+       }
+      
+      
+       SmsSender.sendSms("+216 29 537 908","Le code Promo va s'expirer dans 5 jours");
+      
+      */
+       
+       
+        
+       
         
         
      

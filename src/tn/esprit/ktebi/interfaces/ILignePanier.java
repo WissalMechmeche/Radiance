@@ -22,7 +22,7 @@ public interface ILignePanier {
     public Float calculerPrixTotal(int id_panier) throws SQLException;
     public LignePanier getLignePanierByLivreAndPanier(Livre livre, Panier panier) throws SQLException;
     public List<LignePanier> getLigneByUser(int id_user) throws SQLException;
-    public ObservableList<Livre> listelivres() throws SQLException;
+    public List<Livre> listelivres() throws SQLException;
     public List<LignePanier> afficherLignePanier() throws SQLException;
     public List<LignePanier> getLignePanierByLivre(Livre livre, Panier idPanier) throws SQLException;
     public void supprimerLignePanier(Livre livre);

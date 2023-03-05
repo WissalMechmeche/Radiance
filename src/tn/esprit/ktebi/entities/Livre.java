@@ -100,6 +100,8 @@ public class Livre implements Comparable<Livre> {
         this.auteur = user;
         this.image = image;
     }
+    
+    
 
     
 

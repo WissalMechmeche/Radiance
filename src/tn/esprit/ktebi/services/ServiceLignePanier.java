@@ -236,10 +236,11 @@ public class ServiceLignePanier implements ILignePanier{
     }
 
     @Override
-    public ObservableList<Livre> listelivres() throws SQLException {
-        ObservableList<Livre> myList = FXCollections.observableArrayList();
-        try {
+    public List<Livre> listelivres() throws SQLException {
+                List<Livre> myList = new ArrayList<>();
 
+
+ 
             String requete = "Select * FROM Livre";
             PreparedStatement ps = cnx.prepareStatement(requete);
             ResultSet rs = ps.executeQuery();
@@ -266,10 +267,7 @@ public class ServiceLignePanier implements ILignePanier{
                 myList.add(rec);
 
             }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
 
-        }
         return myList;
     }
     

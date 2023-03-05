@@ -323,4 +323,63 @@ public class ServiceFacture implements IFacture{
         }
     }
     
+    public Livre getLivreById(int id) throws SQLException {
+        Livre livre = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        stmt = cnx.prepareStatement("SELECT * FROM livre WHERE id_livre = ?");
+        stmt.setInt(1, id);
+        rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            int livreId = rs.getInt("id_livre");
+            String libelle = rs.getString("libelle");
+            String description = rs.getString("description");
+            String editeur = rs.getString("editeur");
+            Date date_edition = rs.getDate("date_edition");
+            String categorie = rs.getString("categorie");
+            float prix = rs.getFloat("prix");
+            String langue = rs.getString("langue");
+            int promo_id = rs.getInt("code_promo");
+            Promo promo = new Promo();
+            promo.setId(promo_id);
+
+            User user = getUserById(rs.getInt("auteur"));
+            String image = rs.getString("image");
+
+            livre = new Livre(livreId, libelle, description, editeur, date_edition, categorie, prix, langue, promo, user, image);
+        }
+
+        return livre;
+    }
+    
+    public List<LigneFacture> afficherLignesFacturesByFactureId(int factureId) throws SQLException {
+        List<LigneFacture> lignesFacture = new ArrayList<>();
+
+        String query = "SELECT * FROM ligne_facture WHERE id_facture = ?";
+        PreparedStatement preparedStatement = cnx.prepareStatement(query);
+        preparedStatement.setInt(1, factureId);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            LigneFacture ligneFacture = new LigneFacture();
+            ligneFacture.setId_ligne_fac(resultSet.getInt("id_ligne_fac"));
+            ligneFacture.setQte(resultSet.getInt("qte"));
+            ligneFacture.setMnt(resultSet.getFloat("mnt"));
+            //facture
+            int fac_id = resultSet.getInt("id_facture");
+            Facture facture = new Facture();
+            facture.setId(fac_id);
+            ligneFacture.setId_facture(facture);
+            //livre
+            int liv_id = resultSet.getInt("id_livre");
+            Livre livre = new Livre();
+            livre.setId(liv_id);
+            ligneFacture.setId_livre(livre);
+            lignesFacture.add(ligneFacture);
+        }
+
+        return lignesFacture;
+    }
 }

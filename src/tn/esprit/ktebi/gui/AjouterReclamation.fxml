@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="561.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.AjouterReclamationController">
+   <children>
+      <TextArea fx:id="txtRec" layoutX="35.0" layoutY="104.0" prefHeight="200.0" prefWidth="531.0" />
+      <Label layoutX="135.0" layoutY="14.0" prefHeight="47.0" prefWidth="350.0" text="Envoyer une Reclamtion" textFill="#861515">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Label>
+      <Label layoutX="35.0" layoutY="83.0" prefHeight="21.0" prefWidth="169.0" text="Contenu de reclamtion :">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnInserer" layoutX="417.0" layoutY="498.0" mnemonicParsing="false" onAction="#InsererReclamtion" prefHeight="38.0" prefWidth="169.0" style="-fx-background-color: #1E7FCB; -fx-border-radius: 50; -fx-background-radius: 50;" text="Envoyer" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Button>
+      <Button fx:id="btnimg" layoutX="40.0" layoutY="362.0" mnemonicParsing="false" onAction="#AjouterImage" text="Importer" />
+      <Label layoutX="40.0" layoutY="334.0" prefHeight="17.0" prefWidth="42.0" text="Image">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="imgview" fitHeight="158.0" fitWidth="243.0" layoutX="120.0" layoutY="312.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="imgpath" layoutX="120.0" layoutY="520.0" prefHeight="17.0" prefWidth="243.0" />
+      <ComboBox fx:id="combotype" layoutX="378.0" layoutY="362.0" prefWidth="150.0" promptText="Type Reclamation" />
+   </children>
+</AnchorPane>

@@ -5,6 +5,8 @@
  */
 package tn.esprit.ktebi.entities;
 
+import java.io.InputStream;
+import java.sql.Blob;
 import java.time.LocalDate;
 
 /**
@@ -17,28 +19,51 @@ public class Reclamation {
     private LocalDate date_reclamation ;
     private String etat ;
     private User user ;
-    private ReponseReclamation reponse ;
+    private String img;
+    private Blob img1;
+    private TypeReclamation type;
 
-    
     public Reclamation()
     {
-        
+
     }
-    public Reclamation(int id, String contenu, LocalDate date_reclamation, String etat, User user, ReponseReclamation reponse) {
+   public Reclamation(int id)
+    {
+        this.id=id;
+    }   
+       public Reclamation(int id, String contenu, LocalDate date_reclamation, String etat, User user,Blob img1) {
         this.id = id;
         this.contenu = contenu;
         this.date_reclamation = date_reclamation;
         this.etat = etat;
         this.user = user;
-        this.reponse = reponse;
+        this.img1 = img1;
+       
     }
-    
-    public Reclamation(String contenu, LocalDate date_reclamation, String etat, User user, ReponseReclamation reponse) {
+    public Reclamation(int id, String contenu, LocalDate date_reclamation, String etat, User user) {
+        this.id = id;
         this.contenu = contenu;
         this.date_reclamation = date_reclamation;
         this.etat = etat;
         this.user = user;
-        this.reponse = reponse;
+        
+    }
+
+    public Reclamation(String contenu, LocalDate date_reclamation, String etat, User user,String img,TypeReclamation type) {
+        this.contenu = contenu;
+        this.date_reclamation = date_reclamation;
+        this.etat = etat;
+        this.user = user;
+        this.img= img;
+        this.type= type;
+
+    }
+    
+        public Reclamation(String contenu, LocalDate date_reclamation, String etat, User user) {
+        this.contenu = contenu;
+        this.date_reclamation = date_reclamation;
+        this.etat = etat;
+        this.user = user;
     }
 
     public int getId() {
@@ -80,21 +105,32 @@ public class Reclamation {
     public void setUser(User user) {
         this.user = user;
     }
-
-    public ReponseReclamation getReponse() {
-        return reponse;
+    public String getImg() {
+        return img;
     }
 
-    public void setReponse(ReponseReclamation reponse) {
-        this.reponse = reponse;
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public Blob getImg1() {
+        return img1;
+    }
+
+    public void setImg1(Blob img1) {
+        this.img1 = img1;
+    }
+
+    public TypeReclamation getType() {
+        return type;
     }
 
     @Override
     public String toString() {
-        return "Reclamation{" + "id=" + id + ", contenu=" + contenu 
-                + ", date_reclamation=" + date_reclamation 
-                + ", etat=" + etat + ", user=" + user + ", reponse=" + reponse + '}';
+        return "Reclamation{" + "id=" + id + ", contenu=" + contenu + ", date_reclamation=" + date_reclamation + ", etat=" + etat + ", user=" + user + ", img=" + img + ", img1=" + img1 + ", type=" + type + '}';
     }
+    
+   
 
 
     @Override
@@ -114,11 +150,11 @@ public class Reclamation {
         }
         return true;
     }
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
 }
