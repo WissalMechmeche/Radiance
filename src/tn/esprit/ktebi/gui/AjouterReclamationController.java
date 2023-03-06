@@ -93,6 +93,8 @@ public class AjouterReclamationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        txtRec.setWrapText(true);
+
              try {
             list= FXCollections.observableList(str.selectAll());
             for(int i=0;i<list.size();i++){

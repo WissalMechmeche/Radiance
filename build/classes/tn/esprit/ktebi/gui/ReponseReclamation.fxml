@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -17,7 +18,6 @@
             <TableColumn fx:id="ColId" minWidth="0.0" prefWidth="73.0" text="Etat" />
         </columns>
       </TableView>
-      <TextField fx:id="txtRep" layoutX="14.0" layoutY="260.0" prefHeight="135.0" prefWidth="223.0" />
       <Label layoutX="14.0" layoutY="239.0" text="Reponse :">
          <font>
             <Font size="15.0" />
@@ -33,7 +33,6 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="txtRec" layoutX="14.0" layoutY="98.0" prefHeight="135.0" prefWidth="223.0" />
       <Label layoutX="14.0" layoutY="77.0" text="Contenu reclamation :">
          <font>
             <Font size="15.0" />
@@ -41,6 +40,8 @@
       </Label>
       <TextField fx:id="id_rec" editable="false" layoutX="14.0" layoutY="44.0" prefHeight="25.0" prefWidth="81.0" />
       <TextField fx:id="txtRech" layoutX="551.0" layoutY="65.0" promptText="Chercher" />
-      <Button fx:id="btnDate" layoutX="267.0" layoutY="65.0" mnemonicParsing="false" onAction="#TrierParDate" text="Date" /> 
+      <Button fx:id="btnDate" layoutX="267.0" layoutY="65.0" mnemonicParsing="false" onAction="#TrierParDate" text="Date" />
+      <TextArea fx:id="txtRec" layoutX="9.0" layoutY="99.0" prefHeight="134.0" prefWidth="232.0" />
+      <TextArea fx:id="txtRep" layoutX="9.0" layoutY="260.0" prefHeight="134.0" prefWidth="232.0" /> 
   </children>   
 </AnchorPane>

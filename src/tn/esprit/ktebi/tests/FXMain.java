@@ -29,7 +29,7 @@ public class FXMain extends Application {
         System.out.println(getClass().getResource("/tn/esprit/ktebi/gui/"));
         try {
             Parent root = FXMLLoader
-                    .load(getClass().getResource("../gui/ListeReclamation.fxml"));
+                    .load(getClass().getResource("../gui/AjouterReclamation.fxml"));
             
             Scene scene = new Scene(root, 800, 550);
             primaryStage.setTitle("Hello World!");

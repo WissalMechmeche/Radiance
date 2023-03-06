@@ -144,6 +144,17 @@ public class ServiceReclamation implements IService<Reclamation> {
 
         return liste;
     }  
-      
+  
+    public int CountType() throws SQLException{
+        int i = 0;
+        String req = "SELECT COUNT(*) AS nbr FROM reclamation where type_rec=1";
+        PreparedStatement ps = cnx.prepareStatement(req);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()){
+        i = rs.getInt("nbr");
+        }
+        return i;
+        
+    }
       
 }

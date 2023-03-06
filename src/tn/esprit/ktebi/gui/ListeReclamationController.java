@@ -48,7 +48,6 @@ import javafx.util.Callback;
 import tn.esprit.ktebi.entities.Reclamation;
 import tn.esprit.ktebi.entities.ReponseReclamation;
 import tn.esprit.ktebi.entities.User;
-import static tn.esprit.ktebi.gui.UserReponseReclamationController.liste;
 import tn.esprit.ktebi.services.ServiceReclamation;
 import tn.esprit.ktebi.services.ServiceReponse;
 
@@ -141,7 +140,7 @@ public class ListeReclamationController implements Initializable {
                       final Button edit = new Button("show");
                       edit.setOnAction(event ->{
                           Reclamation r = getTableView().getItems().get(getIndex());
-                          liste = new ReponseReclamation();
+                          ReponseReclamation liste = new ReponseReclamation();
     
                           try {
                               liste=srep.selectAllById(r.getId());
@@ -268,10 +267,7 @@ public class ListeReclamationController implements Initializable {
         Scene scene = new Scene(retour);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("Ajouter une Reclamations");
-            UserReponseReclamationController acont = new UserReponseReclamationController();
-            index = Table.getSelectionModel().getSelectedIndex();
-         id_rep =Table.getItems().get(index).getId();
-            acont.GetId(id_rep);
+
         stage.setScene(scene);
         stage.show();
         System.out.println(id_rep);

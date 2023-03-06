@@ -10,6 +10,4 @@ public interface IService<T> {
     void deletOne(T t) throws SQLException;
     List<T> selectAll() throws SQLException;
 
-
-
 }

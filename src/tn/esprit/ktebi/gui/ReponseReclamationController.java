@@ -24,6 +24,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import tn.esprit.ktebi.entities.Reclamation;
@@ -54,13 +55,10 @@ public class ReponseReclamationController implements Initializable {
     private Button btnmod;
 
     @FXML
-    private TextField txtRec;
+    private TextArea txtRec;
 
     @FXML
-    private TextField txtRep;
-    
-    @FXML
-    private TextField id_rec;
+    private TextArea txtRep;
     
     @FXML
     private TextField txtRech;
@@ -81,12 +79,13 @@ public class ReponseReclamationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-
+        txtRec.setWrapText(true);
+        txtRep.setWrapText(true);
+        
         Table.setOnMouseClicked(t->{
             if(t.getClickCount() ==1){
                 Integer index = Table.getSelectionModel().getSelectedIndex();
                 txtRec.setText(Table.getItems().get(index).getContenu());
-                id_rec.setText(String.valueOf(Table.getItems().get(index).getEtat()));
             }
         });
         AfficheRec();
@@ -157,7 +156,6 @@ public class ReponseReclamationController implements Initializable {
                 al.show();
                 AfficheRec();
                 txtRep.setText("");
-                id_rec.setText("");
                 txtRec.setText("");
             } catch (SQLException ex) {
                 Alert al = new Alert(Alert.AlertType.ERROR);
