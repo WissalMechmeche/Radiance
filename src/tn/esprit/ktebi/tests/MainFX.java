@@ -28,7 +28,7 @@ public class MainFX extends Application {
 
         try {
             Parent root = FXMLLoader
-                    .load(getClass().getResource("/tn/esprit/ktebi/gui/Admin-ui.fxml"));
+                    .load(getClass().getResource("/tn/esprit/ktebi/gui/homeCart.fxml"));
 
             Scene scene = new Scene(root, 1100, 800);
 

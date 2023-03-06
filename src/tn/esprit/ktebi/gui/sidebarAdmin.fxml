@@ -52,7 +52,7 @@
                                 <Insets right="10.0" />
                             </HBox.margin>
                         </ImageView>
-                        <Label text="Utilisateurs" textFill="#f3f4f4">
+                        <Label onMouseClicked="#handleUser" text="Utilisateurs" textFill="#f3f4f4">
                             <font>
                                 <Font name="Cambria Bold" size="15.0" />
                             </font>

@@ -125,7 +125,7 @@
                         <Insets left="5.0" />
                     </padding>
                 </HBox>
-                <Label alignment="CENTER" layoutX="32.0" layoutY="381.0" prefHeight="19.0" prefWidth="143.0" text="Détails Client" textFill="#a2bee8">
+                <Label alignment="CENTER" layoutX="32.0" layoutY="381.0" onMouseClicked="#handleAccount" prefHeight="19.0" prefWidth="143.0" text="Détails Client" textFill="#a2bee8">
                     <font>
                         <Font name="Berlin Sans FB" size="20.0" />
                     </font>

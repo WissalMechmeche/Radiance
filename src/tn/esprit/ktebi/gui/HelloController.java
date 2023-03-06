@@ -74,7 +74,7 @@ public class HelloController implements Initializable {
        Stage primaryStage = new Stage();
                 System.out.println(getClass().getResource("/tn/esprit/ktebi/gui/"));
                  Parent root = FXMLLoader
-                    .load(getClass().getResource("../gui/LoginFXML.fxml"));
+                    .load(getClass().getResource("../gui/Login.fxml"));
             Scene scene = new Scene(root, 650, 500);
             //AcountFXMLController acont = new AcountFXMLController();
             //acont.getId(id);
@@ -90,15 +90,15 @@ public class HelloController implements Initializable {
           Stage primaryStage = new Stage();
                 System.out.println(getClass().getResource("/tn/esprit/ktebi/gui/"));
                  Parent root = FXMLLoader
-                    .load(getClass().getResource("../gui/AjouterUserFXML.fxml"));
+                    .load(getClass().getResource("../gui/AjouterUser.fxml"));
             Scene scene = new Scene(root, 650, 500);
            
             primaryStage.setTitle("ktebi");
             primaryStage.setScene(scene);
             primaryStage.show();
-            //AjouterUserFXMLController acont = new AjouterUserFXMLController();
+            AjouterUserController acont = new AjouterUserController();
             String s =comm.getValue();
-            //acont.setrole(s);
+            acont.setrole(s);
           
     }
        
