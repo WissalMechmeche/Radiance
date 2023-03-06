@@ -6,6 +6,7 @@
 package ktebipi.gui;
 
 import com.jfoenix.controls.JFXComboBox;
+import java.awt.Desktop;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -58,11 +59,14 @@ import ktebipi.entities.Evenement;
 import ktebipi.services.Scontrol;
 import ktebipi.services.eventService;
 import ktebipi.utils.Maconnexion;
-import tn.esprit.ktebi.entities.Theme;
-import tn.esprit.ktebi.entities.User;
+import ktebipi.entities.Theme;
+import ktebipi.entities.User;
 import javax.mail.*;
 import javax.mail.internet.*;
 import ktebipi.services.Metier;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.controlsfx.control.Notifications;
 
 /**
@@ -156,6 +160,8 @@ public class EventController implements Initializable {
     private Button bntmodif;
     @FXML
     private Button btnreset;
+    @FXML
+    private Button btnExcel;
 
     /**
      * Initializes the controller class.
@@ -211,8 +217,6 @@ public class EventController implements Initializable {
         imageview.setImage(img);
 
     }
-
-  
 
     @FXML
     public void ResetEvenet(ActionEvent event) {
@@ -430,6 +434,63 @@ public class EventController implements Initializable {
 
         tabevent.setItems(data);
 
+    }
+
+    @FXML
+    private void ConvertToexcel(ActionEvent event) {
+        try {
+            String filename = "data.xls";
+            HSSFWorkbook hwb = new HSSFWorkbook();
+            HSSFSheet sheet = hwb.createSheet("new sheet");
+
+            HSSFRow rowhead = sheet.createRow((short) 0);
+            rowhead.createCell((short) 0).setCellValue("Nom_Event");
+            rowhead.createCell((short) 4).setCellValue("Description");
+            rowhead.createCell((short) 1).setCellValue("Lieu");
+            rowhead.createCell((short) 2).setCellValue("Date_deb");
+            rowhead.createCell((short) 3).setCellValue("Prix");
+            rowhead.createCell((short) 5).setCellValue("Nom theme");
+            rowhead.createCell((short) 6).setCellValue("Prenom client");
+            rowhead.createCell((short) 7).setCellValue("Prenom client");
+
+            Statement st = cnx.createStatement();
+            ResultSet rs = st.executeQuery("select * from event");
+            int i = 1;
+            while (rs.next()) {
+                HSSFRow row = sheet.createRow((short) i);
+
+                row.createCell((short) 0).setCellValue(rs.getString("nom_event"));
+                row.createCell((short) 1).setCellValue(rs.getString("lieu_event"));
+                row.createCell((short) 2).setCellValue(rs.getDate("date_event").toLocalDate());
+                row.createCell((short) 3).setCellValue(Float.toString(rs.getFloat("prix_event")));
+                row.createCell((short) 4).setCellValue(rs.getString("desc_event"));
+                int id_theme = rs.getInt("id_theme");
+                Evenement e = new Evenement(id_theme);
+                row.createCell((short) 5).setCellValue(e.getNomevent());
+
+                int id_user = rs.getInt("id_user");
+                User u = new User();
+                u.setId(id_user);
+                row.createCell((short) 6).setCellValue(u.getNom());
+                row.createCell((short) 7).setCellValue(u.getPrenom());
+
+                i++;
+            }
+            FileOutputStream fileOut = new FileOutputStream(filename);
+            hwb.write(fileOut);
+            fileOut.close();
+            System.out.println("Your excel file has been generated!");
+            File file = new File(filename);
+            if (file.exists()) {
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().open(file);
+                }
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
     }
 
 }

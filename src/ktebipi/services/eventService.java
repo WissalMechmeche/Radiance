@@ -13,15 +13,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;  
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ktebipi.utils.Maconnexion;
 import ktebipi.entities.Evenement;
-import tn.esprit.ktebi.entities.Theme;
-import tn.esprit.ktebi.entities.User;
+import ktebipi.entities.User;
 
 /**
  *
@@ -31,27 +30,41 @@ public class eventService implements Iservice<Evenement> {
 
     Connection cnx = Maconnexion.getInstance().getCnx();
 
+    public void addParticipantToEvent(Evenement event, User user) throws SQLException {
+        String sql = "INSERT INTO participation (id_event, id_user) VALUES (?, ?)";
+
+        try {
+            PreparedStatement stmt = cnx.prepareStatement(sql);
+            stmt.setInt(1, event.getId());
+            stmt.setInt(2, user.getId());
+            stmt.executeUpdate();
+            System.out.println("Participant ajouté !");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
     @Override
     public void ajouter(Evenement e) {
-        String sql= "INSERT INTO event(nom_event, lieu_event, date_event,"
-                    + " prix_event, desc_event,id_theme, id_user,image)VALUES ( ?, ?, ?, ?, ?, ?,?,?)";
+        String sql = "INSERT INTO event(nom_event, lieu_event, date_event,"
+                + " prix_event, desc_event,id_theme, id_user,image)VALUES ( ?, ?, ?, ?, ?, ?,?,?)";
         try {
-            PreparedStatement st=cnx.prepareStatement(sql);
+            PreparedStatement st = cnx.prepareStatement(sql);
             st.setString(1, e.getNomevent());
             st.setString(2, e.getLieu());
             st.setDate(3, Date.valueOf(e.getDate_evenement()));
             st.setFloat(4, e.getPrix());
             st.setString(5, e.getDescription());
             st.setInt(6, e.getIdtheme());
-            st.setInt(7,1);
-            st.setString(8,e.getImage());
+            st.setInt(7, 1);
+            st.setString(8, e.getImage());
             //st.executeUpdate();
-              st.executeUpdate();            
+            st.executeUpdate();
             System.out.println("Evenement ajouté !");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-           }
+    }
 
     @Override
     public ObservableList<Evenement> afficher() {
@@ -72,8 +85,8 @@ public class eventService implements Iservice<Evenement> {
                 p.setDate_evenement(rs.getDate("date_event").toLocalDate());
                 p.setPrix(rs.getFloat("prix_event"));
                 p.setDescription(rs.getString("desc_event"));
-               // p.setTheme(new Theme());
-                  p.setNom(rs.getString("nom_theme"));
+                // p.setTheme(new Theme());
+                p.setNom(rs.getString("nom_theme"));
                 p.setUser(new User());
                 p.setImage(rs.getString("image"));
                 Evenementt.add(p);
@@ -87,9 +100,9 @@ public class eventService implements Iservice<Evenement> {
 
     @Override
     public void supprimer(Evenement e) {
-          String sql="delete from event where id_event = '"+e.getId()+"'";
-        try {            
-            PreparedStatement ste =cnx.prepareStatement(sql);           
+        String sql = "delete from event where id_event = '" + e.getId() + "'";
+        try {
+            PreparedStatement ste = cnx.prepareStatement(sql);
             ste.executeUpdate(sql);
             System.out.println("Event supprimé");
         } catch (SQLException ex) {
@@ -121,7 +134,7 @@ public class eventService implements Iservice<Evenement> {
         }
         return event;
     }
-  
+
     public User getUserById(int id) throws SQLException {
         PreparedStatement statement = cnx.prepareStatement(
                 "SELECT * FROM utilisateur WHERE id_user = ?");
@@ -139,7 +152,7 @@ public class eventService implements Iservice<Evenement> {
             return null;
         }
     }
-    
+
     @Override
     public void modifier(Evenement e) {
 
@@ -152,7 +165,7 @@ public class eventService implements Iservice<Evenement> {
             //  ste.setInt(4, p.getIdcatt()); 
             //ste.setFloat(4, e.getPrix());
             ste.setString(4, e.getImage());
-           // ste.setDate(5, Date.valueOf(e.getDate_evenement()));
+            // ste.setDate(5, Date.valueOf(e.getDate_evenement()));
             ste.executeUpdate();
             System.out.println("evenement Modifié");
         } catch (SQLException ex) {
@@ -225,7 +238,6 @@ public class eventService implements Iservice<Evenement> {
 //        }
 //        return myList;
 //    }
-
     public void modifiersstock(int a) {
         Evenement p = new Evenement();
         String sql2 = "UPDATE event set nbrparticipant=nbrparticipant-1 WHERE event.id_event='" + a + "'";
@@ -241,5 +253,4 @@ public class eventService implements Iservice<Evenement> {
 
     }
 
-    
 }

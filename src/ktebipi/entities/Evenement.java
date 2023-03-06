@@ -6,8 +6,8 @@
 package ktebipi.entities;
 
 import java.time.LocalDate;
-import tn.esprit.ktebi.entities.Theme;
-import tn.esprit.ktebi.entities.User;
+import ktebipi.entities.Theme;
+import ktebipi.entities.User;
 import java.util.Date;
 
 /**
@@ -15,25 +15,26 @@ import java.util.Date;
  * @author MSI
  */
 public class Evenement {
-    private int id ;
-        private String Nomevent ;
 
-    private String description ;
-    private String lieu ;
-    private float prix ;
-    private LocalDate date_evenement ;
-    private Theme theme ;
-    private User user ;
+    private int id;
+    private String Nomevent;
+
+    private String description;
+    private String lieu;
+    private float prix;
+    private LocalDate date_evenement;
+    private Theme theme;
+    private User user;
     private String image;
-     private int id_theme ;
-      private String nom ;
-      private int nbrparticipant;
-    public Evenement()
-    {
+    private int id_theme;
+    private String nom;
+    private int nbrparticipant;
+
+    public Evenement() {
 
     }
-        public Evenement(int id)
-    {
+
+    public Evenement(int id) {
         this.id = id;
 
     }
@@ -96,26 +97,40 @@ public class Evenement {
         this.id_theme = id_theme;
     }
 
-    public Evenement(int id, String Nomevent,  String lieu ,String description, float prix,int id_theme, String image) {
+    public Evenement(int id, String Nomevent, String lieu, String description, float prix,Theme theme, String image) {
         this.id = id;
         this.Nomevent = Nomevent;
         this.description = description;
         this.lieu = lieu;
         this.prix = prix;
-        this.id_theme = id_theme;
+        this.theme = theme;
         this.image = image;
-        
+
     }
 
-    public Evenement(int aInt, String nom, String lieu, float prix, String desc,  String image) {
-this.id=aInt;
-this.Nomevent=nom;
-this.lieu=lieu;
-this.prix=prix;
-this.description=desc ;
-this.image=image;
-        
-        }
+    public Evenement(int id, String Nomevent, String description, String lieu, float prix, LocalDate date_evenement, Theme theme, User user, String image, int nbrparticipant) {
+        this.id = id;
+        this.Nomevent = Nomevent;
+        this.description = description;
+        this.lieu = lieu;
+        this.prix = prix;
+        this.date_evenement = date_evenement;
+        this.theme = theme;
+        this.user = user;
+        this.image = image;
+        this.nbrparticipant = nbrparticipant;
+    }
+    
+
+    public Evenement(int aInt, String nom, String lieu, float prix, String desc, String image) {
+        this.id = aInt;
+        this.Nomevent = nom;
+        this.lieu = lieu;
+        this.prix = prix;
+        this.description = desc;
+        this.image = image;
+
+    }
 
     /**
      *
@@ -127,20 +142,15 @@ this.image=image;
      * @param date
      * @param image
      */
-    public Evenement(int aInt, String nom, String lieu, float prix, String desc,LocalDate date,  String image) {
-this.id=aInt;
-this.Nomevent=nom;
-this.lieu=lieu;
-this.prix=prix;
-this.description=desc ;
-this.image=image;
-        this.date_evenement=date;
-        }
-
-
-    
-    
-    
+    public Evenement(int aInt, String nom, String lieu, float prix, String desc, LocalDate date, String image) {
+        this.id = aInt;
+        this.Nomevent = nom;
+        this.lieu = lieu;
+        this.prix = prix;
+        this.description = desc;
+        this.image = image;
+        this.date_evenement = date;
+    }
 
     public String getNom() {
         return nom;
@@ -149,17 +159,6 @@ this.image=image;
     public void setNom(String nom) {
         this.nom = nom;
     }
-
- 
-
-  
-
-
-    
-
-    
-    
-    
 
     public int getId() {
         return id;
@@ -177,8 +176,6 @@ this.image=image;
         this.Nomevent = Nomevent;
     }
 
-    
-    
     public String getDescription() {
         return description;
     }
@@ -278,11 +275,6 @@ this.image=image;
         this.nom = nom;
     }
 
-   
-
-  
-
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -300,12 +292,5 @@ this.image=image;
         }
         return true;
     }
-
-
-
-
-
-
-
 
 }

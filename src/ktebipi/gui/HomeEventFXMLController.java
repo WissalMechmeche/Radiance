@@ -36,8 +36,8 @@ import javafx.scene.control.TableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import javax.mail.*;
-import javax.mail.internet.*;
-import tn.esprit.ktebi.entities.User;
+import javax.mail.internet.*; 
+import ktebipi.entities.User;
 
 /**
  * FXML Controller class
@@ -100,7 +100,6 @@ public class HomeEventFXMLController implements Initializable {
     public void table() {
         ObservableList<Evenement> platlist = es.afficher();
 
-//         calid.setCellValueFactory(new PropertyValueFactory<>("id"));
         colname.setCellValueFactory(new PropertyValueFactory<>("Nomevent"));
         coldesc.setCellValueFactory(new PropertyValueFactory<>("description"));
         collieu.setCellValueFactory(new PropertyValueFactory<>("lieu"));
@@ -121,19 +120,23 @@ public class HomeEventFXMLController implements Initializable {
                         btn.setStyle("-fx-background-color: #4275dc; -fx-text-fill: white; -fx-font-weight: bold;-fx-font-size: 14px;");
 
                         btn.setOnAction((ActionEvent event) -> {
+                            int userid = 1;
+                            eventService es = new eventService();
+                            Evenement eventClicked = getTableView().getItems().get(getIndex());
                             try {
-                                Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+                                User user = es.getUserById(userid);
 
+                                es.addParticipantToEvent(eventClicked, user);
+                                Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
                                 sendMail();
                             } catch (SQLException ex) {
                                 Logger.getLogger(HomeEventFXMLController.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                            alert.setTitle("SUCCEES");
+                            alert.setTitle("SUCCES");
                             alert.setHeaderText(null);
-                            alert.setContentText("vous avez participer !le payement sera lors le levenement et merci");
+                            alert.setContentText("Vous avez participé ! Le paiement se fera lors de l'événement. Merci.");
                             alert.showAndWait();
-
                         });
                     }
 

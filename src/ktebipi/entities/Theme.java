@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tn.esprit.ktebi.entities;
+package ktebipi.entities;
 
 /**
  *
@@ -12,25 +12,19 @@ package tn.esprit.ktebi.entities;
 public class Theme {
     private int idtheme ;
     private String nom ;
-    private SousTheme sousTheme ;
 
     public Theme()
     {
     }
 
-    public Theme(int idtheme, String nom, SousTheme sousTheme) {
-        this.idtheme = idtheme;
-        this.nom = nom;
-        this.sousTheme = sousTheme;
-    }
-        public Theme(int idtheme, String nom) {
+    public Theme(int idtheme, String nom) {
         this.idtheme = idtheme;
         this.nom = nom;
     }
+    
 
-    public Theme(String nom, SousTheme sousTheme) {
+    public Theme(String nom) {
         this.nom = nom;
-        this.sousTheme = sousTheme;
     }
 
     public int getIdtheme() {
@@ -51,17 +45,9 @@ public class Theme {
         this.nom = nom;
     }
 
-    public SousTheme getSousTheme() {
-        return sousTheme;
-    }
-
-    public void setSousTheme(SousTheme sousTheme) {
-        this.sousTheme = sousTheme;
-    }
-
     @Override
     public String toString() {
-        return "Theme{" + "idtheme=" + idtheme + ", nom=" + nom + ", sousTheme=" + sousTheme + '}';
+        return "Theme{" + "idtheme=" + idtheme + ", nom=" + nom + ", sousTheme="  + '}';
     }
 
     

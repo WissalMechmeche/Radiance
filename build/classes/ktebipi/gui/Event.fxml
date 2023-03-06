@@ -87,5 +87,6 @@
       <TextField fx:id="recherche" layoutX="486.0" layoutY="39.0" prefHeight="26.0" prefWidth="213.0" promptText="rechercher ici" />
       <Button fx:id="btnRechercher" layoutX="718.0" layoutY="36.0" mnemonicParsing="false" onAction="#rechercher" prefHeight="32.0" prefWidth="120.0" text="RECHERCHER" />
       <Button fx:id="tri" layoutX="878.0" layoutY="39.0" mnemonicParsing="false" onAction="#tri" prefHeight="32.0" prefWidth="81.0" text="TRI" />
+      <Button fx:id="btnExcel" layoutX="906.0" layoutY="589.0" mnemonicParsing="false" onAction="#ConvertToexcel" prefHeight="25.0" prefWidth="102.0" text="Excel" textFill="WHITE" />
     </children>
 </AnchorPane>

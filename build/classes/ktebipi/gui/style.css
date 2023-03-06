@@ -88,6 +88,7 @@ and open the template in the editor.
  #btnreset {-fx-background-color:#00008B;}
  #ajouter {-fx-background-color:#00008B;}
  #btnRechercher {-fx-background-color:#00008B;}
+ #btnExcel {-fx-background-color:#00008B;}
 /*#supprimerBTN,#annuler_r,#supprimer_r,#desinscrire,#asso {
     -fx-background-color: #f44336;
 }

@@ -22,7 +22,7 @@ public class Main extends Application  {
     public void start(Stage primaryStage) {
        Parent root;
         try {
-            root = FXMLLoader.load(getClass().getResource("../gui/HomeEventFXML.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../gui/Event.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setTitle("Affichage ");
             primaryStage.setScene(scene);

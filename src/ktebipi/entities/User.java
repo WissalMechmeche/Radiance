@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tn.esprit.ktebi.entities;
+package ktebipi.entities;
 
 import ktebipi.entities.Role;
 import java.security.Key;
