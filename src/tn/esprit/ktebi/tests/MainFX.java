@@ -22,25 +22,24 @@ import javafx.stage.Stage;
  * @author MSI
  */
 public class MainFX extends Application {
-    
+
     @Override
     public void start(Stage primaryStage) {
-        
+
         try {
             Parent root = FXMLLoader
-                    .load(getClass().getResource("/tn/esprit/ktebi/gui/ListeReclamation.fxml"));
-            
+                    .load(getClass().getResource("/tn/esprit/ktebi/gui/Admin-ui.fxml"));
+
             Scene scene = new Scene(root, 1100, 800);
-            
+
             primaryStage.setTitle("Liste des livres ");
             primaryStage.setScene(scene);
             primaryStage.show();
-            
+
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
-        
-        
+
     }
 
     /**
@@ -49,5 +48,5 @@ public class MainFX extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }

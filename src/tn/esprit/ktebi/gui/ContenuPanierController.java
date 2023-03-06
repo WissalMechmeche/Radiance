@@ -198,15 +198,7 @@ public class ContenuPanierController implements Initializable {
         window.show();
     }
 
-    private void GotoFacturePage(ActionEvent event) throws IOException {
-        URL url = new File("C:\\Users\\Pc Anis\\Documents\\GitHub\\Radiance\\src\\tn\\esprit\\ktebi\\gui\\Facture-ui.fxml").toURI().toURL();
-        Parent panierPage = FXMLLoader.load(url);
-
-        Scene panierPageScene = new Scene(panierPage);
-        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        appStage.setScene(panierPageScene);
-        appStage.show();
-    }
+   
 
     @Override
     public void initialize(URL location, ResourceBundle resources
@@ -333,7 +325,7 @@ public class ContenuPanierController implements Initializable {
     }
 
     @FXML
-    private void GotoFacturePage(MouseEvent event) throws IOException {
+    public void GotoFacturePage(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/ktebi/gui/Facture-ui.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);

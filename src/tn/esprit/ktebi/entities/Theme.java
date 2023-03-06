@@ -10,32 +10,32 @@ package tn.esprit.ktebi.entities;
  * @author MSI
  */
 public class Theme {
-    private int id ;
+    private int idtheme ;
     private String nom ;
-    private SousTheme sousTheme ;
-    
+
     public Theme()
     {
     }
 
-    public Theme(int id, String nom, SousTheme sousTheme) {
-        this.id = id;
+    public Theme(int idtheme, String nom) {
+        this.idtheme = idtheme;
         this.nom = nom;
-        this.sousTheme = sousTheme;
-    }
-    
-    public Theme(String nom, SousTheme sousTheme) {
-        this.nom = nom;
-        this.sousTheme = sousTheme;
     }
 
-    public int getId() {
-        return id;
+
+    public Theme(String nom) {
+        this.nom = nom;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getIdtheme() {
+        return idtheme;
     }
+
+    public void setIdtheme(int idtheme) {
+        this.idtheme = idtheme;
+    }
+
+
 
     public String getNom() {
         return nom;
@@ -45,40 +45,17 @@ public class Theme {
         this.nom = nom;
     }
 
-    public SousTheme getSousTheme() {
-        return sousTheme;
-    }
-
-    public void setSousTheme(SousTheme sousTheme) {
-        this.sousTheme = sousTheme;
-    }
-
     @Override
     public String toString() {
-        return "Theme{" + "id=" + id + ", nom=" + nom + ", sousTheme=" + sousTheme + '}';
+        return "Theme{" + "idtheme=" + idtheme + ", nom=" + nom + ", sousTheme="  + '}';
     }
 
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Theme other = (Theme) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
-    }
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
 }

@@ -13,6 +13,7 @@
    <children>
        
      <fx:include source="sidebarAdmin.fxml" />
+     
       <Label layoutX="27.0" layoutY="14.0" prefHeight="42.0" prefWidth="316.0" text="Liste des livres" textFill="#4275dc" underline="true">
          <font>
             <Font name="System Bold" size="37.0" />

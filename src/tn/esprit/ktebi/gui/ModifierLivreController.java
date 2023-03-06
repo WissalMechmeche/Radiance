@@ -176,7 +176,7 @@ public class ModifierLivreController implements Initializable {
             if(temp == auteurSelectionnee)
             {
                 a = new User(aut.getId(),aut.getNom(),aut.getPrenom(),aut.getEmail());
-                System.out.println(aut);
+                System.out.println(a);
             }
                 
         }
@@ -186,12 +186,15 @@ public class ModifierLivreController implements Initializable {
             String temp = pr.getCode() ;
             if(temp == codeSelectionnee)
             {
-                p = pr ;
+                p = new Promo (pr.getId(),pr.getCode(),pr.getReduction(),pr.getDate_debut(),pr.getDate_fin()) ;
                 System.out.println(p);
             }
+            
         nouveauLivre.setAuteur(a);
+        
         nouveauLivre.setPromo(p);
         
+        System.out.println(nouveauLivre);
 
         // Mettre à jour le livre dans la base de données
              ls.update(nouveauLivre);

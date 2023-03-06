@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@client.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="tn.esprit.ktebi.gui.HomeEventFXMLController">
+
+    
+    <children>
+        <fx:include source="sidebarClient.fxml" />
+      <Text fill="#1f225b" layoutX="246.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="welcome to our events :" textAlignment="CENTER" wrappingWidth="300.13671875">
+         <font>
+            <Font name="Algerian" size="18.0" />
+         </font>
+      </Text>
+<!--<Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />-->
+      <TableView fx:id="listtabevent" layoutX="238.0" layoutY="155.0" prefHeight="297.0" prefWidth="692.0">
+        <columns>
+          <TableColumn fx:id="colname" prefWidth="75.0" text="NOM" />
+          <TableColumn fx:id="coltheme" prefWidth="75.0" text="THEME" />
+            <TableColumn fx:id="coldesc" prefWidth="118.0" text="DESCRIPTION" />
+            <TableColumn fx:id="collieu" prefWidth="78.0" text="LIEU" />
+            <TableColumn fx:id="datedebut" prefWidth="63.0" text="DATE" />
+            <TableColumn fx:id="imagecall" prefWidth="91.0" text="IMAGE" />
+            <TableColumn fx:id="colprix" prefWidth="81.0" text="PRIX" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

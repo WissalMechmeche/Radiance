@@ -140,4 +140,17 @@ and open the template in the editor.
   -fx-border-radius: 8px;
 }
 
+#btnAjouter {    -fx-background-color:#00008B;
+ }
+ 
+ 
+ #btnParticiper {-fx-background-color:#00008B;}
+ #AnchorPane {-fx-background-color:#F0F8FF;}
+ #btnupload {-fx-background-color:#00008B;}
+ #bntmodif {-fx-background-color:#00008B;}
+ #btnsupp {-fx-background-color:#00008B;}
+ #btnreset {-fx-background-color:#00008B;}
+ #ajouter {-fx-background-color:#00008B;}
+ #btnRechercher {-fx-background-color:#00008B;}
+
   

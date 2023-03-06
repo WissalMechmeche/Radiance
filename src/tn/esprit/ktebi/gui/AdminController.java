@@ -62,7 +62,7 @@ public class AdminController implements Initializable {
     public void Stat() throws SQLException {
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
         ServiceLignePanier liv = new ServiceLignePanier();
-        ObservableList<Livre> list = (ObservableList) liv.listelivres();
+        List<Livre> list = liv.listelivres();
         System.err.println(list.size());
 
         for (int i = 0; i < list.size(); ++i) {

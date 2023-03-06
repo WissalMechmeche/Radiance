@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="488.0" prefWidth="1200.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.ListeReclamationController">
+<AnchorPane id="AnchorPane" prefHeight="488.0" prefWidth="1200.0" stylesheets="@design.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.ListeReclamationController">
    <children>
-       <fx:include source="sidebarClient.fxml" />
+       <fx:include source="sidebarAdmin.fxml" />
       <TableView fx:id="Table" layoutX="554.0" layoutY="73.0" prefHeight="550.0" prefWidth="517.0">
         <columns>
           <TableColumn fx:id="colDate" prefWidth="109.0" text="DateReclamation" />

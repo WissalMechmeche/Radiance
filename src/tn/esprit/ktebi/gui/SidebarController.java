@@ -63,5 +63,17 @@ public class SidebarController implements Initializable {
         window.setScene(tableViewScene);
         window.show();
     }
+
+    @FXML
+    private void handleLabelEvent(MouseEvent event) throws IOException {
+        Parent tableViewParent = FXMLLoader.load(getClass().getResource("/tn/esprit/ktebi/gui/Event.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
+
+        //This line gets the Stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(tableViewScene);
+        window.show();
+    }
     
 }

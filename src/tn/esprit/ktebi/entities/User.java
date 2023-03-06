@@ -5,10 +5,8 @@
  */
 package tn.esprit.ktebi.entities;
 
-import java.security.Key;
 import java.time.LocalDate;
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
+
 
 /**
  *
@@ -23,42 +21,44 @@ public class User {
     private String adresse ;
     private LocalDate dateNaissance ;
     private int tel ;
-    private int motPasse ;
+    private String motPasse ;
+    private String status;
     Role role ;
-    
+   public static int connecte;
 
-    public User() {
-    
-    }
-
-    public User(int id) {
-        this.id = id ;
-    
-    }
-
-    public User(int id ,String nom, String prenom , String email) {
-        this.id=id ;
+    public User(int id, String nom, String prenom, String email) {
+        this.id = id;
         this.nom = nom;
         this.prenom = prenom;
-        this.email = email ;
+        this.email = email;
+        
     }
-    
-    
 
-    public User(int id, String nom, String prenom, String email, String adresse, LocalDate dateNaissance, int tel, int motPasse, Role role) {
+    public User(int id, String nom, String prenom, String email, String adresse, int tel, String motPasse,LocalDate dateNaissance) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.adresse = adresse;
-        this.dateNaissance = dateNaissance;
         this.tel = tel;
         this.motPasse = motPasse;
-        this.role = role;
+        this.dateNaissance = dateNaissance;
+        
     }
-   
+    
+    
 
-    public User(String nom, String prenom, String email, String adresse, LocalDate dateNaissance, int tel, int motPasse, Role role) {
+
+   public User(int id)
+    {
+        this.id=id;
+    }
+    
+
+    public User() {
+    }
+
+    public User(String nom, String prenom, String email, String adresse, LocalDate dateNaissance, int tel, String motPasse, Role role,String status) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
@@ -67,7 +67,9 @@ public class User {
         this.tel = tel;
         this.motPasse = motPasse;
         this.role = role;
+        this.status = status;
     }
+
 
     public int getId() {
         return id;
@@ -125,11 +127,11 @@ public class User {
         this.tel = tel;
     }
 
-    public int getMotPasse() {
+    public String getMotPasse() {
         return motPasse;
     }
 
-    public void setMotPasse(int motPasse) {
+    public void setMotPasse(String motPasse) {
         this.motPasse = motPasse;
     }
 
@@ -139,6 +141,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

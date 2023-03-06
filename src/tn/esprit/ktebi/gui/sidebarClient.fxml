@@ -75,7 +75,7 @@
                                 <Insets right="10.0" />
                             </HBox.margin>
                         </ImageView>
-                        <Label text="Evénéments" textFill="#f3f4f4">
+                        <Label onMouseClicked="#handleEvent" text="Evénéments" textFill="#f3f4f4">
                             <font>
                                 <Font name="Cambria Bold" size="15.0" />
                             </font>

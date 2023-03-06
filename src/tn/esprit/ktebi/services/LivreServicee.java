@@ -184,6 +184,7 @@ public class LivreServicee implements ILivreService<Livre> {
             auteur.setId(rs.getInt("auteur"));
             auteur.setNom(rs.getString("nom_auteur"));
             auteur.setPrenom(rs.getString("prenom_auteur"));
+            
             livre.setAuteur(auteur);
             
             Promo promo = new Promo();
