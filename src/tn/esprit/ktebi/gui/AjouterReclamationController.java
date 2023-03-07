@@ -56,6 +56,7 @@ import tn.esprit.ktebi.entities.TypeReclamation;
 import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.services.ServiceReclamation;
 import tn.esprit.ktebi.services.ServiceTypeReclamation;
+import tn.esprit.ktebi.services.UserService;
 
 import tray.animations.AnimationType;
 import tray.notification.NotificationType;
@@ -67,26 +68,27 @@ import tray.notification.TrayNotification;
  * @author Dell 6540
  */
 public class AjouterReclamationController implements Initializable {
+
     @FXML
     private Button btnInserer;
 
     @FXML
-     TextArea txtRec;
+    TextArea txtRec;
 
     @FXML
     private Button btnimg;
-    
+
     @FXML
     private ImageView imgview;
-    
+
     @FXML
     private Label imgpath;
-    
+
     @FXML
     private ComboBox<String> combotype;
-    
-  ServiceTypeReclamation str = new ServiceTypeReclamation();
-  
+
+    ServiceTypeReclamation str = new ServiceTypeReclamation();
+
     private FileInputStream fis;
     ObservableList<TypeReclamation> list;
 
@@ -99,30 +101,31 @@ public class AjouterReclamationController implements Initializable {
         txtRec.setWrapText(true);
 
         try {
-            list= FXCollections.observableList(str.selectAll());
+            list = FXCollections.observableList(str.selectAll());
         } catch (SQLException ex) {
             Logger.getLogger(AjouterReclamationController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        for(int i=0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             combotype.getItems().add(list.get(i).getType());
-        }  
+        }
     }
-
 
     @FXML
     void InsererReclamtion(ActionEvent event) throws IOException, MessagingException {
-       if (txtRec.getText().equals("")) {
+        if (txtRec.getText().equals("")) {
             Alert al = new Alert(Alert.AlertType.INFORMATION);
             al.setTitle("Controle de saisie");
             al.setHeaderText("Erreur de saisie !");
             al.setContentText("Le contenu est vide !");
             al.show();
-        }else{
+        } else {
             try {
-                String etat ="en cours";
-                User u=new User(1);
-                               
-                Reclamation ev = new Reclamation(txtRec.getText(),LocalDate.now(),etat,u,imgpath.getText(),str.selectAllByType(combotype.getValue()) );
+                String etat = "En cours";
+                int userid = User.connecte;
+
+                UserService us = new UserService();
+                User user = us.getUserById(userid);
+                Reclamation ev = new Reclamation(txtRec.getText(), LocalDate.now(), etat, user, imgpath.getText(), str.selectAllByType(combotype.getValue()));
                 ServiceReclamation sr = new ServiceReclamation();
                 try {
                     sr.createOne(ev);
@@ -133,17 +136,16 @@ public class AjouterReclamationController implements Initializable {
                     tray.setMessage("Vous avez ajouter une nouvelle reclamation");
                     tray.setNotificationType(NotificationType.INFORMATION);
                     tray.showAndDismiss(Duration.millis(3000));
-                    
+
                     Parent root = FXMLLoader.load(getClass().getResource("ListeReclamation.fxml"));
                     Scene scene = new Scene(root);
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     stage.setTitle("Ajouter une Reclamations");
                     stage.setScene(scene);
                     stage.show();
-                    sendMail("akrimi.amine@esprit.tn","Reclamation envoyé avec succée",txtRec.getText());
-                    sendMail("ktebiktebi117@gmail.com","Nouvelle reclamation ",txtRec.getText());
-                    
-                    
+                    sendMail(user.getEmail(), "Reclamation envoyé avec succée", txtRec.getText());
+                    sendMail("ktebiktebi117@gmail.com", "Nouvelle reclamation ", txtRec.getText());
+
                 } catch (SQLException ex) {
                     Alert al = new Alert(Alert.AlertType.ERROR);
                     al.setTitle("Erreur");
@@ -151,13 +153,14 @@ public class AjouterReclamationController implements Initializable {
                     al.setContentText(ex.getMessage());
                     al.show();
                 }
-                
+
             } catch (SQLException ex) {
                 Logger.getLogger(AjouterReclamationController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
     }
+
     @FXML
     void AjouterImage(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -185,7 +188,7 @@ public class AjouterReclamationController implements Initializable {
             FileInputStream fin = new FileInputStream(file);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             byte[] buf = new byte[1024];
-            for (int readNum; (readNum = fin.read(buf)) != -1; ) {
+            for (int readNum; (readNum = fin.read(buf)) != -1;) {
                 bos.write(buf, 0, readNum);
             }
             byte[] person_image = bos.toByteArray();
@@ -193,9 +196,9 @@ public class AjouterReclamationController implements Initializable {
             Logger.getLogger("ss");
         }
         imgpath.setText(file.getAbsolutePath());
-    } 
-    
-    public static void sendMail(String recipient, String sujet,String contenu) throws MessagingException {
+    }
+
+    public static void sendMail(String recipient, String sujet, String contenu) throws MessagingException {
         System.out.println("Preparing to send email");
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
@@ -203,33 +206,33 @@ public class AjouterReclamationController implements Initializable {
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.port", "587");
         String myAccountEmail = "ktebiktebi117@gmail.com";/*hedha mail eli bch yetb3ath meno l email*/
-        String password = "suehilzqfolzmnzx"; /* hedha l mot de passe*/
+        String password = "suehilzqfolzmnzx";
+        /* hedha l mot de passe*/
         Session session = Session.getInstance(properties, new Authenticator() {
-             @Override
-                        protected PasswordAuthentication getPasswordAuthentication() {
-            return new PasswordAuthentication(myAccountEmail, password);
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(myAccountEmail, password);
             }
         });
-            
-        Message message = prepareMessage(session, myAccountEmail, recipient,sujet, contenu);
+
+        Message message = prepareMessage(session, myAccountEmail, recipient, sujet, contenu);
 
         javax.mail.Transport.send(message);
         System.out.println("Message sent successfully");
-    }  
-   
-    
-    private static Message prepareMessage(Session session, String myAccountEmail, String recipient,String sujet, String contenu) {
+    }
+
+    private static Message prepareMessage(Session session, String myAccountEmail, String recipient, String sujet, String contenu) {
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(myAccountEmail));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
             message.setSubject(sujet);/*sujet mte3 mail met3adi filparametre lfou9*/
-            message.setText("Contenu:\n"+ contenu);/*contenu mte3 lmail met3adi filparametre lfou9*/
+            message.setText("Contenu:\n" + contenu);/*contenu mte3 lmail met3adi filparametre lfou9*/
             return message;
         } catch (MessagingException ex) {
-          
+
         }
-        return null;} 
-         
-    
+        return null;
+    }
+
 }

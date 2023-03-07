@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="580.0" prefWidth="919.0" stylesheets="@design.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.AdminController">
+<AnchorPane id="AnchorPane" prefHeight="580.0" prefWidth="919.0" stylesheets="@design.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.AdminController">
     <children>
 
         <fx:include source="sidebarAdmin.fxml" />
@@ -79,11 +75,6 @@
                 </Label>
             </children>
         </AnchorPane>
-        <Label alignment="CENTER" layoutX="287.0" layoutY="78.0" text="Mon Dashboard" textFill="#2262c6">
-            <font>
-                <Font name="Berlin Sans FB" size="20.0" />
-            </font>
-        </Label>
                     <PieChart fx:id="pieChart" layoutX="665.0" layoutY="308.0" prefHeight="150.0" prefWidth="5.0" AnchorPane.rightAnchor="54.0" />
       <Text fill="#2262c6" layoutX="507.0" layoutY="304.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Livre plus cher">
          <font>
@@ -103,6 +94,11 @@
           <NumberAxis side="LEFT" />
         </yAxis>
       </BarChart>
+      <Label layoutX="253.0" layoutY="63.0" prefHeight="42.0" prefWidth="448.0" text="Mon dashboard" textFill="#4275dc" underline="true">
+         <font>
+            <Font name="Bauhaus 93" size="36.0" />
+         </font>
+      </Label>
 <!--      <Label alignment="CENTER" layoutX="504.0" layoutY="248.0" text="Livre le plus cher" textFill="#2262c6">
          <font>
             <Font name="Berlin Sans FB" size="20.0" />

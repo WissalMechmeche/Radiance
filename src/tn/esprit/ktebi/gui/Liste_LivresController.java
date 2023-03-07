@@ -39,6 +39,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -144,31 +145,7 @@ public class Liste_LivresController implements Initializable {
         
     }
 
-    @FXML
-    private void RedirectionAjout(ActionEvent event) throws IOException {
-
-        btnRedirectionAjout.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                Parent root;
-                try {
-                    root = FXMLLoader
-                            .load(getClass().getResource("/tn/esprit/ktebi/gui/AjouterLivre.fxml"));
-                    Scene scene = new Scene(root, 1100, 900);
-            
-                    Stage stage = new Stage();
-                    stage.setTitle("Ajouter Livre ");
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (IOException ex) {
-                    Logger.getLogger(Liste_LivresController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            
-            
-            }
-        });
-    }
+   
     
     public void updateListeLivres() throws SQLException {
         // Récupérer la liste des livres de la base de données
@@ -269,7 +246,7 @@ public class Liste_LivresController implements Initializable {
                     // Créer des labels pour afficher les informations du livre
                     Label labelLibelle = new Label("Libellé: " + livreSelectionne.getLibelle());
                     Label labelDescription = new Label("Description: " + livreSelectionne.getDescription());
-                    Label labelAuteur = new Label("Auteur: " + livreSelectionne.getAuteur().getNom());
+                    Label labelAuteur = new Label("Auteur: " + livreSelectionne.getAuteur().getPrenom());
                     Label labelEditeur = new Label("Editeur: " + livreSelectionne.getEditeur());
                     Label labelCategorie = new Label("Catégorie: " + livreSelectionne.getCategorie());
                     Label labelDateEdition = new Label("Date d'édition: " + livreSelectionne.getDate_edition().toString());
@@ -328,6 +305,18 @@ public class Liste_LivresController implements Initializable {
         }
         
 
+    }
+
+    @FXML
+    private void RedirectionAjout(MouseEvent event) throws IOException {
+        
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/ktebi/gui/AjouterLivre.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene((scene));
+        stage.show();
     }
     
     

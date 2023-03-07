@@ -125,31 +125,31 @@ public class HomePanierController implements Initializable {
             data = FXCollections.observableArrayList(list);
 
             libelle.setCellValueFactory(new PropertyValueFactory<Livre, String>("libelle"));
-            image.setCellValueFactory(new PropertyValueFactory<Livre, String>("image"));
-
-            image.setCellFactory(column -> {
-                return new TableCell<Livre, String>() {
-                    private final ImageView imageView = new ImageView();
-
-                    @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty || item == null) {
-                            setGraphic(null);
-                        } else {
-                            try {
-                                Image img = new Image(item);
-                                imageView.setImage(img);
-                                imageView.setFitHeight(80);
-                                imageView.setPreserveRatio(true);
-                                setGraphic(imageView);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                };
-            });
+//            image.setCellValueFactory(new PropertyValueFactory<Livre, String>("image"));
+//
+//            image.setCellFactory(column -> {
+//                return new TableCell<Livre, String>() {
+//                    private final ImageView imageView = new ImageView();
+//
+//                    @Override
+//                    protected void updateItem(String item, boolean empty) {
+//                        super.updateItem(item, empty);
+//                        if (empty || item == null) {
+//                            setGraphic(null);
+//                        } else {
+//                            try {
+//                                Image img = new Image(item);
+//                                imageView.setImage(img);
+//                                imageView.setFitHeight(80);
+//                                imageView.setPreserveRatio(true);
+//                                setGraphic(imageView);
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    }
+//                };
+//            });
             categorie.setCellValueFactory(new PropertyValueFactory<Livre, String>("categorie"));
             prix.setCellValueFactory(new PropertyValueFactory<Livre, Float>("prix"));
 
@@ -170,7 +170,7 @@ public class HomePanierController implements Initializable {
                     private final Button btn = new Button("Ajouter au panier");
 
                     {
-                        btn.setStyle("-fx-background-color: #FF5252; -fx-text-fill: white; -fx-font-weight: bold;-fx-font-size: 14px;");
+                        btn.setStyle("-fx-background-color: #4275dc; -fx-text-fill: white; -fx-font-weight: bold;-fx-font-size: 14px;");
 
                         btn.setOnAction((ActionEvent event) -> {
 
@@ -183,7 +183,7 @@ public class HomePanierController implements Initializable {
                                 if (livre != null) {
 
                                     try {
-                                        int userId = 1;
+                                        int userId = User.connecte;
                                         User user = new User();
                                         user.setId(userId);
                                         ServicePanier servicePanier = new ServicePanier();

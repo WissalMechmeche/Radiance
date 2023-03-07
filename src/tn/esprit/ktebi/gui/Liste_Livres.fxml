@@ -9,17 +9,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="734.0" prefWidth="1252.0" stylesheets="@design.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.Liste_LivresController">
+<AnchorPane id="AnchorPane" prefHeight="711.0" prefWidth="1138.0" stylesheets="@design.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.Liste_LivresController">
    <children>
        
      <fx:include source="sidebarAdmin.fxml" />
-     
-      <Label layoutX="27.0" layoutY="14.0" prefHeight="42.0" prefWidth="316.0" text="Liste des livres" textFill="#4275dc" underline="true">
-         <font>
-            <Font name="System Bold" size="37.0" />
-         </font>
-      </Label>
-      <TableView fx:id="tvLivres" layoutX="323.0" layoutY="151.0" prefHeight="386.0" prefWidth="720.0">
+      <TableView fx:id="tvLivres" layoutX="243.0" layoutY="176.0" prefHeight="397.0" prefWidth="877.0">
         <columns>
           <TableColumn fx:id="libelle" prefWidth="204.0" text="Libelle" />
             <TableColumn fx:id="categorie" prefWidth="177.0" text="Catégorie" />
@@ -27,32 +21,37 @@
             <TableColumn fx:id="date" prefWidth="153.0" text="Date d'édition" />
         </columns>
       </TableView>
-      <Button fx:id="btnRedirectionAjout" layoutX="372.0" layoutY="557.0" mnemonicParsing="false" onAction="#RedirectionAjout" text="Ajouter Livre" textFill="WHITE">
+      <Button fx:id="btnRedirectionAjout" layoutX="372.0" layoutY="602.0" mnemonicParsing="false" onMouseClicked="#RedirectionAjout" text="Ajouter Livre" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Button>
-      <Button fx:id="btnDetail" layoutX="696.0" layoutY="557.0" mnemonicParsing="false" onAction="#detailLivre" text="Détail Livre" textFill="WHITE">
+      <Button fx:id="btnDetail" layoutX="696.0" layoutY="605.0" mnemonicParsing="false" onAction="#detailLivre" text="Détail Livre" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Button fx:id="btnSupprimer" layoutX="837.0" layoutY="557.0" mnemonicParsing="false" onAction="#SupprimerLivre" text="Supprimer Livre" textFill="WHITE">
+      <Button fx:id="btnSupprimer" layoutX="837.0" layoutY="604.0" mnemonicParsing="false" onAction="#SupprimerLivre" text="Supprimer Livre" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Button fx:id="btnModifier" layoutX="526.0" layoutY="557.0" mnemonicParsing="false" onAction="#modifierLivre" text="Modifier Livre" textFill="WHITE">
+      <Button fx:id="btnModifier" layoutX="526.0" layoutY="603.0" mnemonicParsing="false" onAction="#modifierLivre" text="Modifier Livre" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
       
-      <TextField fx:id="tfRecherche" layoutX="673.0" layoutY="81.0" prefHeight="42.0" prefWidth="295.0" promptText="Rechercher ici" />
-      <Button fx:id="btnRechercher" layoutX="978.0" layoutY="86.0" mnemonicParsing="false" onAction="#chercherLivre" text="Rechercher">
+      <TextField fx:id="tfRecherche" layoutX="690.0" layoutY="125.0" prefHeight="42.0" prefWidth="295.0" promptText="Rechercher ici" />
+      <Button fx:id="btnRechercher" layoutX="1003.0" layoutY="130.0" mnemonicParsing="false" onAction="#chercherLivre" text="Rechercher">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <ComboBox fx:id="combo" layoutX="323.0" layoutY="87.0" prefWidth="150.0" promptText="Tous les livres" />
+      <ComboBox fx:id="combo" layoutX="526.0" layoutY="130.0" prefWidth="150.0" promptText="Tous les livres" />
+      <Label layoutX="243.0" layoutY="83.0" prefHeight="42.0" prefWidth="316.0" text="Liste des livres" textFill="#4275dc" underline="true">
+         <font>
+            <Font name="Bauhaus 93" size="36.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

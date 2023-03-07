@@ -170,29 +170,36 @@ public class ModifierLivreController implements Initializable {
         
        
         
-        User a = null ;
-        for (User aut : listU) {
-            String temp = aut.getPrenom() ;
+        User aut = null ;
+        for (User auteur : listU) {
+            String temp = auteur.getPrenom() ;
             if(temp == auteurSelectionnee)
             {
-                a = new User(aut.getId(),aut.getNom(),aut.getPrenom(),aut.getEmail());
-                System.out.println(a);
+                aut = new User(auteur.getId(),auteur.getNom(),auteur.getPrenom(),auteur.getEmail());
+                System.out.println(aut);
             }
                 
         }
-         Promo p = null ;
+         Promo pr = null ;
         
-         for (Promo pr : listP) {
-            String temp = pr.getCode() ;
+        
+        
+         for (Promo promo : listP) {
+            String temp = promo.getCode() ;
             if(temp == codeSelectionnee)
             {
-                p = new Promo (pr.getId(),pr.getCode(),pr.getReduction(),pr.getDate_debut(),pr.getDate_fin()) ;
-                System.out.println(p);
+                pr = promo ;
+                System.out.println(pr);
             }
+                
+        }
+         
+         //livre = new Livre(libelle, description,editeur,new java.sql.Date(Date.valueOf(dateEdition).getTime()),categorie,prix,langue,pr, aut,"");
+         
             
-        nouveauLivre.setAuteur(a);
+        nouveauLivre.setAuteur(aut);
         
-        nouveauLivre.setPromo(p);
+        nouveauLivre.setPromo(pr);
         
         System.out.println(nouveauLivre);
 
@@ -223,7 +230,7 @@ public class ModifierLivreController implements Initializable {
 
              
        
-    }
+    
          
     }
 
@@ -252,10 +259,7 @@ public class ModifierLivreController implements Initializable {
         
     }
     
-    /*@FXML
-    public void soumettre() throws SQLException {
-        
-}*/
+    
 
 
     

@@ -7,16 +7,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="765.0" prefWidth="1254.0" stylesheets="@client.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.FactureController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="1138.0" stylesheets="@client.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.FactureController">
         
     <fx:include source="sidebarClient.fxml" />
     
-    <TableView fx:id="table_facture" layoutX="267.0" layoutY="130.0" prefHeight="511.0" prefWidth="975.0">
+    <TableView fx:id="table_facture" layoutX="243.0" layoutY="146.0" prefHeight="396.0" prefWidth="836.0">
         <columns>
             <TableColumn fx:id="quantite" prefWidth="113.066650390625" text="Quantite" />
-            <TableColumn fx:id="libelle" prefWidth="327.2001037597656" text="Nom du livre" />
-            <TableColumn fx:id="image" prefWidth="202.40008544921875" text="Image" />
-            <TableColumn fx:id="prix" prefWidth="184.5333251953125" text="prix" />                    
+            <TableColumn fx:id="libelle" prefWidth="157.0" text="Nom du livre" />
+            <TableColumn fx:id="image" prefWidth="187.0" text="Image" />
+            <TableColumn fx:id="prix" minWidth="0.0" prefWidth="161.0" text="prix" />                    
 
       
                         
@@ -24,7 +24,7 @@
 
     </TableView>
     
-    <TableView fx:id="soustable_facture" layoutX="467.0" layoutY="653.0" prefHeight="75.0" prefWidth="483.0">
+    <TableView fx:id="soustable_facture" layoutX="403.0" layoutY="559.0" prefHeight="75.0" prefWidth="483.0">
         <columns>
             <TableColumn fx:id="mnt_tot" prefWidth="230.1334228515625" text="Montant total" />
             <TableColumn fx:id="tot_qte" prefWidth="231.19998779296873" text="Quantité total" />
@@ -40,7 +40,7 @@
             <Font name="Bauhaus 93" size="36.0" />
         </font>
     </Label>
-    <Button fx:id="save_fac" layoutX="975.0" layoutY="724.0" mnemonicParsing="false" onAction="#onBtnAjouterFactureClick" prefHeight="26.0" prefWidth="171.0" text="Enregistrer" textFill="WHITE">
+    <Button fx:id="save_fac" layoutX="886.0" layoutY="661.0" mnemonicParsing="false" onAction="#onBtnAjouterFactureClick" prefHeight="26.0" prefWidth="171.0" text="Enregistrer" textFill="WHITE">
         <font>
             <Font name="System Bold" size="13.0" />
         </font>

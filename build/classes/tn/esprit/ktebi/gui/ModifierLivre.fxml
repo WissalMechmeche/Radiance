@@ -6,69 +6,71 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.ModifierLivreController">
+<AnchorPane id="AnchorPane" prefHeight="711.0" prefWidth="1138.0" stylesheets="@design.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.ModifierLivreController">
     <children>
-      <DatePicker fx:id="date" layoutX="355.0" layoutY="618.0" prefHeight="45.0" prefWidth="263.0" />
-      <Label layoutX="222.0" layoutY="693.0" text="Code Promo : ">
+       <fx:include source="sidebarAdmin.fxml" />
+      <DatePicker fx:id="date" layoutX="638.0" layoutY="350.0" prefHeight="45.0" prefWidth="263.0" />
+      <Label layoutX="638.0" layoutY="421.0" text="Code Promo : ">
          <font>
             <Font size="18.0" />
          </font></Label>
-     
-      <Label layoutX="227.0" layoutY="494.0" text="Langue :">
+      <Button fx:id="btnAjout" layoutX="665.0" layoutY="597.0" mnemonicParsing="false" onAction="#ModifierLivre" prefHeight="45.0" prefWidth="150.0" text="Modifier un livre" textAlignment="CENTER" />
+      <Label layoutX="631.0" layoutY="124.0" text="Langue :">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <TextArea fx:id="taDescription" layoutX="355.0" layoutY="195.0" prefHeight="81.0" prefWidth="263.0" />
-      <TextField fx:id="tfImage" layoutX="355.0" layoutY="747.0" prefHeight="45.0" prefWidth="271.0" />
-      <TextField fx:id="tfLibelle" layoutX="355.0" layoutY="136.0" prefHeight="45.0" prefWidth="263.0" />
-      <TextField fx:id="tfEditeur" layoutX="355.0" layoutY="367.0" prefHeight="45.0" prefWidth="263.0" />
-      <TextField fx:id="tfCategorie" layoutX="355.0" layoutY="433.0" prefHeight="45.0" prefWidth="263.0" />
-      <TextField fx:id="tfPrix" layoutX="355.0" layoutY="557.0" prefHeight="45.0" prefWidth="263.0" />
-      <TextField fx:id="tfLangue" layoutX="355.0" layoutY="494.0" prefHeight="45.0" prefWidth="263.0" />
-      <Label layoutX="228.0" layoutY="557.0" text="Prix :">
+      <TextArea fx:id="taDescription" layoutX="285.0" layoutY="249.0" prefHeight="72.0" prefWidth="263.0" />
+      <TextField fx:id="tfLibelle" layoutX="631.0" layoutY="160.0" prefHeight="45.0" prefWidth="263.0" />
+      <TextField fx:id="tfEditeur" layoutX="281.0" layoutY="451.0" prefHeight="45.0" prefWidth="263.0" />
+      <TextField fx:id="tfCategorie" layoutX="280.0" layoutY="541.0" prefHeight="45.0" prefWidth="263.0" />
+      <TextField fx:id="tfPrix" layoutX="632.0" layoutY="249.0" prefHeight="45.0" prefWidth="263.0" />
+      <TextField fx:id="tfLangue" layoutX="284.0" layoutY="157.0" prefHeight="45.0" prefWidth="263.0" />
+      <Label layoutX="632.0" layoutY="219.0" text="Prix :">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label layoutX="224.0" layoutY="627.0" text="Date d'édition :">
+      <Label layoutX="631.0" layoutY="309.0" text="Date d'édition :">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label layoutX="232.0" layoutY="306.0" text="Auteur : ">
+      <Label layoutX="283.0" layoutY="336.0" text="Auteur : ">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label layoutX="228.0" layoutY="756.0" text="Image : ">
+      <Label layoutX="645.0" layoutY="514.0" text="Image : ">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label layoutX="210.0" layoutY="42.0" text="Modifier un livre" textFill="BROWN">
-         <font>
-            <Font name="Arial Bold" size="37.0" />
-         </font>
-      </Label>
-      <Label layoutX="232.0" layoutY="145.0" text="Libelle :">
+      <Label layoutX="282.0" layoutY="124.0" text="Libelle :">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label layoutX="232.0" layoutY="214.0" text="Description : ">
+      <Label layoutX="283.0" layoutY="212.0" text="Description : ">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label layoutX="227.0" layoutY="371.0" text="Editeur :">
+      <Label layoutX="282.0" layoutY="411.0" text="Editeur :">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="226.0" layoutY="432.0" text="Catégorie :">
+      <Label layoutX="279.0" layoutY="501.0" text="Catégorie :">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Button fx:id="btnModifier" layoutX="575.0" layoutY="826.0" mnemonicParsing="false" onAction="#ModifierLivre" text="Modifier un Livre" />
-      <ComboBox fx:id="auteurs" layoutX="355.0" layoutY="304.0" prefHeight="31.0" prefWidth="263.0" />
-      <ComboBox fx:id="promos" layoutX="355.0" layoutY="691.0" prefHeight="31.0" prefWidth="263.0" />
+      <ImageView fx:id="image" fitHeight="81.0" fitWidth="167.0" layoutX="723.0" layoutY="501.0" pickOnBounds="true" preserveRatio="true" />
+      <ComboBox fx:id="auteurs" layoutX="284.0" layoutY="368.0" prefHeight="31.0" prefWidth="263.0" promptText="Sélectionner un auteur" />
+      <ComboBox fx:id="promos" layoutX="638.0" layoutY="458.0" prefHeight="31.0" prefWidth="263.0" promptText="Sélectionner un codePromo" />
+      <Label layoutX="268.0" layoutY="69.0" prefHeight="42.0" prefWidth="448.0" text="Modifier un Livre" textFill="#4275dc" underline="true">
+         <font>
+            <Font name="Bauhaus 93" size="36.0" />
+         </font>
+      </Label>
+      
    </children>
     
 </AnchorPane>

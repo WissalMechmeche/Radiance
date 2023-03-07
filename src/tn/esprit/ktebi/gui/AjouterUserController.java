@@ -156,7 +156,7 @@ public class AjouterUserController implements Initializable {
                 System.out.println(getClass().getResource("/tn/esprit/ktebi/gui/"));
                  Parent root = FXMLLoader
                     .load(getClass().getResource("../gui/Login.fxml"));
-            Scene scene = new Scene(root, 650, 500);
+            Scene scene = new Scene(root);
             //AcountFXMLController acont = new AcountFXMLController();
             //acont.getId(id);
             primaryStage.setTitle("ktebi");
@@ -195,7 +195,7 @@ public class AjouterUserController implements Initializable {
         try {
             Parent root = FXMLLoader
                     .load(getClass().getResource("../gui/Hello.fxml"));
-            Scene scene = new Scene(root, 650, 500);
+            Scene scene = new Scene(root);
 
             primaryStage.setTitle("Hello World!");
             primaryStage.setScene(scene);

@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -38,7 +39,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -55,6 +58,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import tn.esprit.ktebi.entities.Evenement;
 import tn.esprit.ktebi.services.Scontrol;
 import tn.esprit.ktebi.services.eventService;
@@ -65,6 +69,10 @@ import javax.mail.internet.*;
 
 import org.controlsfx.control.Notifications;
 import tn.esprit.ktebi.entities.Theme;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.controlsfx.control.Notifications;
 import tn.esprit.ktebi.services.UserService;
 
 /**
@@ -117,7 +125,6 @@ public class EventController implements Initializable {
     @FXML
     private TableColumn<Evenement, Float> colprix;
 
-    @FXML
     private TableColumn<Evenement, String> imagecall;
 
     @FXML
@@ -142,9 +149,14 @@ public class EventController implements Initializable {
     private ObservableList<Evenement> data = FXCollections.observableArrayList();
     ObservableList<Evenement> platList = FXCollections.observableArrayList();
 
+    @FXML
     private Button bntmodif;
     @FXML
     private Button btnreset;
+    @FXML
+    private Button btnupload;
+    @FXML
+    private Button btnretour;
 
     /**
      * Initializes the controller class.
@@ -166,7 +178,6 @@ public class EventController implements Initializable {
             colname.setCellValueFactory(new PropertyValueFactory<>("Nomevent"));
             coldesc.setCellValueFactory(new PropertyValueFactory<>("description"));
             collieu.setCellValueFactory(new PropertyValueFactory<>("lieu"));
-            coltheme.setCellValueFactory(new PropertyValueFactory<>("theme.nom"));
             datedebut.setCellValueFactory(new PropertyValueFactory<>("date_evenement"));
             colprix.setCellValueFactory(new PropertyValueFactory<>("prix"));
             combotheme.setItems(FXCollections.observableArrayList(pp.getAll()));
@@ -272,7 +283,7 @@ public class EventController implements Initializable {
 
         List<Theme> listT = es.getAllThemes();
         Theme a = null;
-        
+
         for (Theme th : listT) {
             String temp = th.getNom();
             if (temp == theme) {
@@ -281,9 +292,9 @@ public class EventController implements Initializable {
             }
 
         }
-        e.setUser(new User(1));
+        e.setUser(new User(User.connecte));
         e.setDate_evenement(new java.sql.Date(Date.valueOf(date_event).getTime()));
-        e.setTheme(new Theme(2,"faza"));
+        e.setTheme(new Theme(2, "faza"));
 
         System.out.println(e);
         es.modifier(e);
@@ -414,7 +425,6 @@ public class EventController implements Initializable {
 
     }
 
-    @FXML
     void eventrecherche(KeyEvent event) {
         eventService bs = new eventService();
         Evenement b = new Evenement();
@@ -422,7 +432,6 @@ public class EventController implements Initializable {
         populateTable(filter);
     }
 
-    @FXML
     void rechercherbar(KeyEvent event) {
         eventService bs = new eventService();
         Evenement b = new Evenement();
@@ -467,11 +476,13 @@ public class EventController implements Initializable {
 
     }
 
-    /*
     @FXML
     private void ConvertToexcel(ActionEvent event) {
         try {
-            String filename = "src/tn/esprit/ktebipi/gui/data.xls";
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new java.util.Date());
+        String filename = "DataEvent_" + timeStamp + ".xls";
+        String filePath = "src/tn/esprit/ktebi/gui/" + filename;
+            
             HSSFWorkbook hwb = new HSSFWorkbook();
             HSSFSheet sheet = hwb.createSheet("new sheet");
 
@@ -482,9 +493,11 @@ public class EventController implements Initializable {
             rowhead.createCell((short) 2).setCellValue("Date_deb");
             rowhead.createCell((short) 3).setCellValue("Prix");
             rowhead.createCell((short) 5).setCellValue("Nom theme");
-            rowhead.createCell((short) 6).setCellValue("Prenom client");
+            rowhead.createCell((short) 6).setCellValue("Nom client");
             rowhead.createCell((short) 7).setCellValue("Prenom client");
 
+            java.sql.Connection cnx;
+            cnx = MaConnexion.getInstance().getCnx();
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery("select * from event");
             int i = 1;
@@ -492,17 +505,19 @@ public class EventController implements Initializable {
                 HSSFRow row = sheet.createRow((short) i);
 
                 row.createCell((short) 0).setCellValue(rs.getString("nom_event"));
-                row.createCell((short) 1).setCellValue(rs.getString("lieu_evenet"));
+                row.createCell((short) 1).setCellValue(rs.getString("lieu_event"));
                 row.createCell((short) 2).setCellValue(rs.getDate("date_event").toLocalDate());
                 row.createCell((short) 3).setCellValue(Float.toString(rs.getFloat("prix_event")));
                 row.createCell((short) 4).setCellValue(rs.getString("desc_event"));
                 int id_theme = rs.getInt("id_theme");
-                Evenement e = new Evenement();
-                e.setId(id_theme);
-                row.createCell((short) 5).setCellValue(e.getNom());
+                Evenement e = new Evenement(id_theme);
+                eventService es=new eventService();
+                row.createCell((short) 5).setCellValue(e.getNomevent());
 
                 int id_user = rs.getInt("id_user");
-                User u = new User();
+                UserService us = new UserService();
+                User u = us.getUserById(id_user);
+                
                 u.setId(id_user);
                 row.createCell((short) 6).setCellValue(u.getNom());
                 row.createCell((short) 7).setCellValue(u.getPrenom());
@@ -512,7 +527,7 @@ public class EventController implements Initializable {
             FileOutputStream fileOut = new FileOutputStream(filename);
             hwb.write(fileOut);
             fileOut.close();
-            System.out.println("Your excel file has been generated!");
+            System.out.println("Votre excel est générer avec succès!");
             File file = new File(filename);
             if (file.exists()) {
                 if (Desktop.isDesktopSupported()) {
@@ -524,5 +539,17 @@ public class EventController implements Initializable {
             System.out.println(ex);
 
         }
-    }*/
+    }
+
+    @FXML
+    private void RetourAccueil(ActionEvent event) throws IOException {
+        Parent tableViewParent = FXMLLoader.load(getClass().getResource("/tn/esprit/ktebi/gui/Admin-ui.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
+
+        //This line gets the Stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(tableViewScene);
+        window.show();
+    }
 }

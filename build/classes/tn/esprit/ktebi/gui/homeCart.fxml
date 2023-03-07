@@ -7,13 +7,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="765.0" prefWidth="1254.0" stylesheets="@client.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.HomePanierController">
+<AnchorPane id="AnchorPane" prefHeight="704.0" prefWidth="1254.0" stylesheets="@client.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.HomePanierController">
            
     <children>
         <fx:include source="sidebarClient.fxml" />
           
            
-        <TableView fx:id="table_res" layoutX="319.0" layoutY="172.0" prefHeight="532.0" prefWidth="856.0">
+        <TableView fx:id="table_res" layoutX="289.0" layoutY="172.0" prefHeight="499.0" prefWidth="763.0">
             <columns>
                 <TableColumn fx:id="libelle" prefWidth="250.0" text="Nom du livre" />
                 <TableColumn fx:id="image" prefWidth="180.0" text="Image" />
@@ -23,12 +23,12 @@
                   
             </columns>
         </TableView>
-        <Label layoutX="344.0" layoutY="83.0" prefHeight="42.0" prefWidth="316.0" text="Gestion du panier" textFill="#4275dc" underline="true">
+        <Label layoutX="294.0" layoutY="103.0" prefHeight="42.0" prefWidth="316.0" text="Liste des livres" textFill="#4275dc" underline="true">
             <font>
                 <Font name="Bauhaus 93" size="36.0" />
             </font>
         </Label>
-        <TextField fx:id="filterInput" layoutX="802.0" layoutY="90.0" prefHeight="42.0" prefWidth="295.0" promptText="rechercher ici" />
+        <TextField fx:id="filterInput" layoutX="752.0" layoutY="120.0" prefHeight="42.0" prefWidth="295.0" promptText="rechercher ici" />
       
     </children>
    

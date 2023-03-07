@@ -7,34 +7,41 @@ package tn.esprit.ktebi.entities;
 
 import java.time.LocalDate;
 
-
 /**
  *
  * @author MSI
  */
 public class User {
-    
-    private int id ;
-    private String nom ;
-    private String prenom ;
-    private String email ;
-    private String adresse ;
-    private LocalDate dateNaissance ;
-    private int tel ;
-    private String motPasse ;
+
+    private int id;
+    private String nom;
+    private String prenom;
+    private String email;
+    private String adresse;
+    private LocalDate dateNaissance;
+    private int tel;
+    private String motPasse;
     private String status;
-    Role role ;
-   public static int connecte;
+    Role role;
+    public static int connecte;
 
     public User(int id, String nom, String prenom, String email) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
-        
+
     }
 
-    public User(int id, String nom, String prenom, String email, String adresse, int tel, String motPasse,LocalDate dateNaissance) {
+    public User(int id, String nom, String prenom, String email, Role role) {
+        this.id = id;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.role = role;
+    }
+
+    public User(int id, String nom, String prenom, String email, String adresse, int tel, String motPasse, LocalDate dateNaissance) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
@@ -43,22 +50,17 @@ public class User {
         this.tel = tel;
         this.motPasse = motPasse;
         this.dateNaissance = dateNaissance;
-        
-    }
-    
-    
 
-
-   public User(int id)
-    {
-        this.id=id;
     }
-    
+
+    public User(int id) {
+        this.id = id;
+    }
 
     public User() {
     }
 
-    public User(String nom, String prenom, String email, String adresse, LocalDate dateNaissance, int tel, String motPasse, Role role,String status) {
+    public User(String nom, String prenom, String email, String adresse, LocalDate dateNaissance, int tel, String motPasse, Role role, String status) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
@@ -69,7 +71,6 @@ public class User {
         this.role = role;
         this.status = status;
     }
-
 
     public int getId() {
         return id;
@@ -153,12 +154,11 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom 
-                + ", email=" + email + ", adresse=" + adresse 
-                + ", dateNaissance=" + dateNaissance + ", tel=" + tel 
+        return "User{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom
+                + ", email=" + email + ", adresse=" + adresse
+                + ", dateNaissance=" + dateNaissance + ", tel=" + tel
                 + ", motPasse=" + motPasse + ", role=" + role + '}';
     }
-
 
     @Override
     public boolean equals(Object obj) {
@@ -177,11 +177,5 @@ public class User {
         }
         return true;
     }
-    
-    
-    
-    
-    
-    
-    
+
 }

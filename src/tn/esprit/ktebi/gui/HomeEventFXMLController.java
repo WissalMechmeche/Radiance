@@ -110,7 +110,7 @@ public class HomeEventFXMLController implements Initializable {
                         btn.setStyle("-fx-background-color: #4275dc; -fx-text-fill: white; -fx-font-weight: bold;-fx-font-size: 14px;");
 
                         btn.setOnAction((ActionEvent event) -> {
-                            int userid = 1;
+                            int userid = User.connecte;
                             eventService es = new eventService();
                             Evenement eventClicked = getTableView().getItems().get(getIndex());
                             try {
@@ -182,7 +182,8 @@ public class HomeEventFXMLController implements Initializable {
     }
 
     public void sendMail() throws SQLException {
-        int userid = 1;
+        int userid = User.connecte;
+
         eventService es = new eventService();
         User user = es.getUserById(userid);
         System.out.println(user.getEmail());

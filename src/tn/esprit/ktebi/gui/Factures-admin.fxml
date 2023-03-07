@@ -1,36 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@design.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.FacturesAdminControlleur">
+<AnchorPane id="AnchorPane" prefHeight="711.0" prefWidth="1138.0" stylesheets="@design.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.FacturesAdminControlleur">
     <children>
 
         <fx:include source="sidebarAdmin.fxml" />
-        
-        <Label alignment="CENTER" layoutX="257.0" layoutY="98.0" prefHeight="22.0" prefWidth="143.0" text="Liste Factures" textFill="#2262c6">
-            <font>
-                <Font name="Berlin Sans FB" size="22.0" />
-            </font>
-        </Label>
-        <TableView fx:id="table_fac" layoutX="276.0" layoutY="196.0" prefHeight="426.0" prefWidth="591.0">
+        <TableView fx:id="table_fac" layoutX="237.0" layoutY="221.0" prefHeight="397.0" prefWidth="877.0">
             <columns>
-                <TableColumn fx:id="mode_paiement" prefWidth="108.79998779296875" text="Mode paiement" />
-                <TableColumn fx:id="montant_tot" minWidth="1.60003662109375" prefWidth="136.79998779296875" text="Montant totale" />
-                <TableColumn fx:id="prenom" minWidth="1.60003662109375" prefWidth="117.5999755859375" text="Prenom Client" />
-                <TableColumn fx:id="nom" minWidth="1.60003662109375" prefWidth="74.40008544921875" text="Nom Client" />
-            <TableColumn fx:id="date_fac" minWidth="1.60003662109375" prefWidth="151.9999877929688" text="Date" />
+                <TableColumn fx:id="mode_paiement" prefWidth="165.0" text="Mode paiement" />
+                <TableColumn fx:id="montant_tot" minWidth="1.60003662109375" prefWidth="163.0" text="Montant totale" />
+                <TableColumn fx:id="prenom" minWidth="1.60003662109375" prefWidth="159.0" text="Prenom Client" />
+                <TableColumn fx:id="nom" minWidth="1.60003662109375" prefWidth="162.0" text="Nom Client" />
+            <TableColumn fx:id="date_fac" minWidth="1.60003662109375" prefWidth="227.0" text="Date" />
             </columns>
         </TableView>
       <Label fx:id="txtFac" alignment="CENTER" layoutX="444.0" layoutY="159.0" prefHeight="22.0" prefWidth="222.0" text="Nombre factures :" textFill="#2262c6">
@@ -38,10 +25,15 @@
             <Font name="Berlin Sans FB" size="20.0" />
          </font>
       </Label>
-      <Button fx:id="btnSupp" layoutX="493.0" layoutY="636.0" mnemonicParsing="false" onAction="#deleteFacture" prefHeight="30.0" prefWidth="143.0" text="Supprimer" textFill="WHITE">
+      <Button fx:id="btnSupp" layoutX="633.0" layoutY="636.0" mnemonicParsing="false" onAction="#deleteFacture" prefHeight="30.0" prefWidth="143.0" text="Supprimer" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
+      <Label layoutX="253.0" layoutY="93.0" prefHeight="42.0" prefWidth="316.0" text="Liste des factures" textFill="#4275dc" underline="true">
+         <font>
+            <Font name="Bauhaus 93" size="36.0" />
+         </font>
+      </Label>
        
       
     </children>

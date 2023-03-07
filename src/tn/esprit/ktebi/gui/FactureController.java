@@ -141,7 +141,7 @@ public class FactureController implements Initializable {
             // Récupérer le panier de l'utilisateur
             String panierQuery = "SELECT * FROM Panier WHERE id_user=?";
             PreparedStatement panierStmt = cnx.prepareStatement(panierQuery);
-            int userId = 1;
+            int userId = User.connecte;
             panierStmt.setInt(1, userId);
 
             ResultSet panierRs = panierStmt.executeQuery();
@@ -183,7 +183,7 @@ public class FactureController implements Initializable {
                     }
                 };
             });
-            sousTotColumn.setPrefWidth(110);
+//            sousTotColumn.setPrefWidth(60);
             table_facture.getColumns().add(sousTotColumn);
 
             while (lignePanierRs.next()) {
@@ -244,7 +244,8 @@ public class FactureController implements Initializable {
 
     @FXML
     public void onBtnAjouterFactureClick(ActionEvent event) throws IOException, FileNotFoundException, SQLException {
-        int id_user = 1;
+        int id_user = User.connecte;
+
         if (table_facture.getItems().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur");
@@ -296,8 +297,6 @@ public class FactureController implements Initializable {
             result.ifPresent(modePaiement -> {
                 try {
                     ImprimerFacture();
-                    
-                    
 
                     sf.ajouterFacture(id_user, modePaiement);
                     table_facture.getItems().clear();
@@ -305,7 +304,6 @@ public class FactureController implements Initializable {
                     ShowContenuFac();
                     Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
                     sendMail();
-                    
 
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Facture ajoutée");
@@ -327,7 +325,7 @@ public class FactureController implements Initializable {
     }
 
     public void sendMail() throws SQLException {
-        int userid = 1;
+        int userid = User.connecte;
 
         User user = sf.getUserById(userid);
         System.out.println(user.getEmail());
@@ -338,11 +336,11 @@ public class FactureController implements Initializable {
         } else {
         }
 
-        final String username = "wissal.mechmeche@esprit.tn";
-        final String password = "223JFT5669";
+        final String username = "anis.farah@esprit.tn";
+        final String password = "223AMT6798";
         String recipientEmail = user.getEmail();
-        String subject = "Payment notification";
-        String message = "The payment process has completed successfully.";
+        String subject = "Etat facture";
+        String message = "Votre facture est faite avec success";
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -420,7 +418,8 @@ public class FactureController implements Initializable {
         ktebiImage.setWidth(70);
         document.add(ktebiImage);
 
-        int userid = 1;
+                int userid = User.connecte;
+
         Panier panier = sp.getPanierByUser(userid);
         User user = sf.getUserById(userid);
 

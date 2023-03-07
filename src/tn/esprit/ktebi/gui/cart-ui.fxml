@@ -9,17 +9,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="765.0" prefWidth="1254.0" stylesheets="@client.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.ContenuPanierController">
+<AnchorPane id="AnchorPane" prefHeight="567.0" prefWidth="1138.0" stylesheets="@client.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.ContenuPanierController">
     <children>
         <fx:include source="sidebarClient.fxml" />
         
-              <TableView fx:id="table_panier" layoutX="259.0" layoutY="170.0" onMouseClicked="#SelectItems" prefHeight="490.0" prefWidth="954.0">
+              <TableView fx:id="table_panier" layoutX="243.0" layoutY="146.0" onMouseClicked="#SelectItems" prefHeight="396.0" prefWidth="836.0">
             <columns>
-                <TableColumn fx:id="libelle" prefWidth="281.59999084472656" text="Nom du livre" />
-                <TableColumn fx:id="image" prefWidth="206.39999389648438" text="Image" />
-                <TableColumn fx:id="categorie" prefWidth="126.4000244140625" text="Categorie" />
-                <TableColumn fx:id="prix" prefWidth="132.79998779296875" text="prix" />                    
-                <TableColumn fx:id="quantite" prefWidth="190.39996337890625" text="quantite" />
+                <TableColumn fx:id="libelle" prefWidth="181.0" text="Nom du livre" />
+                <TableColumn fx:id="image" prefWidth="202.0" text="Image" />
+                <TableColumn fx:id="categorie" prefWidth="153.0" text="Categorie" />
+                <TableColumn fx:id="prix" prefWidth="108.0" text="prix" />                    
+                <TableColumn fx:id="quantite" prefWidth="296.0" text="quantite" />
 
             
                               
@@ -32,25 +32,25 @@
                 <Font name="Bauhaus 93" size="42.0" />
             </font>
         </Label>
-      <Label fx:id="mnt_tot" layoutX="517.0" layoutY="779.0" prefHeight="41.0" prefWidth="448.0" text="" textFill="#4275dc">
+      <Label fx:id="mnt_tot" layoutX="457.0" layoutY="659.0" prefHeight="41.0" prefWidth="448.0" text="" textFill="#4275dc">
          <font>
             <Font name="Bauhaus 93" size="32.0" />
          </font>
       </Label>
-      <Button fx:id="passer_cmd" layoutX="788.0" layoutY="732.0" mnemonicParsing="false" onMouseClicked="#GotoFacturePage" prefHeight="30.0" prefWidth="184.0" text="Passer à la facture" textFill="WHITE">
+      <Button fx:id="passer_cmd" layoutX="762.0" layoutY="618.0" mnemonicParsing="false" onMouseClicked="#GotoFacturePage" prefHeight="30.0" prefWidth="184.0" text="Passer à la facture" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <TextField fx:id="nom_livre" layoutX="289.0" layoutY="680.0" />
-      <TextField fx:id="cat" layoutX="489.0" layoutY="680.0" />
-      <TextField fx:id="prixx" layoutX="689.0" layoutY="680.0" />
-      <TextField fx:id="quantitee" layoutX="889.0" layoutY="680.0" />
-      <Button fx:id="supp" layoutX="398.0" layoutY="732.0" mnemonicParsing="false" onAction="#deletehandler" prefHeight="30.0" prefWidth="192.0" text="Supprimer" textAlignment="CENTER" textFill="WHITE">
+      <TextField fx:id="nom_livre" layoutX="280.0" layoutY="557.0" />
+      <TextField fx:id="cat" layoutX="482.0" layoutY="557.0" />
+      <TextField fx:id="prixx" layoutX="689.0" layoutY="557.0" />
+      <TextField fx:id="quantitee" layoutX="901.0" layoutY="557.0" />
+      <Button fx:id="supp" layoutX="355.0" layoutY="618.0" mnemonicParsing="false" onAction="#deletehandler" prefHeight="30.0" prefWidth="192.0" text="Supprimer" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Button>
-      <Button fx:id="modif_qte" layoutX="606.0" layoutY="732.0" mnemonicParsing="false" onAction="#onModifierButtonClick" prefHeight="30.0" prefWidth="166.0" text="Modifier quantité" textFill="#fffdfd">
+      <Button fx:id="modif_qte" layoutX="569.0" layoutY="618.0" mnemonicParsing="false" onAction="#onModifierButtonClick" prefHeight="30.0" prefWidth="166.0" text="Modifier quantité" textFill="#fffdfd">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Button>

@@ -10,67 +10,77 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="856.0" prefWidth="1201.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.AjouterLivreController">
+<AnchorPane id="AnchorPane" prefHeight="711.0" prefWidth="1138.0" stylesheets="@design.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.AjouterLivreController">
    <children>
-       <fx:include source="sidebarAdmin.fxml" />
-      <DatePicker fx:id="date" layoutX="355.0" layoutY="618.0" prefHeight="45.0" prefWidth="263.0" />
-      <Label layoutX="222.0" layoutY="693.0" text="Code Promo : ">
-         <font>
-            <Font size="18.0" />
-         </font></Label>
-      <Button fx:id="btnAjout" layoutX="543.0" layoutY="783.0" mnemonicParsing="false" onAction="#AjoutLivre" prefHeight="45.0" prefWidth="150.0" text="Ajouter un livre" textAlignment="CENTER" />
-      <Label layoutX="227.0" layoutY="494.0" text="Langue :">
-         <font>
-            <Font size="18.0" />
-         </font></Label>
-      <TextArea fx:id="taDescription" layoutX="355.0" layoutY="195.0" prefHeight="81.0" prefWidth="263.0" />
-      <TextField fx:id="tfLibelle" layoutX="355.0" layoutY="136.0" prefHeight="45.0" prefWidth="263.0" />
-      <TextField fx:id="tfEditeur" layoutX="355.0" layoutY="367.0" prefHeight="45.0" prefWidth="263.0" />
-      <TextField fx:id="tfCategorie" layoutX="355.0" layoutY="433.0" prefHeight="45.0" prefWidth="263.0" />
-      <TextField fx:id="tfPrix" layoutX="355.0" layoutY="557.0" prefHeight="45.0" prefWidth="263.0" />
-      <TextField fx:id="tfLangue" layoutX="355.0" layoutY="494.0" prefHeight="45.0" prefWidth="263.0" />
-      <Label layoutX="228.0" layoutY="557.0" text="Prix :">
-         <font>
-            <Font size="18.0" />
-         </font></Label>
-      <Label layoutX="224.0" layoutY="627.0" text="Date d'édition :">
-         <font>
-            <Font size="18.0" />
-         </font></Label>
-      <Label layoutX="232.0" layoutY="306.0" text="Auteur : ">
-         <font>
-            <Font size="18.0" />
-         </font></Label>
-      <Label layoutX="228.0" layoutY="756.0" text="Image : ">
-         <font>
-            <Font size="18.0" />
-         </font></Label>
-      <Label layoutX="27.0" layoutY="14.0" prefHeight="42.0" prefWidth="316.0" text="Ajouter un livre" textFill="#4275dc" underline="true">
-         <font>
-            <Font name="System Bold" size="37.0" />
-         </font>
-      </Label>
-      <Label layoutX="232.0" layoutY="145.0" text="Libelle :">
-         <font>
-            <Font size="18.0" />
-         </font></Label>
-      <Label layoutX="232.0" layoutY="214.0" text="Description : ">
-         <font>
-            <Font size="18.0" />
-         </font></Label>
-      <Label layoutX="227.0" layoutY="371.0" text="Editeur :">
+       
+     <fx:include source="sidebarAdmin.fxml" />
+          <DatePicker fx:id="date" layoutX="638.0" layoutY="350.0" prefHeight="45.0" prefWidth="263.0" />
+      <Label layoutX="638.0" layoutY="421.0" text="Code Promo : ">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="226.0" layoutY="432.0" text="Catégorie :">
+      <Button fx:id="btnAjout" layoutX="665.0" layoutY="597.0" mnemonicParsing="false" onAction="#AjoutLivre" prefHeight="45.0" prefWidth="150.0" text="Ajouter un livre" textAlignment="CENTER" />
+      <Label layoutX="631.0" layoutY="124.0" text="Langue :">
          <font>
             <Font size="18.0" />
-         </font></Label>
-      <ImageView fx:id="image" fitHeight="81.0" fitWidth="114.0" layoutX="355.0" layoutY="756.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="btnAnnuler" layoutX="268.0" layoutY="790.0" mnemonicParsing="false" onAction="#Annuler" text="Anuuler" />
-      <ComboBox fx:id="auteurs" layoutX="355.0" layoutY="304.0" prefHeight="31.0" prefWidth="263.0" promptText="Sélectionner un auteur" />
-      <ComboBox fx:id="promos" layoutX="355.0" layoutY="691.0" prefHeight="31.0" prefWidth="263.0" promptText="Sélectionner un codePromo" />
+         </font>
+      </Label>
+      <TextArea fx:id="taDescription" layoutX="285.0" layoutY="249.0" prefHeight="72.0" prefWidth="263.0" />
+      <TextField fx:id="tfLibelle" layoutX="631.0" layoutY="160.0" prefHeight="45.0" prefWidth="263.0" />
+      <TextField fx:id="tfEditeur" layoutX="281.0" layoutY="451.0" prefHeight="45.0" prefWidth="263.0" />
+      <TextField fx:id="tfCategorie" layoutX="280.0" layoutY="541.0" prefHeight="45.0" prefWidth="263.0" />
+      <TextField fx:id="tfPrix" layoutX="632.0" layoutY="249.0" prefHeight="45.0" prefWidth="263.0" />
+      <TextField fx:id="tfLangue" layoutX="284.0" layoutY="157.0" prefHeight="45.0" prefWidth="263.0" />
+      <Label layoutX="632.0" layoutY="219.0" text="Prix :">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+       <Label layoutX="631.0" layoutY="309.0" text="Date d'édition :">
+         <font>
+            <Font size="18.0" />
+         </font>
+       </Label>
+       <Label layoutX="283.0" layoutY="336.0" text="Auteur : ">
+         <font>
+            <Font size="18.0" />
+         </font>
+       </Label>
+       <Label layoutX="645.0" layoutY="514.0" text="Image : ">
+         <font>
+            <Font size="18.0" />
+         </font>
+       </Label>
+       <Label layoutX="282.0" layoutY="124.0" text="Libelle :">
+         <font>
+            <Font size="18.0" />
+         </font>
+       </Label>
+      <Label layoutX="283.0" layoutY="212.0" text="Description : ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="282.0" layoutY="411.0" text="Editeur :">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="279.0" layoutY="501.0" text="Catégorie :">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="image" fitHeight="58.0" fitWidth="150.0" layoutX="740.0" layoutY="512.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="btnAnnuler" layoutX="337.0" layoutY="604.0" mnemonicParsing="false" onAction="#Annuler" prefHeight="45.0" prefWidth="150.0" text="Anuuler" />
+      <ComboBox fx:id="auteurs" layoutX="284.0" layoutY="368.0" prefHeight="31.0" prefWidth="263.0" promptText="Sélectionner un auteur" />
+      <ComboBox fx:id="promos" layoutX="638.0" layoutY="458.0" prefHeight="31.0" prefWidth="263.0" promptText="Sélectionner un codePromo" />
+      <Label layoutX="268.0" layoutY="69.0" prefHeight="42.0" prefWidth="448.0" text="Ajouter un Livre" textFill="#4275dc" underline="true">
+         <font>
+            <Font name="Bauhaus 93" size="36.0" />
+         </font>
+      </Label>
       
    </children>
 </AnchorPane>

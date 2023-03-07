@@ -14,8 +14,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import tn.esprit.ktebi.entities.User;
+import tn.esprit.ktebi.services.UserService;
 
 /**
  * FXML Controller class
@@ -27,8 +30,14 @@ public class SidebarController implements Initializable {
     /**
      * Initializes the controller class.
      */
+      @FXML
+    private Label adminInput;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        int id_user = User.connecte;
+        UserService us = new UserService();
+        User user = us.getUserById(id_user);
+        adminInput.setText(user.getPrenom() + " " + user.getNom());
         // TODO
     }    
 
@@ -87,5 +96,19 @@ public class SidebarController implements Initializable {
         window.setScene(tableViewScene);
         window.show();
     }
+
+    @FXML
+    private void handlereponseRec(MouseEvent event) throws IOException {
+    Parent tableViewParent = FXMLLoader.load(getClass().getResource("/tn/esprit/ktebi/gui/ReponseReclamation.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
+
+        //This line gets the Stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(tableViewScene);
+        window.show();
+    }
+
+    
     
 }

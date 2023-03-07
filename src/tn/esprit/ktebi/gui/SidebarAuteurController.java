@@ -14,31 +14,21 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import tn.esprit.ktebi.entities.User;
-import tn.esprit.ktebi.services.UserService;
 
 /**
  * FXML Controller class
  *
  * @author MSI
  */
-public class SidebarClientController implements Initializable {
-
-    @FXML
-    private Label cltName;
+public class SidebarAuteurController implements Initializable {
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        int id_user = User.connecte;
-        UserService us = new UserService();
-        User user = us.getUserById(id_user);
-        cltName.setText(user.getPrenom() + " " + user.getNom());
         // TODO
     }
 
@@ -65,7 +55,7 @@ public class SidebarClientController implements Initializable {
 
     @FXML
     private void handleFactures(MouseEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/ktebi/gui/Factures-client.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/ktebi/gui/Facture-ui.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -96,6 +86,16 @@ public class SidebarClientController implements Initializable {
     @FXML
     private void handleListeRec(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/ktebi/gui/ListeReclamation.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene((scene));
+        stage.show();
+    }
+
+    @FXML
+    private void handleGestionLivres(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/ktebi/gui/AjouterLivre.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

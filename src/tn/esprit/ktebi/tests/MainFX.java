@@ -28,11 +28,11 @@ public class MainFX extends Application {
 
         try {
             Parent root = FXMLLoader
-                    .load(getClass().getResource("/tn/esprit/ktebi/gui/homeCart.fxml"));
+                    .load(getClass().getResource("/tn/esprit/ktebi/gui/Hello.fxml"));
 
-            Scene scene = new Scene(root, 1100, 800);
+            Scene scene = new Scene(root);
 
-            primaryStage.setTitle("Liste des livres ");
+            primaryStage.setTitle("Ktebi APP");
             primaryStage.setScene(scene);
             primaryStage.show();
 

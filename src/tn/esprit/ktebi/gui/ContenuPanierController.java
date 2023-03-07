@@ -41,6 +41,7 @@ import javafx.stage.Stage;
 import tn.esprit.ktebi.entities.LignePanier;
 import tn.esprit.ktebi.entities.Panier;
 import tn.esprit.ktebi.entities.Livre;
+import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.services.ServiceLignePanier;
 import tn.esprit.ktebi.services.ServicePanier;
 import tn.esprit.ktebi.utils.MaConnexion;
@@ -98,7 +99,8 @@ public class ContenuPanierController implements Initializable {
             // Récupérer le panier de l'utilisateur
             String panierQuery = "SELECT * FROM Panier WHERE id_user=?";
             PreparedStatement panierStmt = cnx.prepareStatement(panierQuery);
-            int userId = 1;
+            int userId = User.connecte;
+
             panierStmt.setInt(1, userId);
 
             ResultSet panierRs = panierStmt.executeQuery();
@@ -198,8 +200,6 @@ public class ContenuPanierController implements Initializable {
         window.show();
     }
 
-   
-
     @Override
     public void initialize(URL location, ResourceBundle resources
     ) {
@@ -230,7 +230,8 @@ public class ContenuPanierController implements Initializable {
     @FXML
     private void onModifierButtonClick(ActionEvent event) throws SQLException, NullPointerException {
         try {
-            int id_user = 1;
+            int id_user = User.connecte;
+
             Livre ligneSelectionnee = table_panier.getSelectionModel().getSelectedItem();
             ServicePanier sp = new ServicePanier();
             Livre livre = sp.getLivreByLibelle(ligneSelectionnee.getLibelle());

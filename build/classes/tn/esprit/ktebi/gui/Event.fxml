@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="596.0" prefWidth="891.0" stylesheets="@client.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.EventController">
+<AnchorPane id="AnchorPane" prefHeight="711.0" prefWidth="1138.0" stylesheets="@design.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.EventController">
     
     <children>
         <Text fill="#1f225b" layoutX="129.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="welcome to ktebi">
@@ -66,7 +66,6 @@
         <TableView fx:id="tabevent" layoutX="438.0" layoutY="87.0" onMouseClicked="#SelectItems" prefHeight="458.0" prefWidth="559.0">
             <columns>
                 <TableColumn fx:id="colname" prefWidth="94.0" text="NOM" />
-                <TableColumn fx:id="coltheme" prefWidth="56.0" text="THEME" />
                 <TableColumn fx:id="coldesc" prefWidth="98.0" text="DESCRIBTION" />
                 <TableColumn fx:id="collieu" prefWidth="74.0" text="LIEU" />
                 <TableColumn fx:id="datedebut" prefWidth="97.0" text="DATE_DEBUT" />
@@ -77,7 +76,7 @@
       
 
         <ImageView fx:id="imageview" fitHeight="79.0" fitWidth="90.0" layoutX="342.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true" />
-        <Button fx:id="btnupload" layoutX="336.0" layoutY="404.0" mnemonicParsing="false" onAction="#imageupload" prefHeight="28.0" prefWidth="102.0" text="UPLOAD" textFill="WHITE" />
+        <Button fx:id="btnupload" layoutX="357.0" layoutY="379.0" mnemonicParsing="false" onAction="#imageupload" prefHeight="28.0" prefWidth="80.0" text="UPLOAD" textFill="WHITE" />
         <Button fx:id="bntmodif" layoutX="563.0" layoutY="589.0" mnemonicParsing="false" onAction="#modifevent" prefHeight="25.0" prefWidth="110.0" text="MODIFIER" textFill="WHITE" />
         <Button fx:id="btnsupp" layoutX="746.0" layoutY="589.0" mnemonicParsing="false" onAction="#deletehandler" prefHeight="25.0" prefWidth="102.0" text="SUPPRIMER" textFill="WHITE" />
         <Button fx:id="btnreset" layoutX="312.0" layoutY="589.0" mnemonicParsing="false" onAction="#ResetEvenet" prefHeight="25.0" prefWidth="102.0" text="RESET" textFill="WHITE" />
@@ -85,8 +84,7 @@
         <Button fx:id="ajouter" layoutX="170.0" layoutY="589.0" mnemonicParsing="false" onAction="#ajouterrr" prefHeight="25.0" prefWidth="90.0" text="AJOUTER" textFill="WHITE" />
         <TextField fx:id="recherche" layoutX="486.0" layoutY="39.0" prefHeight="26.0" prefWidth="213.0" promptText="rechercher ici" />
         <Button fx:id="btnRechercher" layoutX="718.0" layoutY="36.0" mnemonicParsing="false" onAction="#rechercher" prefHeight="32.0" prefWidth="120.0" text="RECHERCHER" />
-        <Button fx:id="tri" layoutX="878.0" layoutY="39.0" mnemonicParsing="false" onAction="#tri" prefHeight="32.0" prefWidth="81.0" text="TRI" />
-        <!--<Button fx:id="btnExcel" layoutX="906.0" layoutY="589.0" mnemonicParsing="false" onAction="#ConvertToexcel" prefHeight="25.0" prefWidth="102.0" text="Excel" textFill="WHITE" />-->
+        <Button fx:id="btnExcel" layoutX="40.0" layoutY="589.0" mnemonicParsing="false" onAction="#ConvertToexcel" prefHeight="25.0" prefWidth="102.0" text="Excel" textFill="WHITE" />
+        <Button fx:id="btnretour" layoutX="900.0" layoutY="589.0" mnemonicParsing="false" onAction="#RetourAccueil" prefHeight="25.0" prefWidth="102.0" text="RETOUR" textFill="WHITE" />   
     </children>
 </AnchorPane>
-

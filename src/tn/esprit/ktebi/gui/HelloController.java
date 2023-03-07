@@ -75,7 +75,7 @@ public class HelloController implements Initializable {
                 System.out.println(getClass().getResource("/tn/esprit/ktebi/gui/"));
                  Parent root = FXMLLoader
                     .load(getClass().getResource("../gui/Login.fxml"));
-            Scene scene = new Scene(root, 650, 500);
+            Scene scene = new Scene(root);
             //AcountFXMLController acont = new AcountFXMLController();
             //acont.getId(id);
             primaryStage.setTitle("ktebi");
@@ -91,7 +91,7 @@ public class HelloController implements Initializable {
                 System.out.println(getClass().getResource("/tn/esprit/ktebi/gui/"));
                  Parent root = FXMLLoader
                     .load(getClass().getResource("../gui/AjouterUser.fxml"));
-            Scene scene = new Scene(root, 650, 500);
+            Scene scene = new Scene(root);
            
             primaryStage.setTitle("ktebi");
             primaryStage.setScene(scene);

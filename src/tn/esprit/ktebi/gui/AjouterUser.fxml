@@ -10,62 +10,58 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="459.0" prefWidth="795.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.AjouterUserController">
+<AnchorPane id="AnchorPane" prefHeight="711.0" prefWidth="1138.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.ktebi.gui.AjouterUserController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3b369a" height="77.0" layoutX="107.0" stroke="BLACK" strokeType="INSIDE" width="633.0" />
-      <Button fx:id="btnajouter" layoutX="561.0" layoutY="390.0" mnemonicParsing="false" onAction="#AjouterUtilisateur" prefHeight="45.0" prefWidth="107.0" text="Ajouter" textFill="#0b425e">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3b369a" height="190.0" layoutX="259.0" layoutY="-1.0" stroke="BLACK" strokeType="INSIDE" width="885.0" />
+      <Button fx:id="btnajouter" layoutX="868.0" layoutY="572.0" mnemonicParsing="false" onAction="#AjouterUtilisateur" prefHeight="45.0" prefWidth="107.0" text="Ajouter" textFill="#0b425e">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font></Button>
-      <Button fx:id="btnretour" layoutX="168.0" layoutY="390.0" mnemonicParsing="false" onAction="#Retour" prefHeight="45.0" prefWidth="97.0" text="Retour" textFill="#0b425e" wrapText="true">
+      <Button fx:id="btnretour" layoutX="466.0" layoutY="605.0" mnemonicParsing="false" onAction="#Retour" prefHeight="45.0" prefWidth="97.0" text="Retour" textFill="#0b425e" wrapText="true">
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Button>
-      <TextField fx:id="txtnom" layoutX="170.0" layoutY="120.0" prefHeight="25.0" prefWidth="174.0" />
-      <TextField fx:id="txtprenom" layoutX="511.0" layoutY="132.0" prefHeight="25.0" prefWidth="161.0" />
-      <TextField fx:id="txtadress" layoutX="168.0" layoutY="186.0" prefHeight="25.0" prefWidth="174.0" />
-      <TextField fx:id="txttlfn" layoutX="511.0" layoutY="198.0" prefHeight="25.0" prefWidth="161.0" />
-      <Text fill="#1512d0" layoutX="182.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom" wrappingWidth="45.79557228088379">
+      <TextField fx:id="txtnom" layoutX="407.0" layoutY="267.0" prefHeight="25.0" prefWidth="174.0" />
+      <TextField fx:id="txtprenom" layoutX="741.0" layoutY="267.0" prefHeight="25.0" prefWidth="161.0" />
+      <TextField fx:id="txtadress" layoutX="414.0" layoutY="340.0" prefHeight="25.0" prefWidth="174.0" />
+      <TextField fx:id="txttlfn" layoutX="746.0" layoutY="340.0" prefHeight="25.0" prefWidth="161.0" />
+      <Text fill="#1512d0" layoutX="413.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom" wrappingWidth="45.79557228088379">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font></Text>
-      <Text fill="#0b07c9" layoutX="529.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prenom">
+      <Text fill="#0b07c9" layoutX="741.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prenom">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font></Text>
-      <Text fill="#250ad7" layoutX="183.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adress" wrappingWidth="43.3125">
+      <Text fill="#250ad7" layoutX="411.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse" wrappingWidth="50.87988197803497">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font></Text>
-      <Text fill="#2e0ecd" layoutX="522.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="telephone">
+      <Text fill="#2e0ecd" layoutX="746.0" layoutY="334.0" strokeType="OUTSIDE" strokeWidth="0.0" text="telephone">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font></Text>
-      <Text fill="#1a0bb9" layoutX="175.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date">
+      <Text fill="#1a0bb9" layoutX="421.0" layoutY="393.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date de naissance">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font></Text>
-      <TextField fx:id="txtemail" layoutX="517.0" layoutY="267.0" prefHeight="25.0" prefWidth="161.0" />
-      <Text fill="#2915dd" layoutX="529.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email">
+      <TextField fx:id="txtemail" layoutX="746.0" layoutY="429.0" prefHeight="25.0" prefWidth="161.0" />
+      <Text fill="#2915dd" layoutX="759.0" layoutY="403.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font></Text>
-      <Text fill="#170ec3" layoutX="168.0" layoutY="319.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mot de passe ">
+      <Text fill="#170ec3" layoutX="422.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mot de passe ">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font></Text>
-      <Text fill="#0e0aee" layoutX="523.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Role">
+      <DatePicker fx:id="txtdate" layoutX="417.0" layoutY="413.0" prefHeight="31.0" prefWidth="187.0" />
+      <Label layoutX="494.0" layoutY="59.0" prefHeight="70.0" prefWidth="371.0" text="INSCRIPTION" textAlignment="CENTER" textFill="#cfcfda">
          <font>
-            <Font name="System Bold Italic" size="14.0" />
-         </font></Text>
-      <DatePicker fx:id="txtdate" layoutX="168.0" layoutY="255.0" />
-      <Label layoutX="241.0" layoutY="19.0" prefHeight="27.0" prefWidth="206.0" text="INSCRIPTION" textAlignment="CENTER" textFill="#cfcfda">
-         <font>
-            <Font name="System Bold Italic" size="30.0" />
+            <Font name="System Bold Italic" size="48.0" />
          </font>
       </Label>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3f558d" height="484.0" layoutY="-1.0" stroke="BLACK" strokeType="INSIDE" width="107.0" />
-      <PasswordField fx:id="txtmdp" layoutX="167.0" layoutY="345.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3f558d" height="711.0" stroke="BLACK" strokeType="INSIDE" width="259.0" />
+      <PasswordField fx:id="txtmdp" layoutX="417.0" layoutY="490.0" />
       <Label fx:id="txtrole" layoutX="523.0" layoutY="345.0" prefHeight="17.0" prefWidth="129.0" />
    </children>
 </AnchorPane>

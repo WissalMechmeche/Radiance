@@ -41,6 +41,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -57,20 +58,19 @@ import tn.esprit.ktebi.services.ServiceReponse;
  * @author Dell 6540
  */
 public class ListeReclamationController implements Initializable {
-    
 
     @FXML
     private TableView<Reclamation> Table;
 
     @FXML
     private TableColumn<Reclamation, LocalDate> colDate;
-    
+
     @FXML
-    private TableColumn<Reclamation, String> colContenu;    
-    
+    private TableColumn<Reclamation, String> colContenu;
+
     @FXML
     private TableColumn<Reclamation, String> ColEtat;
-    
+
     @FXML
     private TableColumn colimg;
     @FXML
@@ -78,110 +78,106 @@ public class ListeReclamationController implements Initializable {
 
     @FXML
     private Button btnsupp;
-    
-    @FXML
-    private Button btnretour;
-    
-    @FXML
-    private Button btnrep;
 
     @FXML
     private TextArea txtRec;
-    
+
     @FXML
-    private ImageView imgview;
-     @FXML
     private TextField txtRech;
-    static  Integer index;
-    static  Integer id_rep;       
+    static Integer index;
+    static Integer id_rep;
     ServiceReponse srep = new ServiceReponse();
 
-    InputStream in;    
+    InputStream in;
     ServiceReclamation sr = new ServiceReclamation();
     ObservableList<Reclamation> list;
     ReponseReclamationController rr = new ReponseReclamationController();
-    List<Reclamation> rec = new ArrayList<>();          
+    List<Reclamation> rec = new ArrayList<>();
+    @FXML
+    private Label titre;
+    @FXML
+    private Button btnajouRec;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-            // TODO
-                Table.setOnMouseClicked(t->{
-            if(t.getClickCount() ==1){
-                 index = Table.getSelectionModel().getSelectedIndex();
+        // TODO
+        Table.setOnMouseClicked(t -> {
+            if (t.getClickCount() == 1) {
+                index = Table.getSelectionModel().getSelectedIndex();
                 txtRec.setText(Table.getItems().get(index).getContenu());
             }
-        });    
-            
+        });
+
         try {
             AfficheRecById();
         } catch (SQLException ex) {
             Logger.getLogger(ListeReclamationController.class.getName()).log(Level.SEVERE, null, ex);
         }
         txtRec.setWrapText(true);
-       chercherReclamation();
+        chercherReclamation();
     }
-    
-    
-    
-        public void AfficheRecById() throws SQLException {
+
+    public void AfficheRecById() throws SQLException {
         rec = new ArrayList<>();
-        User user = new User(1);
+        int userId = User.connecte;
+
+        User user = new User(userId);
         try {
-            rec =sr.selectAllById(user.getId());
+            rec = sr.selectAllById(user.getId());
 
         } catch (SQLException ex) {
             Logger.getLogger(ListeReclamationController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        list= FXCollections.observableList(rec);            
+        list = FXCollections.observableList(rec);
         colDate.setCellValueFactory(new PropertyValueFactory<>("date_reclamation"));
         colContenu.setCellValueFactory(new PropertyValueFactory<>("contenu"));
         ColEtat.setCellValueFactory(new PropertyValueFactory<>("etat"));
-        Callback<TableColumn<Reclamation, String>, TableCell<Reclamation, String>> cellFactory =(e)->{
-            final TableCell<Reclamation, String> cell=new TableCell<Reclamation, String>(){
-              @Override
-              public void updateItem(String item,boolean empty){
-                  super.updateItem(item,empty);
-                  if(empty){
-                      setGraphic(null);
-                      setText(null);
-                  }else{
-                      
-                      final Button edit = new Button("show");
-                      edit.setOnAction(event ->{
-                          Reclamation r = getTableView().getItems().get(getIndex());
-                          ReponseReclamation liste = new ReponseReclamation();
-    
-                          try {
-                              liste=srep.selectAllById(r.getId());
-                          } catch (SQLException ex) {
-                              Logger.getLogger(ListeReclamationController.class.getName()).log(Level.SEVERE, null, ex);
-                          }  
-                            Alert al = new Alert(Alert.AlertType.INFORMATION);                           
-                            if(!al.isShowing()){
-                            al.setTitle("Reponse");
-                            al.setHeaderText("Votre reclamation est : \n"+r.getContenu());    
-                            al.setContentText("Date Reponse :\n"+liste.getDateRep()+"\n"+
-                                              "Reponse :\n"+liste.getContenu());
-                            al.show();
-                            }else{
+        Callback<TableColumn<Reclamation, String>, TableCell<Reclamation, String>> cellFactory = (e) -> {
+            final TableCell<Reclamation, String> cell = new TableCell<Reclamation, String>() {
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+
+                        final Button edit = new Button("show");
+                        edit.setOnAction(event -> {
+                            Reclamation r = getTableView().getItems().get(getIndex());
+                            ReponseReclamation liste = new ReponseReclamation();
+
+                            try {
+                                liste = srep.selectAllById(r.getId());
+                            } catch (SQLException ex) {
+                                Logger.getLogger(ListeReclamationController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            Alert al = new Alert(Alert.AlertType.INFORMATION);
+                            if (!al.isShowing()) {
+                                al.setTitle("Reponse");
+                                al.setHeaderText("Votre reclamation est : \n" + r.getContenu());
+                                al.setContentText("Date Reponse :\n" + liste.getDateRep() + "\n"
+                                        + "Reponse :\n" + liste.getContenu());
+                                al.show();
+                            } else {
                                 al.hide();
                             }
 
-                            
-                      });
-                      setGraphic(edit);
-                      setText(null);
-                  };
-              };
+                        });
+                        setGraphic(edit);
+                        setText(null);
+                    };
+                }
+            ;
             };      
             return cell;
-};
+        };
         colimg.setCellFactory(cellFactory);
         Table.setItems(list);
-            /*in =list.get(0).getImg1().getBinaryStream();
+        /*in =list.get(0).getImg1().getBinaryStream();
             Image image = new Image(in);
             imgview.setFitWidth(200);
             imgview.setFitHeight(200);
@@ -191,83 +187,82 @@ public class ListeReclamationController implements Initializable {
             imgview.setCache(true);
             imgview.setImage(image);*/
 
-}
+    }
+
     @FXML
     void ModifierReclamtion(ActionEvent event) {
-        String etat ="en cours";
-        User u=new User(1);
-         index = Table.getSelectionModel().getSelectedIndex();
-         id_rep =Table.getItems().get(index).getId(); 
-        Reclamation rec = new Reclamation(id_rep,
-                txtRec.getText(),LocalDate.now(),etat,u);
-        try{
-        sr.updateOne(rec);
-        resetTableData();
-                    AfficheRecById();
+        String etat = "en cours";
+        int userId = User.connecte;
 
-        txtRec.setText("");
+        User u = new User(userId);
+        index = Table.getSelectionModel().getSelectedIndex();
+        id_rep = Table.getItems().get(index).getId();
+        Reclamation rec = new Reclamation(id_rep,
+                txtRec.getText(), LocalDate.now(), etat, u);
+        try {
+            sr.updateOne(rec);
+            resetTableData();
+            AfficheRecById();
+
+            txtRec.setText("");
 
         } catch (SQLException ex) {
             Logger.getLogger(ListeReclamationController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
 
     @FXML
     void SupprimerReclamtion(ActionEvent event) {
         Integer index = Table.getSelectionModel().getSelectedIndex();
         Reclamation rec = new Reclamation(Table.getItems().get(index).getId());
-        try{
-            sr.deletOne(rec);           
+        try {
+            sr.deletOne(rec);
             AfficheRecById();
             txtRec.setText("");
-
 
         } catch (SQLException ex) {
             Logger.getLogger(ListeReclamationController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    @FXML
+
     private void Retour(ActionEvent event) throws IOException {
         Parent retour = FXMLLoader.load(getClass().getResource("AjouterReclamation.fxml"));
         Scene scene = new Scene(retour);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("Ajouter une Reclamations");
         stage.setScene(scene);
-        stage.show();        
+        stage.show();
     }
-   
-        void chercherReclamation(){
 
-             //// Code Recherche
-             try {
-            rec=sr.selectAll();     
-            list = FXCollections.observableArrayList(rec);     
+    void chercherReclamation() {
+
+        //// Code Recherche
+        try {
+            rec = sr.selectAll();
+            list = FXCollections.observableArrayList(rec);
             Table.setItems(list);
-            FilteredList<Reclamation> listeFilter = new FilteredList<>(list, l-> true);
-               txtRech.textProperty().addListener((ObservableValue, oldValue, newValue) -> {
-                    listeFilter.setPredicate(reclamation-> {
-                        if (newValue == null || newValue.isEmpty()) {
-                            return true;
-                        }
-                        String lowerCase = newValue.toLowerCase();
-                        if (reclamation.getEtat().toLowerCase().contains(lowerCase)) {
-                            return true;
-                        }else
-
+            FilteredList<Reclamation> listeFilter = new FilteredList<>(list, l -> true);
+            txtRech.textProperty().addListener((ObservableValue, oldValue, newValue) -> {
+                listeFilter.setPredicate(reclamation -> {
+                    if (newValue == null || newValue.isEmpty()) {
+                        return true;
+                    }
+                    String lowerCase = newValue.toLowerCase();
+                    if (reclamation.getEtat().toLowerCase().contains(lowerCase)) {
+                        return true;
+                    } else {
                         return false;
-                    });
-                });               
-                SortedList<Reclamation> sortedData = new SortedList<>(listeFilter);
-                sortedData.comparatorProperty().bind(Table.comparatorProperty());
-                Table.setItems(sortedData);
-            } catch (SQLException e) {
+                    }
+                });
+            });
+            SortedList<Reclamation> sortedData = new SortedList<>(listeFilter);
+            sortedData.comparatorProperty().bind(Table.comparatorProperty());
+            Table.setItems(sortedData);
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
-        
-    @FXML
+
     void Reponses(ActionEvent event) throws IOException {
         Parent retour = FXMLLoader.load(getClass().getResource("UserReponseReclamation.fxml"));
         Scene scene = new Scene(retour);
@@ -279,13 +274,27 @@ public class ListeReclamationController implements Initializable {
         System.out.println(id_rep);
 
     }
-    
-  public void resetTableData() throws SQLDataException, SQLException {
+
+    public void resetTableData() throws SQLDataException, SQLException {
 
         rec = new ArrayList<>();
-        User user=new User(1);
-        rec =sr.selectAllById(user.getId());
+        int userId = User.connecte;
+
+        User user = new User(userId);
+        rec = sr.selectAllById(user.getId());
         ObservableList<Reclamation> data = FXCollections.observableArrayList(rec);
         Table.setItems(data);
-    }    
+    }
+
+    @FXML
+    private void handleAjoutRec(MouseEvent event) throws IOException {
+        Parent tableViewParent = FXMLLoader.load(getClass().getResource("/tn/esprit/ktebi/gui/AjouterReclamation.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
+
+        //This line gets the Stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(tableViewScene);
+        window.show();
+    }
 }
