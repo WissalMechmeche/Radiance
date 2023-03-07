@@ -5,63 +5,64 @@
  */
 package tn.esprit.ktebi.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import tn.esprit.ktebi.entities.Evenement;
+import tn.esprit.ktebi.entities.User;
 
 /**
  *
- * @author MSI
+ * @author ASUS
  */
 public class Participation {
-    private int id ;
-    private Evenement evenemnet ;
-    List<User> list_participant ;
-    
-    public Participation()
-    {
-        list_participant = new ArrayList();
+
+    private int id_partipation;
+    private Evenement event;
+    private User user;
+
+    public Participation() {
     }
 
-    public Participation(int id,Evenement evenemnet, List<User> list_participant) {
-        this.id = id ;
-        this.evenemnet = evenemnet;
-        this.list_participant = list_participant;
-    }
-    
-    public Participation(Evenement evenemnet, List<User> list_participant) {
-        this.evenemnet = evenemnet;
-        this.list_participant = list_participant;
+    public Participation(int id_partipation, Evenement event, User user) {
+        this.id_partipation = id_partipation;
+        this.event = event;
+        this.user = user;
     }
 
-    public int getId() {
-        return id;
+    public Participation(Evenement event, User user) {
+        this.event = event;
+        this.user = user;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-    
 
-    public Evenement getEvenemnet() {
-        return evenemnet;
+    public int getId_partipation() {
+        return id_partipation;
     }
 
-    public void setEvenemnet(Evenement evenemnet) {
-        this.evenemnet = evenemnet;
+    public void setId_partipation(int id_partipation) {
+        this.id_partipation = id_partipation;
     }
 
-    public List<User> getList_participant() {
-        return list_participant;
+    public Evenement getEvent() {
+        return event;
     }
 
-    public void setList_participant(List<User> list_participant) {
-        this.list_participant = list_participant;
+    public void setEvent(Evenement event) {
+        this.event = event;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
-        return "Participation{" + "id=" + id + ", evenemnet=" + evenemnet + ", list_participant=" + list_participant + '}';
+        return "Participation{" + "id_partipation=" + id_partipation + ", event=" + event + ", user=" + user + '}';
     }
+
+
 
     @Override
     public boolean equals(Object obj) {
@@ -75,11 +76,10 @@ public class Participation {
             return false;
         }
         final Participation other = (Participation) obj;
-        if (this.id != other.id) {
+        if (this.id_partipation != other.id_partipation) {
             return false;
         }
         return true;
     }
-    
-    
+
 }

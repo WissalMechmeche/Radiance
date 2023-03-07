@@ -8,7 +8,7 @@ package tn.esprit.ktebi.gui;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -62,7 +62,7 @@ public class FacturesAdminControlleur implements Initializable {
     @FXML
     private Button btnSupp;
     @FXML
-    private TableColumn<Facture, LocalDateTime> date_fac;
+    private TableColumn<Facture, Timestamp> date_fac;
 
     @FXML
     private void handleLabelDash(MouseEvent event) throws IOException {
@@ -84,22 +84,25 @@ public class FacturesAdminControlleur implements Initializable {
         montant_tot.setCellValueFactory(new PropertyValueFactory<Facture, Float>("montant_totale"));
         nom.setCellValueFactory(new PropertyValueFactory<Facture, String>("nom"));
         prenom.setCellValueFactory(new PropertyValueFactory<Facture, String>("prenom"));
-        date_fac.setCellValueFactory(new PropertyValueFactory<Facture, LocalDateTime>("date_fac"));
+        date_fac.setCellValueFactory(new PropertyValueFactory<Facture, Timestamp>("date_fac"));
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         date_fac.setCellFactory(column -> {
-            return new TableCell<Facture, LocalDateTime>() {
+            return new TableCell<Facture, Timestamp>() {
                 @Override
-                protected void updateItem(LocalDateTime item, boolean empty) {
+                protected void updateItem(Timestamp item, boolean empty) {
                     super.updateItem(item, empty);
                     if (empty || item == null) {
                         setText(null);
                     } else {
-                        setText(formatter.format(item));
+                        LocalDateTime localDateTime = item.toLocalDateTime();
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                        setText(localDateTime.format(formatter));
                     }
                 }
             };
         });
+
+
         txtFac.setText("Nombre Factures: " + ad.getTotalFactures());
         date_fac.setPrefWidth(150); // Remplacez 150 par la largeur souhaitée
 

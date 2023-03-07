@@ -21,14 +21,14 @@ public class Livre {
     private String categorie;
     private float prix;
     private String langue;
-    private int promo;
+    private Promo promo;
     private User user;
     private String image;
 
     public Livre() {
     }
 
-    public Livre(int id, String libelle, String description, String editeur, String date_edition, String categorie, float prix, String langue, int promo, User user, String image) {
+    public Livre(int id, String libelle, String description, String editeur, String date_edition, String categorie, float prix, String langue, Promo promo, User user, String image) {
         this.id = id;
         this.libelle = libelle;
         this.description = description;
@@ -73,7 +73,7 @@ public class Livre {
         this.prix = prix;
     }
 
-    public Livre(String libelle, String description, String editeur, String date_edition, String categorie, float prix, String langue, int promo, User user, String image) {
+    public Livre(String libelle, String description, String editeur, String date_edition, String categorie, float prix, String langue, Promo promo, User user, String image) {
         this.libelle = libelle;
         this.description = description;
         this.editeur = editeur;
@@ -177,11 +177,11 @@ public class Livre {
         this.langue = langue;
     }
 
-    public int getPromo() {
+    public Promo getPromo() {
         return promo;
     }
 
-    public void setPromo(int promo) {
+    public void setPromo(Promo promo) {
         this.promo = promo;
     }
 

@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -38,17 +39,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import javafx.util.Duration;
+import tn.esprit.ktebi.entities.Facture;
 import tn.esprit.ktebi.entities.LignePanier;
 import tn.esprit.ktebi.entities.Livre;
 import tn.esprit.ktebi.entities.Panier;
 import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.services.ServiceLignePanier;
 import tn.esprit.ktebi.services.ServicePanier;
-import tn.esprit.ktebi.utils.MaConnexion;
 
 /**
  *
@@ -77,7 +76,7 @@ public class HomePanierController implements Initializable {
     private TableColumn<Livre, Float> prix;
     @FXML
     private TableColumn<Livre, String> libelle;
-    private ObservableList<Livre> data = FXCollections.observableArrayList();
+    private ObservableList<Livre> data ;
 
     @FXML
     private Label Menu;
@@ -101,8 +100,6 @@ public class HomePanierController implements Initializable {
             while (true) {
                 Livre livres;
                 String filterLibelle;
-                String filterCategorie;
-                String filterPrix;
 
                 do {
                     if (!var4.hasNext()) {
@@ -112,9 +109,8 @@ public class HomePanierController implements Initializable {
 
                     livres = (Livre) var4.next();
                     filterLibelle = livres.getLibelle();
-                    filterCategorie = livres.getCategorie();
-                    filterPrix = String.valueOf(livres.getPrix());
-                } while (!filterLibelle.toUpperCase().contains(newValue) && !filterCategorie.toUpperCase().contains(newValue) && !filterPrix.toUpperCase().contains(newValue));
+
+                } while (!filterLibelle.toUpperCase().contains(newValue));
 
                 filteredList.add(livres);
             }
@@ -125,7 +121,9 @@ public class HomePanierController implements Initializable {
 
     public void showLivres() {
         try {
-            ObservableList<Livre> data = lp.listelivres();
+
+            ArrayList<Livre> list = (ArrayList<Livre>) lp.listelivres();
+            data = FXCollections.observableArrayList(list);
 
             libelle.setCellValueFactory(new PropertyValueFactory<Livre, String>("libelle"));
             image.setCellValueFactory(new PropertyValueFactory<Livre, String>("image"));

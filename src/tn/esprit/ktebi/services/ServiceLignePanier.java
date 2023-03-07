@@ -14,11 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import tn.esprit.ktebi.entities.Facture;
 import tn.esprit.ktebi.interfaces.ILignePanier;
 import tn.esprit.ktebi.entities.LignePanier;
 import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.entities.Livre;
 import tn.esprit.ktebi.entities.Panier;
+import tn.esprit.ktebi.entities.Promo;
 import tn.esprit.ktebi.utils.MaConnexion;
 
 /**
@@ -235,11 +237,13 @@ public class ServiceLignePanier implements ILignePanier {
         return lignesCommande;
     }
 
-    @Override
-    public ObservableList<Livre> listelivres() throws SQLException {
-        ObservableList<Livre> myList = FXCollections.observableArrayList();
-        try {
+    
+    
+    public List<Livre> listelivres() throws SQLException {
+                List<Livre> myList = new ArrayList<>();
 
+       
+ 
             String requete = "Select * FROM Livre";
             PreparedStatement ps = cnx.prepareStatement(requete);
             ResultSet rs = ps.executeQuery();
@@ -253,7 +257,10 @@ public class ServiceLignePanier implements ILignePanier {
                 rec.setImage(rs.getString("image"));
                 rec.setPrix(rs.getFloat("prix"));
                 rec.setLangue(rs.getString("langue"));
-                rec.setPromo(rs.getInt("code_promo"));
+                int promoId = rs.getInt("code_promo");
+                Promo promo = new Promo();
+                promo.setCodePromo(promoId);
+                rec.setPromo(promo);
                 rec.setLibelle(rs.getString("libelle"));
                 int userId = rs.getInt("id_user");
                 User user = new User();
@@ -263,10 +270,7 @@ public class ServiceLignePanier implements ILignePanier {
                 myList.add(rec);
 
             }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-
-        }
+        
         return myList;
     }
 

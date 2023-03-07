@@ -26,7 +26,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("Admin-ui.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("HomeEventFXML.fxml"));
         stage.setTitle("Ktebi App");
         stage.setScene(new Scene(root, Color.TRANSPARENT));
 

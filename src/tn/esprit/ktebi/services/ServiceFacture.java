@@ -11,14 +11,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import tn.esprit.ktebi.entities.Facture;
 import tn.esprit.ktebi.entities.LigneFacture;
 import tn.esprit.ktebi.entities.Livre;
 import tn.esprit.ktebi.entities.Panier;
+import tn.esprit.ktebi.entities.Promo;
 import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.interfaces.IFacture;
 import tn.esprit.ktebi.utils.MaConnexion;
@@ -56,6 +59,66 @@ public class ServiceFacture implements IFacture {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+
+    public List<LigneFacture> afficherLignesFacturesByFactureId(int factureId) throws SQLException {
+        List<LigneFacture> lignesFacture = new ArrayList<>();
+
+        String query = "SELECT * FROM ligne_facture WHERE id_facture = ?";
+        PreparedStatement preparedStatement = cnx.prepareStatement(query);
+        preparedStatement.setInt(1, factureId);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            LigneFacture ligneFacture = new LigneFacture();
+            ligneFacture.setId_ligne_fac(resultSet.getInt("id_ligne_fac"));
+            ligneFacture.setQte(resultSet.getInt("qte"));
+            ligneFacture.setMnt(resultSet.getFloat("mnt"));
+            //facture
+            int fac_id = resultSet.getInt("id_facture");
+            Facture facture = new Facture();
+            facture.setId(fac_id);
+            ligneFacture.setId_facture(facture);
+            //livre
+            int liv_id = resultSet.getInt("id_livre");
+            Livre livre = new Livre();
+            livre.setId(liv_id);
+            ligneFacture.setId_livre(livre);
+            lignesFacture.add(ligneFacture);
+        }
+
+        return lignesFacture;
+    }
+
+    public Livre getLivreById(int id) throws SQLException {
+        Livre livre = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        stmt = cnx.prepareStatement("SELECT * FROM livre WHERE id_livre = ?");
+        stmt.setInt(1, id);
+        rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            int livreId = rs.getInt("id_livre");
+            String libelle = rs.getString("libelle");
+            String description = rs.getString("description");
+            String editeur = rs.getString("editeur");
+            String date_edition = rs.getString("date_edition");
+            String categorie = rs.getString("categorie");
+            float prix = rs.getFloat("prix");
+            String langue = rs.getString("langue");
+            int promo_id = rs.getInt("code_promo");
+            Promo promo = new Promo();
+            promo.setCodePromo(promo_id);
+
+            User user = getUserById(rs.getInt("id_user"));
+            String image = rs.getString("image");
+
+            livre = new Livre(livreId, libelle, description, editeur, date_edition, categorie, prix, langue, promo, user, image);
+        }
+
+        return livre;
     }
 
     @Override
@@ -153,7 +216,11 @@ public class ServiceFacture implements IFacture {
             String categorie = rs.getString("categorie");
             float prix = rs.getFloat("prix");
             String langue = rs.getString("langue");
-            int promo = rs.getInt("code_promo");
+            //promo
+            int promoId = rs.getInt("code_promo");
+            Promo promo = new Promo();
+            promo.setCodePromo(promoId);
+
 //            int user = rs.getInt("id_user");
             int userId = rs.getInt("id_user");
             User user = new User();
@@ -223,9 +290,7 @@ public class ServiceFacture implements IFacture {
             int id_user = rs.getInt("id_user");
             User user = new User();
             user.setId(id_user);
-            Date d = rs.getDate("date_fac");
-            LocalDateTime date_fac = new java.sql.Timestamp(d.getTime()).toLocalDateTime();
-
+            Timestamp date_fac = rs.getTimestamp("date_fac");
             Facture f = new Facture(id, montant_totale, mode_paiement, user, date_fac, nom, prenom);
             facturesList.add(f);
         }

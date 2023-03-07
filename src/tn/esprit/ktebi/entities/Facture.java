@@ -5,6 +5,7 @@
  */
 package tn.esprit.ktebi.entities;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -18,13 +19,13 @@ public class Facture {
     private float montant_totale;
     private String mode_paiement;
     private User user;
-    private LocalDateTime date_fac;
+    private Timestamp date_fac;
 
     public Facture() {
 
     }
 
-    public Facture(int id, float montant_totale, String mode_paiement, User user, LocalDateTime date_fac) {
+    public Facture(int id, float montant_totale, String mode_paiement, User user, Timestamp date_fac) {
         this.id = id;
         this.montant_totale = montant_totale;
         this.mode_paiement = mode_paiement;
@@ -64,7 +65,7 @@ public class Facture {
         this.prenom = prenom;
     }
 
-    public Facture(int id, float montant_totale, String mode_paiement, User user, LocalDateTime date_fac, String nom, String prenom) {
+    public Facture(int id, float montant_totale, String mode_paiement, User user, Timestamp date_fac, String nom, String prenom) {
         this.id = id;
         this.montant_totale = montant_totale;
         this.mode_paiement = mode_paiement;
@@ -74,7 +75,7 @@ public class Facture {
         this.prenom = prenom;
     }
 
-    public Facture(float montant_totale, String mode_paiement, LocalDateTime date_fac, String nom, String prenom) {
+    public Facture(float montant_totale, String mode_paiement, Timestamp date_fac, String nom, String prenom) {
         this.montant_totale = montant_totale;
         this.mode_paiement = mode_paiement;
         this.date_fac = date_fac;
@@ -114,11 +115,11 @@ public class Facture {
         this.user = user;
     }
 
-    public LocalDateTime getDate_fac() {
+    public Timestamp getDate_fac() {
         return date_fac;
     }
 
-    public void setDate_fac(LocalDateTime date_fac) {
+    public void setDate_fac(Timestamp date_fac) {
         this.date_fac = date_fac;
     }
 

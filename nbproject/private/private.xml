@@ -3,20 +3,25 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/entities/LigneFacture.java</file>
+            <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/gui/FacturesclientController.java</file>
+            <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/entities/Evenement.java</file>
             <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/services/ServiceLignePanier.java</file>
             <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/services/ServiceFacture.java</file>
             <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/gui/FacturesAdminControlleur.java</file>
-            <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/entities/LignePanier.java</file>
-            <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/gui/FactureController.java</file>
             <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/gui/ContenuPanierController.java</file>
+            <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/gui/FactureController.java</file>
             <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/entities/Livre.java</file>
             <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/gui/HomePanierController.java</file>
+            <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/entities/Participation.java</file>
+            <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/gui/Admin-ui.fxml</file>
+            <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/gui/HomeEventFXMLController.java</file>
             <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/services/ServicePanier.java</file>
+            <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/gui/Factures-client.fxml</file>
+            <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/services/eventservice.java</file>
             <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/gui/App.java</file>
-            <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/entities/Facture.java</file>
+            <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/gui/AdminController.java</file>
+            <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/gui/HomeEventFXML.fxml</file>
             <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/interfaces/ILignePanier.java</file>
-            <file>file:/C:/Users/Pc%20Anis/Documents/GitHub/Radiance/src/tn/esprit/ktebi/entities/Panier.java</file>
         </group>
     </open-files>
 </project-private>

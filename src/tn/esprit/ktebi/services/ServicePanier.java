@@ -14,6 +14,7 @@ import java.util.List;
 import tn.esprit.ktebi.entities.Livre;
 import tn.esprit.ktebi.interfaces.IPanier;
 import tn.esprit.ktebi.entities.Panier;
+import tn.esprit.ktebi.entities.Promo;
 import tn.esprit.ktebi.entities.User;
 import tn.esprit.ktebi.utils.MaConnexion;
 
@@ -35,7 +36,7 @@ public class ServicePanier implements IPanier {
         try {
             String requete = "insert into panier(id_user, qte, mnt_total) values (?, ?, ?)";
             PreparedStatement st = cnx.prepareStatement(requete);
-            
+
             st.setInt(1, panier.getUser().getId());
             st.setInt(2, panier.getQte());
             st.setFloat(3, panier.getMontant_totale());
@@ -69,7 +70,7 @@ public class ServicePanier implements IPanier {
                 int Id = rs.getInt("id_user");
                 User user = new User();
                 user.setId(Id);
-                
+
                 int qte = rs.getInt("qte");
                 float montantTotale = rs.getFloat("mnt_total");
                 panier = new Panier(id, montantTotale, qte, user);
@@ -128,8 +129,6 @@ public class ServicePanier implements IPanier {
             User user = new User();
             user.setId(userId);
             p.setUser(user);
-            
-            
 
             listPanier.add(p);
 
@@ -172,7 +171,11 @@ public class ServicePanier implements IPanier {
                 livre.setCategorie(rs.getString("categorie"));
                 livre.setPrix((float) rs.getDouble("prix"));
                 livre.setLangue(rs.getString("langue"));
-                livre.setPromo(rs.getInt("code_promo"));
+                int promoId = rs.getInt("code_promo");
+                Promo promo = new Promo();
+                promo.setCodePromo(promoId);
+
+                livre.setPromo(promo);
                 livre.setImage(rs.getString("image"));
                 int userId = rs.getInt("id_user");
                 User user = new User();
