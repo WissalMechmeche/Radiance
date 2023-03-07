@@ -26,7 +26,7 @@ import tn.esprit.ktebi.services.PromoService;
 import tn.esprit.ktebi.services.ServiceFacture;
 import tn.esprit.ktebi.services.ServiceLignePanier;
 import tn.esprit.ktebi.services.ServicePanier;
-import tn.esprit.ktebi.services.SmsSender;
+
 import tn.esprit.ktebi.services.UserService;
 
 

@@ -5,6 +5,11 @@
  */
 package tn.esprit.ktebi.gui;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import java.net.URL;
@@ -43,6 +48,10 @@ import tn.esprit.ktebi.services.UserService;
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.util.Properties;
+import java.util.Random;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 
 /**
  * FXML Controller class
@@ -87,6 +96,8 @@ public class AjouterLivreController implements Initializable {
     List<Promo> listP = null;
 
     Livre livre = null;
+    @FXML
+    private TextField tfImage;
 
     /**
      * Initializes the controller class.
@@ -130,7 +141,8 @@ public class AjouterLivreController implements Initializable {
                 || tfPrix.getText().isEmpty()
                 || date.getValue() == null
                 || auteurs.getSelectionModel().getSelectedItem() == null
-                || promos.getSelectionModel().getSelectedItem() == null) {
+                || promos.getSelectionModel().getSelectedItem() == null
+                || tfImage.getText().isEmpty()){
             Alert al = new Alert(Alert.AlertType.INFORMATION);
 
             al.setTitle("Contrôle de saisie");
@@ -150,6 +162,7 @@ public class AjouterLivreController implements Initializable {
             float prix = Float.parseFloat(tfPrix.getText());
             String langue = tfLangue.getText();
             LocalDate dateEdition = date.getValue();
+            String image = tfImage.getText();
 
             String auteurSelectionnee = auteurs.getValue();
 
@@ -175,7 +188,7 @@ public class AjouterLivreController implements Initializable {
 
             }
 
-            livre = new Livre(libelle, description, editeur, new java.sql.Date(Date.valueOf(dateEdition).getTime()), categorie, prix, langue, pr, aut, "");
+            livre = new Livre(libelle, description, editeur, new java.sql.Date(Date.valueOf(dateEdition).getTime()), categorie, prix, langue, pr, aut, image);
 
             System.out.println(livre);
 
@@ -276,7 +289,42 @@ public class AjouterLivreController implements Initializable {
         auteurs.setValue(null);
         promos.setValue(null);
         tfPrix.setText("");
-        //btnAjout.getScene().getWindow().hide();
+        tfImage.setText("");
+       
+    }
+
+    @FXML
+    private void imageupload(MouseEvent event) throws IOException {
+        Random rand = new Random();
+        int x = rand.nextInt(1000);
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Upload File Path");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+        File file = fileChooser.showOpenDialog(null);
+        String DBPath = "C:\\Users\\melek\\OneDrive\\Documents\\NetBeansProjects\\Ktebi\\src\\tn\\esprit\\ktebi\\ressources\\images" + x + ".jpg";
+        if (file != null) {
+            FileInputStream Fsource = new FileInputStream(file.getAbsolutePath());
+            FileOutputStream Fdestination = new FileOutputStream(DBPath);
+            BufferedInputStream bin = new BufferedInputStream(Fsource);
+            BufferedOutputStream bou = new BufferedOutputStream(Fdestination);
+            System.out.println(file.getAbsoluteFile());
+            String path = file.getAbsolutePath();
+            Image img = new Image(file.toURI().toString());
+            image.setImage(img);
+            tfImage.setText(DBPath);
+            int b = 0;
+            while (b != -1) {
+                b = bin.read();
+                bou.write(b);
+            }
+            bin.close();
+            bou.close();
+
+        } else {
+            System.out.println("error");
+
+        }
     }
 
 }

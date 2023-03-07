@@ -18,7 +18,7 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Button fx:id="btnAjout" layoutX="665.0" layoutY="597.0" mnemonicParsing="false" onAction="#ModifierLivre" prefHeight="45.0" prefWidth="150.0" text="Modifier un livre" textAlignment="CENTER" />
+      <Button fx:id="btnAjout" layoutX="764.0" layoutY="642.0" mnemonicParsing="false" onAction="#ModifierLivre" prefHeight="45.0" prefWidth="150.0" text="Modifier un livre" textAlignment="CENTER" />
       <Label layoutX="631.0" layoutY="124.0" text="Langue :">
          <font>
             <Font size="18.0" />
@@ -62,7 +62,7 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-      <ImageView fx:id="image" fitHeight="81.0" fitWidth="167.0" layoutX="723.0" layoutY="501.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="image" fitHeight="58.0" fitWidth="150.0" layoutX="651.0" layoutY="557.0" pickOnBounds="true" preserveRatio="true" />
       <ComboBox fx:id="auteurs" layoutX="284.0" layoutY="368.0" prefHeight="31.0" prefWidth="263.0" promptText="Sélectionner un auteur" />
       <ComboBox fx:id="promos" layoutX="638.0" layoutY="458.0" prefHeight="31.0" prefWidth="263.0" promptText="Sélectionner un codePromo" />
       <Label layoutX="268.0" layoutY="69.0" prefHeight="42.0" prefWidth="448.0" text="Modifier un Livre" textFill="#4275dc" underline="true">
@@ -70,6 +70,8 @@
             <Font name="Bauhaus 93" size="36.0" />
          </font>
       </Label>
+      <Button layoutX="830.0" layoutY="586.0" mnemonicParsing="false" onMouseClicked="#imageupload" text="Upload" />
+      <TextField fx:id="tfImage" layoutX="722.0" layoutY="513.0" />
       
    </children>
     

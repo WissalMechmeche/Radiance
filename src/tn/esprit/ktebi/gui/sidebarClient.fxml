@@ -125,7 +125,13 @@
                         <Insets left="5.0" />
                     </padding>
                 </HBox>
-                <Label alignment="CENTER" layoutX="32.0" layoutY="381.0" onMouseClicked="#handleAccount" prefHeight="19.0" prefWidth="143.0" text="Détails Client" textFill="#a2bee8">
+                
+                <Label alignment="CENTER" layoutX="32.0" layoutY="492.0" onMouseClicked="#handleAccount" prefHeight="19.0" prefWidth="143.0" text="Détails Client" textFill="#a2bee8">
+                    <font>
+                        <Font name="Berlin Sans FB" size="20.0" />
+                    </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="32.0" layoutY="525.0" onMouseClicked="#logOut" prefHeight="19.0" prefWidth="143.0" text="Se déconnecter" textFill="#a2bee8">
                     <font>
                         <Font name="Berlin Sans FB" size="20.0" />
                     </font>
@@ -148,26 +154,6 @@
                 <Font name="Berlin Sans FB" size="20.0" />
             </font>
         </Label>
-        <ImageView fitHeight="22.0" fitWidth="18.0" layoutX="690.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../ressources/images/icons8_bell_24px.png" />
-            </image>
-        </ImageView>
-        <ImageView fitHeight="22.0" fitWidth="18.0" layoutX="714.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../ressources/images/icons8_help_32px.png" />
-            </image>
-        </ImageView>
-        <ImageView fitHeight="22.0" fitWidth="18.0" layoutX="741.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../ressources/images/icons8_settings_26px.png" />
-            </image>
-        </ImageView>
-        <ImageView fitHeight="22.0" fitWidth="18.0" layoutX="873.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../ressources/images/icons8_slider_50px.png" />
-            </image>
-        </ImageView>
         <Label alignment="CENTER" layoutX="287.0" layoutY="112.0" textFill="#2262c6">
             <font>
                 <Font name="Berlin Sans FB" size="24.0" />

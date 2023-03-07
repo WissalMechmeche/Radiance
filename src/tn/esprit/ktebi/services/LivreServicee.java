@@ -5,6 +5,7 @@
  */
 package tn.esprit.ktebi.services;
 
+import tn.esprit.ktebi.interfaces.ILivreService;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -57,7 +58,6 @@ public class LivreServicee implements ILivreService<Livre> {
             ps.setInt(7, t.getPromo().getId()); // suppose que la classe Promo a un attribut id
             ps.setDouble(8, t.getPrix());
             ps.setString(9, t.getLangue());
-            
             ps.setString(10, t.getImage());
             
             
@@ -178,7 +178,7 @@ public class LivreServicee implements ILivreService<Livre> {
             
             livre.setPrix(rs.getFloat("prix"));
             livre.setLangue(rs.getString("langue"));
-            //livre.setImage(rs.getBytes("image"));
+            livre.setImage(rs.getString("image"));
             
             User auteur = new User();
             auteur.setId(rs.getInt("auteur"));

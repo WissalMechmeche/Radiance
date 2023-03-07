@@ -103,4 +103,14 @@ public class SidebarClientController implements Initializable {
         stage.show();
     }
 
+    @FXML
+    private void logOut(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/ktebi/gui/Hello.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene((scene));
+        stage.show();
+    }
+
 }
